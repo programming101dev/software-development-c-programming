@@ -5,8 +5,8 @@
 
 int main(void)
 {
-    size_t num_elements = 10;
-    size_t buffer_size = 256;
+    const size_t num_elements = 10;
+    const size_t buffer_size = 256;
 
     printf("Number of elements: %zu\n", num_elements);
     printf("Buffer size: %zu bytes\n", buffer_size);

@@ -33,7 +33,7 @@ else ifeq ($(CC), clang)
 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
 endif
 
-all: hello analyze clang-tidy cppcheck
+all: $(BINARY) analyze clang-tidy cppcheck
 
 $(BINARY): $(SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
