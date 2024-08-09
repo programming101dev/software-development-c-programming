@@ -1,0 +1,11 @@
+# Makefile to compile main.c with specified compiler and 
+# flags
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+
+hello: main.c
+	$(CC) $(CFLAGS) -o hello main.c
+
+# Clean target to remove the compiled executable
+clean:
+	rm -f hello

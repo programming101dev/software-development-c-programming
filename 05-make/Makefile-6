@@ -1,0 +1,31 @@
+# Makefile to compile main.c with the specified compiler, 
+# flags, sources, sanitizers, and analysis
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
+SOURCES = main.c
+BINARY = hello
+REPORT_DIR = scan-results
+
+ifeq ($(CC), gcc)
+        ANALYSIS_FLAGS = -fanalyzer
+        ANALYZER =
+        ANALYZER_FLAGS =
+else ifeq ($(CC), clang)
+        ANALYSIS_FLAGS = --analyze                             
+        ANALYZER = scan-build
+        ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
+endif
+
+$(BINARY): $(SOURCES)
+	$(CC) $(CFLAGS) $(SANITIZERS) -o $(BINARY) $(SOURCES)
+
+analyze:
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
+
+# Clean target to remove the compiled executable and report directory
+clean:
+	rm -f $(BINARY)
+	rm -rf $(REPORT_DIR)
+	find . -name '*.plist' -delete
+	find . -name '*.o' -delete
