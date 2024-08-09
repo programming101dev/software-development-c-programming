@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	double pi = 3.141592653589793;
+	const double pi = 3.141592653589793;
 	const char string[] = "Hello, World!";
 
 	printf("Precision Specifiers Demonstration:\n");

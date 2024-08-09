@@ -3,8 +3,8 @@
 
 int main(void)
 {
-	int number = 42;
-	double floatNum = 3.14159;
+	const int number = 42;
+	const double floatNum = 3.14159;
 
 	printf("Flags Demonstration:\n");
 

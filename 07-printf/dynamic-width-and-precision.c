@@ -3,9 +3,9 @@
 
 int main(void)
 {
-	int width = 10;
-	int precision = 4;
-	double number = 3.141592653589793;
+	const int width = 10;
+	const int precision = 4;
+	const double number = 3.141592653589793;
 
 	printf("Dynamic Width and Precision Demonstration:\n");
 

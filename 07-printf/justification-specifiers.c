@@ -3,7 +3,7 @@
 
 int main(void)
 {
-	int number = 42;
+	const int number = 42;
 
 	printf("Justification Specifiers Demonstration:\n");
 

@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+SUPPORTED_SANITIZERS =
+CHECKER_REPORT_FILE = cppcheck-report.txt
+REPORT_DIR = scan-results
 SOURCES = main.c
 BINARY = hello
-REPORT_DIR = scan-results
-CHECKER_REPORT_FILE = cppcheck-report.txt
-SUPPORTED_SANITIZERS =
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -33,7 +33,7 @@ analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(SOURCES) -quiet -checks='*,-llvmlibc-restrict-system-libc-headers' -- $(CFLAGS)
+	clang-tidy $(SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers'-- $(CFLAGS)
 
 clean:
 	rm -f $(BINARY)

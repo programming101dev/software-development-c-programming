@@ -3,10 +3,10 @@
 
 int main(void)
 {
-	short shortInt = 42;
-	long longInt = 1234567890L;
-	long long longLongInt = 1234567890123456789LL;
-	long double longDouble = 3.141592653589793238L;
+	const short shortInt = 42;
+	const long longInt = 1234567890L;
+	const long long longLongInt = 1234567890123456789LL;
+	const long double longDouble = 3.141592653589793238L;
 
 	printf("Length Modifiers Demonstration:\n");
 

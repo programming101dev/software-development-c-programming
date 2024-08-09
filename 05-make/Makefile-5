@@ -2,7 +2,6 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = main.c
 BINARY = hello
-SUPPORTED_SANITIZERS =
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
