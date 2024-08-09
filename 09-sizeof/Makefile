@@ -10,7 +10,7 @@ SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
 SOURCES = main.c
-BINARY = size_t
+BINARY = sizeof
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
