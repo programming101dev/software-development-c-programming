@@ -4,7 +4,8 @@ endif
 
 CFLAGS = -std=c17 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
-         -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion
+         -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
+         -Wdeclaration-after-statement
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
@@ -94,7 +95,7 @@ analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(BUILTIN_MACROS_SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(OBJECT_LIKE_MACROS_SOURCES) $(FUNCTION_LIKE_MACROS_SOURCES) $(UNSAFE_MACRO_SOURCES) $(SAFE_MACRO_SOURCES) $(CONST_VARIABLES_SOURCES) $(INLINE_FUNCTIONS_SOURCES) $(STRINGIFICATION_SOURCES) $(CONCATENATION_SOURCES) $(BUILTIN_MACROS_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers' -- $(CFLAGS)
+	clang-tidy $(OBJECT_LIKE_MACROS_SOURCES) $(FUNCTION_LIKE_MACROS_SOURCES) $(UNSAFE_MACRO_SOURCES) $(SAFE_MACRO_SOURCES) $(CONST_VARIABLES_SOURCES) $(INLINE_FUNCTIONS_SOURCES) $(STRINGIFICATION_SOURCES) $(CONCATENATION_SOURCES) $(BUILTIN_MACROS_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet $(OBJECT_LIKE_MACRO_SOURCES) $(FUNCTION_LIKE_MACRO_SOURCES) $(UNSAFE_MACRO_SOURCES) $(SAFE_MACRO_SOURCES) $(CONST_VARIABLES_SOURCES) $(INLINE_FUNCTIONS_SOURCES) $(STRINGIFICATION_SOURCES) $(CONCATENATION_SOURCES) $(BUILTIN_MACROS_SOURCES)

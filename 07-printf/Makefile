@@ -4,7 +4,8 @@ endif
 
 CFLAGS = -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
-         -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion
+         -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
+         -Wdeclaration-after-statement
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
@@ -86,7 +87,7 @@ analyze: $(ESCAPE_SEQUENCES_BINARY) $(FORMAT_SPECIFIERS_BINARY) $(PRECISION_SPEC
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FPRINTF_SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers' -- $(CFLAGS)
+	clang-tidy $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES)

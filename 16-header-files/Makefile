@@ -10,8 +10,9 @@ SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
-SOURCES = main.c
-BINARY = size_t
+SOURCES = main.c math_operations.c
+HEADERS = math_operations.h
+BINARY = functions
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -36,17 +37,17 @@ endif
 
 all: $(BINARY) analyze clang-tidy cppcheck
 
-$(BINARY): $(SOURCES)
+$(BINARY): $(SOURCES) $(HEADERS)
 	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+	clang-tidy $(SOURCES) $(HEADERS) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
 
 cppcheck:
-	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES)
+	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES) $(HEADERS)
 
 clean:
 	rm -f $(BINARY)
