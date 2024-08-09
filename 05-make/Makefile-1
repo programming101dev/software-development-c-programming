@@ -1,8 +1,6 @@
-# Basic Makefile to compile hello.c with gcc
 hello: main.c
 	gcc -o hello main.c
 
-# Clean target to remove the compiled executable
 clean:
 	rm -f hello
 

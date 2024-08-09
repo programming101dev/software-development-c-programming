@@ -1,13 +1,10 @@
-# Makefile to compile main.c with the specified compiler, 
-# flags, and sources
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = main.c
 BINARY = hello
 
 $(BINARY): $(SOURCES)
-	$(CC) $(CFLAGS) -o hello $(SOURCES)
+    $(CC) $(CFLAGS) -o hello $(SOURCES)
 
-# Clean target to remove the compiled executable
 clean:
-	rm -f $(BINARY)
+    rm -f $(BINARY)

@@ -1,11 +1,20 @@
-# Makefile to compile main.c with the specified compiler, 
-# flags, sources, sanitizers, and analysis
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SOURCES = main.c
 BINARY = hello
+SUPPORTED_SANITIZERS =
 REPORT_DIR = scan-results
+
+# Attempt to compile with each sanitizer to check support
+CHECK_SANITIZER = \
+	$(shell echo "int main(){}" > sanitizer_check.c; \
+	if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
+	rm -f sanitizer_check.c)
+
+SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=address)
+SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
+SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=leak)
 
 ifeq ($(CC), gcc)
         ANALYSIS_FLAGS = -fanalyzer
@@ -18,7 +27,7 @@ else ifeq ($(CC), clang)
 endif
 
 $(BINARY): $(SOURCES)
-	$(CC) $(CFLAGS) $(SANITIZERS) -o $(BINARY) $(SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c

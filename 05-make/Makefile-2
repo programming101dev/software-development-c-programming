@@ -1,10 +1,8 @@
-# Makefile to compile main.c with a specified compiler
 CC = gcc
 
 hello: main.c
 	$(CC) -o hello main.c
 
-# Clean target to remove the compiled executable
 clean:
 	rm -f hello
 
