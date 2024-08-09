@@ -32,7 +32,6 @@ $(BINARY): $(SOURCES)
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
-# Clean target to remove the compiled executable and report directory
 clean:
 	rm -f $(BINARY)
 	rm -rf $(REPORT_DIR)
