@@ -3,7 +3,7 @@
 
 void example(void);
 
-static int fileScopeVar = 0; // Static variable at file scope  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+static int fileScopeVar = 0;    // Static variable at file scope  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 void example(void)
 {
@@ -13,7 +13,7 @@ void example(void)
 
 int main(void)
 {
-    example(); // Prints 1
-    example(); // Prints 2
+    example();    // Prints 1
+    example();    // Prints 2
     return EXIT_SUCCESS;
 }

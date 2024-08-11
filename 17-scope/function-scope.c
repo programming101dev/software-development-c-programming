@@ -13,7 +13,7 @@ start:
 
     if(x < 3)
     {
-        goto start;  // Label 'start' is accessible throughout the function
+        goto start;    // Label 'start' is accessible throughout the function
     }
 }
 

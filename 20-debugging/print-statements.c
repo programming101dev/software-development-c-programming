@@ -9,7 +9,8 @@ static void someFunction(int value)
     // More code here
 }
 
-int main(void) {
+int main(void)
+{
     const int x = 10;
     printf("Before calling someFunction, x = %d\n", x);
     someFunction(x);

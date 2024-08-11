@@ -3,11 +3,11 @@
 
 void example(void);
 
-const int globalVar = 100; // File scope
+const int globalVar = 100;    // File scope
 
 void example(void)
 {
-    printf("globalVar = %d\n", globalVar); // Accessible here
+    printf("globalVar = %d\n", globalVar);    // Accessible here
 }
 
 int main(void)

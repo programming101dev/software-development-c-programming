@@ -10,8 +10,9 @@ static int divide(int numerator, int denominator)
     return numerator / denominator;
 }
 
-int main(void) {
-    int result = divide(10, 2);        // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+int main(void)
+{
+    int result = divide(10, 2);    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
     printf("Result: %d\n", result);
     return EXIT_SUCCESS;
 }

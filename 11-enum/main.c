@@ -12,16 +12,17 @@ int main(void)
 {
     enum TrafficLight light = YELLOW;
 
-    switch (light) {
+    switch(light)
+    {
         case RED:
             printf("Stop\n");
-        break;
+            break;
         case YELLOW:
             printf("Caution\n");
-        break;
+            break;
         case GREEN:
             printf("Go\n");
-        break;
+            break;
         default:
             printf("Invalid light\n");
     }

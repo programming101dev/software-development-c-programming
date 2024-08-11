@@ -11,7 +11,8 @@ static void someFunction(int value)
     // More code here
 }
 
-int main(void) {
+int main(void)
+{
     const int x = 10;
     someFunction(x);
     return EXIT_SUCCESS;

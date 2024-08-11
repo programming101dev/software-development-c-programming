@@ -6,9 +6,9 @@ void example(void);
 void example(void)
 {
     const int x = 10;
-    int y;
+    int       y;
 
-    y = x + 5; // Proper initialization  // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    y = x + 5;    // Proper initialization  // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
     printf("y = %d\n", y);
 }
 

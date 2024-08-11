@@ -3,8 +3,8 @@
 
 int main(void)
 {
-	fprintf(stdout, "This is standard output.\n");
-	fprintf(stderr, "This is an error message.\n");
+    fprintf(stdout, "This is standard output.\n");
+    fprintf(stderr, "This is an error message.\n");
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

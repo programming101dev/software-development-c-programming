@@ -35,7 +35,7 @@ else ifeq ($(CC), clang)
 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
 endif
 
-all: $(BINARY) analyze clang-tidy cppcheck
+all: $(BINARY) analyze clang-tidy cppcheck clang-format
 
 $(BINARY): $(SOURCES) $(HEADERS)
 	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
@@ -48,6 +48,9 @@ clang-tidy:
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES) $(HEADERS)
+
+clang-format:
+	clang-format -i -- $(SOURCES) $(HEADERS)
 
 clean:
 	rm -f $(BINARY)

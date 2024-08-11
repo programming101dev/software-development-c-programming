@@ -34,8 +34,6 @@ else ifeq ($(CC), clang)
 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
 endif
 
-all: $(BINARY) analyze clang-tidy cppcheck
-
 $(BINARY): $(SOURCES)
 	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
@@ -43,10 +41,13 @@ analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard'-- $(CFLAGS)
+	clang-tidy $(SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES)
+
+clang-format:
+	clang-format -i -- $(SOURCES)
 
 clean:
 	rm -f $(BINARY)

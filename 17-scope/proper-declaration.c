@@ -7,9 +7,9 @@ void example(void)
 {
     const int x = 10;
 
-    if (x > 5)     // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    if(x > 5)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
     {
-        const int y = 20; // Declare y in the narrowest scope
+        const int y = 20;    // Declare y in the narrowest scope
         printf("y = %d\n", y);
     }
 }

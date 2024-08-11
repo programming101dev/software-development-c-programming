@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int globalVar = 0; // Global variable  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+int globalVar = 0;    // Global variable  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 void example(void);
 
@@ -13,7 +13,7 @@ void example(void)
 
 int main(void)
 {
-    example(); // Prints 1
-    example(); // Prints 2
+    example();    // Prints 1
+    example();    // Prints 2
     return EXIT_SUCCESS;
 }

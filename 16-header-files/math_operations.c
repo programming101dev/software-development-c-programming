@@ -18,7 +18,7 @@ int max_element(const int *array, size_t size)
 
     if(size == 0)
     {
-        return 0; // Return 0 if the array is empty
+        return 0;    // Return 0 if the array is empty
     }
 
     max = array[0];

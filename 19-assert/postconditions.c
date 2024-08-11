@@ -11,9 +11,10 @@ static int increment(int value)
     return result;
 }
 
-int main(void) {
-    const int original = 5;
-    int incremented = increment(original);
+int main(void)
+{
+    const int original    = 5;
+    int       incremented = increment(original);
     printf("Incremented value: %d\n", incremented);
     return EXIT_SUCCESS;
 }

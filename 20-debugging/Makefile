@@ -41,7 +41,7 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: $(PRINT_STATEMENTS_BINARY) $(ASSERTIONS_BINARY) $(DEBUGGING_BINARY) analyze cppcheck clang-tidy
+all: $(PRINT_STATEMENTS_BINARY) $(ASSERTIONS_BINARY) $(DEBUGGING_BINARY) analyze clang-tidy cppcheck clang-format
 
 # Build rules for each binary
 $(PRINT_STATEMENTS_BINARY): $(PRINT_STATEMENTS_SOURCES)
@@ -68,6 +68,9 @@ clang-tidy:
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(PRINT_STATEMENTS_SOURCES) $(ASSERTIONS_SOURCES) $(DEBUGGING_SOURCES)
+
+clang-format:
+	clang-format -i -- $(PRINT_STATEMENTS_SOURCES) $(ASSERTIONS_SOURCES) $(DEBUGGING_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:

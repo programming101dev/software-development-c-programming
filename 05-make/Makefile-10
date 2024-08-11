@@ -1,7 +1,4 @@
-ifeq ($(CC),cc)
-    CC = gcc
-endif
-
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
@@ -45,6 +42,9 @@ clang-tidy:
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES)
+
+clang-format:
+	clang-format -i -- $(SOURCES)
 
 clean:
 	rm -f $(BINARY)
