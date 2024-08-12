@@ -45,7 +45,7 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: $(ASSERT_BINARY) $(PRECONDITIONS_BINARY) $(POSTCONDITIONS_BINARY) $(INVARIANT_BINARY) $(ERROR_HANDLING_BINARY) analyze clang-tidy cppcheck clang-format
+all: clang-format $(ASSERT_BINARY) $(PRECONDITIONS_BINARY) $(POSTCONDITIONS_BINARY) $(INVARIANT_BINARY) $(ERROR_HANDLING_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
 $(ASSERT_BINARY): $(ASSERT_SOURCES)

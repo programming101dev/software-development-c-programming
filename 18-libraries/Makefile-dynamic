@@ -39,7 +39,7 @@ else ifeq ($(CC), clang)
 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
 endif
 
-all: $(BINARY) analyze clang-tidy cppcheck clang-format
+all: clang-format $(BINARY) analyze clang-tidy cppcheck
 
 # Build the dynamic library
 $(LIBRARY): $(LIB_SOURCES) $(HEADERS)
