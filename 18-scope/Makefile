@@ -135,7 +135,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources and headers
 cppcheck:
-	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --suppress=shadowVariable --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --suppress=shadowVariable --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(BLOCK_SCOPE_SOURCES) $(FUNCTION_SCOPE_SOURCES) $(FILE_SCOPE_SOURCES) $(FUNCTION_PROTOTYPE_SCOPE_SOURCES) \
 	$(AUTOMATIC_VARIABLES_SOURCES) $(STATIC_VARIABLES_INSIDE_FUNCTIONS_SOURCES) $(GLOBAL_VARIABLES_SOURCES) \
 	$(STATIC_VARIABLES_AT_FILE_SCOPE_SOURCES) $(EXTERN_VARIABLES_SOURCES) $(EXTERN_VARIABLES_HEADERS) \
