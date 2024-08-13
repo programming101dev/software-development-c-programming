@@ -1,13 +1,26 @@
 #include <stdio.h>
 
-int* getPointerToLocal() {
+int *getPointerToLocal(void);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-local-addr"
+
+int *getPointerToLocal(void)
+{
     int localVar = 42;
-    return &localVar;  // Returns address of local variable
+    return &localVar;    // Returns address of local variable
 }
 
-int main(void) {
+#pragma GCC diagnostic pop
+
+int main(void)
+{
     int *p = getPointerToLocal();
-    // p is now a dangling pointer because localVar is out of scope
-    printf("Dangling pointer value: %d\n", *p);  // Undefined behavior
+// p is now a dangling pointer because localVar is out of scope
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
+    printf("Dangling pointer value: %d\n", *p);    // Undefined behavior
+#pragma GCC diagnostic pop
+
     return 0;
 }

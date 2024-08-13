@@ -1,0 +1,110 @@
+ifeq ($(CC),cc)
+    CC = gcc
+endif
+
+CFLAGS = -std=c17 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
+         -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
+         -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
+         -Wdeclaration-after-statement
+SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
+SUPPORTED_SANITIZERS =
+CHECKER_REPORT_FILE = cppcheck-report.txt
+REPORT_DIR = scan-results
+
+# Source and binary definitions for the new set of files
+NULL_POINTER_SOURCES = null-pointer.c
+NULL_POINTER_BINARY = null-pointer
+POINTER_ARITHMETIC_SOURCES = pointer-arithmetic.c
+POINTER_ARITHMETIC_BINARY = pointer-arithmetic
+PASSING_SINGLE_VALUES_SOURCES = passing-single-values.c
+PASSING_SINGLE_VALUES_BINARY = passing-single-values
+PASSING_ARRAY_VALUES_SOURCES = passing-array-values.c
+PASSING_ARRAY_VALUES_BINARY = passing-array-values
+DANGLING_POINTER_SOURCES = dangling-pointer.c
+DANGLING_POINTER_BINARY = dangling-pointer
+PTRDIFF_T_SOURCES = ptrdiff_t.c
+PTRDIFF_T_BINARY = ptrdiff_t
+PRINTING_POINTERS_SOURCES = printing-pointers.c
+PRINTING_POINTERS_BINARY = printing-pointers
+
+# Attempt to compile with each sanitizer to check support
+CHECK_SANITIZER = \
+    $(shell echo "int main(){}" > sanitizer_check.c; \
+    if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
+    rm -f sanitizer_check.c)
+
+SUPPORTED_SANITIZERS +=$(call CHECK_SANITIZER,-fsanitize=address)
+SUPPORTED_SANITIZERS +=$(call CHECK_SANITIZER,-fsanitize=undefined)
+SUPPORTED_SANITIZERS +=$(call CHECK_SANITIZER,-fsanitize=leak)
+
+ifeq ($(CC), gcc)
+	ANALYSIS_FLAGS = -fanalyzer
+	ANALYZER =
+	ANALYZER_FLAGS =
+else ifeq ($(CC), clang)
+    CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
+	ANALYSIS_FLAGS = --analyze
+	ANALYZER = scan-build
+ 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
+endif
+
+# All rule to build all binaries, analyze, and run cppcheck
+all: clang-format $(NULL_POINTER_BINARY) $(POINTER_ARITHMETIC_BINARY) $(PASSING_SINGLE_VALUES_BINARY) $(PASSING_ARRAY_VALUES_BINARY) \
+     $(DANGLING_POINTER_BINARY) $(PTRDIFF_T_BINARY) $(PRINTING_POINTERS_BINARY) analyze clang-tidy cppcheck
+
+# Build rules for each binary
+$(NULL_POINTER_BINARY): $(NULL_POINTER_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(NULL_POINTER_BINARY) $(NULL_POINTER_SOURCES)
+
+$(POINTER_ARITHMETIC_BINARY): $(POINTER_ARITHMETIC_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(POINTER_ARITHMETIC_BINARY) $(POINTER_ARITHMETIC_SOURCES)
+
+$(PASSING_SINGLE_VALUES_BINARY): $(PASSING_SINGLE_VALUES_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(PASSING_SINGLE_VALUES_BINARY) $(PASSING_SINGLE_VALUES_SOURCES)
+
+$(PASSING_ARRAY_VALUES_BINARY): $(PASSING_ARRAY_VALUES_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(PASSING_ARRAY_VALUES_BINARY) $(PASSING_ARRAY_VALUES_SOURCES)
+
+$(DANGLING_POINTER_BINARY): $(DANGLING_POINTER_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DANGLING_POINTER_BINARY) $(DANGLING_POINTER_SOURCES)
+
+$(PTRDIFF_T_BINARY): $(PTRDIFF_T_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(PTRDIFF_T_BINARY) $(PTRDIFF_T_SOURCES)
+
+$(PRINTING_POINTERS_BINARY): $(PRINTING_POINTERS_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(PRINTING_POINTERS_BINARY) $(PRINTING_POINTERS_SOURCES)
+
+# Analyze rule to analyze all sources
+analyze:
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(NULL_POINTER_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(POINTER_ARITHMETIC_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PASSING_SINGLE_VALUES_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PASSING_ARRAY_VALUES_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DANGLING_POINTER_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PTRDIFF_T_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PRINTING_POINTERS_SOURCES) -c
+
+# Clang-tidy rule to lint all sources
+clang-tidy:
+	clang-tidy $(NULL_POINTER_SOURCES) $(POINTER_ARITHMETIC_SOURCES) $(PASSING_SINGLE_VALUES_SOURCES) $(PASSING_ARRAY_VALUES_SOURCES) \
+	$(DANGLING_POINTER_SOURCES) $(PTRDIFF_T_SOURCES) $(PRINTING_POINTERS_SOURCES) \
+	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+
+# Cppcheck rule to perform static analysis on all sources
+cppcheck:
+	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	$(NULL_POINTER_SOURCES) $(POINTER_ARITHMETIC_SOURCES) $(PASSING_SINGLE_VALUES_SOURCES) $(PASSING_ARRAY_VALUES_SOURCES) \
+	$(DANGLING_POINTER_SOURCES) $(PTRDIFF_T_SOURCES) $(PRINTING_POINTERS_SOURCES)
+
+clang-format:
+	clang-format -i -- $(NULL_POINTER_SOURCES) $(POINTER_ARITHMETIC_SOURCES) $(PASSING_SINGLE_VALUES_SOURCES) $(PASSING_ARRAY_VALUES_SOURCES) \
+	$(DANGLING_POINTER_SOURCES) $(PTRDIFF_T_SOURCES) $(PRINTING_POINTERS_SOURCES)
+
+# Clean rule to remove binaries and reports
+clean:
+	rm -f $(NULL_POINTER_BINARY) $(POINTER_ARITHMETIC_BINARY) $(PASSING_SINGLE_VALUES_BINARY) $(PASSING_ARRAY_VALUES_BINARY) \
+	$(DANGLING_POINTER_BINARY) $(PTRDIFF_T_BINARY) $(PRINTING_POINTERS_BINARY)
+	rm -f $(CHECKER_REPORT_FILE)
+	rm -rf $(REPORT_DIR)
+	find . -name '*.plist' -delete
+	find . -name '*.o' -delete
