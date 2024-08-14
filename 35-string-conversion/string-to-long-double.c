@@ -1,19 +1,22 @@
 #include <errno.h>
-#include <float.h>    // For LDBL_MAX
+#include <float.h>    // For LDBL_MAX and HUGE_VALL
+#include <math.h>    // For fabsl
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    const char *str = "1.61803398875";
-    char       *endptr;
-    long double val;
+    // Define a small tolerance for floating-point comparisons
+    const long double EPSILON = 1e-9L;
+    const char       *str     = "1.61803398875";
+    char             *endptr;
+    long double       val;
 
     errno = 0;    // To distinguish success/failure after call
     val   = strtold(str, &endptr);
 
     // Check for various possible errors
-    if((errno == ERANGE && (val == HUGE_VALL || val == 0)) || (errno != 0 && val == 0))
+    if((errno == ERANGE && (fabsl(val - HUGE_VALL) < EPSILON || fabsl(val) < EPSILON)) || (errno != 0 && fabsl(val) < EPSILON))
     {
         perror("strtold");
         return EXIT_FAILURE;

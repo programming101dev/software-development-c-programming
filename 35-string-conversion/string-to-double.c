@@ -1,19 +1,22 @@
 #include <errno.h>
-#include <float.h>    // For DBL_MAX
+#include <float.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    const char *str = "2.718281828459";
-    char       *endptr;
-    double      val;
+    // Define a small tolerance for floating-point comparisons
+    const double EPSILON = 1e-9;
+    const char  *str     = "2.718281828459";
+    char        *endptr;
+    double       val;
 
     errno = 0;    // To distinguish success/failure after call
     val   = strtod(str, &endptr);
 
     // Check for various possible errors
-    if((errno == ERANGE && (val == HUGE_VAL || val == 0)) || (errno != 0 && val == 0))
+    if((errno == ERANGE && (fabs(val - HUGE_VAL) < EPSILON || fabs(val + HUGE_VAL) < EPSILON || fabs(val) < EPSILON)) || (errno != 0 && fabs(val) < DBL_EPSILON))
     {
         perror("strtod");
         return EXIT_FAILURE;

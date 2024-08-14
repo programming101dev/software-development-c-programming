@@ -1,11 +1,14 @@
 #include <errno.h>
-#include <float.h>    // For FLT_MAX
+#include <float.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    const char *str = "3.14159";
+    // Define a small tolerance for floating-point comparisons
+    const float EPSILON = 1e-7F;
+    const char *str     = "3.14159";
     char       *endptr;
     float       val;
 
@@ -13,7 +16,7 @@ int main(void)
     val   = strtof(str, &endptr);
 
     // Check for various possible errors
-    if((errno == ERANGE && (val == HUGE_VALF || val == 0)) || (errno != 0 && val == 0))
+    if((errno == ERANGE && (fabsf(val - HUGE_VALF) < EPSILON || fabsf(val) < EPSILON)) || (errno != 0 && fabsf(val) < EPSILON))
     {
         perror("strtof");
         return EXIT_FAILURE;
@@ -25,7 +28,7 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    printf("strtof() returned %f\n", val);
+    printf("strtof() returned %.7f\n", (double)val);
     printf("Remaining string: %s\n", endptr);
 
     return EXIT_SUCCESS;

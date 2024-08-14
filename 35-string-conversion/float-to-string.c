@@ -1,18 +1,35 @@
 #include <float.h>
-#include <math.h>
+#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define DIGITS_IN_FLOAT (DECIMAL_DIG + 2)    // +1 for sign, +1 for null terminator
 
 int main(void)
 {
-    float num = 3.14159f;
-    char  str[DIGITS_IN_FLOAT];
-    if(snprintf(str, sizeof(str), "%f", num) >= sizeof(str))
+    float num = 3.14159F;
+    char *str = NULL;    // Initialize to NULL for safety
+    int   bytes;
+
+    // Allocate memory for the string
+    str = (char *)malloc(DIGITS_IN_FLOAT * sizeof(char));
+    if(str == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        goto cleanup;    // Jump to cleanup to ensure memory is freed
+    }
+
+    bytes = snprintf(str, DIGITS_IN_FLOAT, "%f", (double)num);
+
+    if((unsigned long)bytes >= DIGITS_IN_FLOAT)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        return EXIT_FAILURE;
+        goto cleanup;    // Jump to cleanup to ensure memory is freed
     }
+
     printf("String representation: %s\n", str);
-    return 0;
+
+cleanup:
+    free(str);    // Free allocated memory
+    return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }

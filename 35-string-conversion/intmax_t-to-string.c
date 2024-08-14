@@ -1,18 +1,37 @@
 #include <inttypes.h>
-#include <math.h>
+#include <limits.h>
+#include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#define DIGITS_IN_INTMAX (ceil(log10(INTMAX_MAX)) + 2)    // +1 for sign, +1 for null terminator
+#define DIGITS_IN_INTMAX (sizeof(intmax_t) * 8 / 3 + 2)    // +1 for sign, +1 for null terminator
 
 int main(void)
 {
-    intmax_t num = 9223372036854775807;
-    char     str[DIGITS_IN_INTMAX];
-    if(snprintf(str, sizeof(str), "%" PRIdMAX, num) >= sizeof(str))
+    intmax_t num = INTMAX_MAX;
+    char    *str = NULL;    // Initialize to NULL for safety
+    int      bytes;
+
+    // Allocate memory for the string
+    str = (char *)malloc(DIGITS_IN_INTMAX * sizeof(char));
+    if(str == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        goto cleanup;    // Jump to cleanup to ensure memory is freed
+    }
+
+    bytes = snprintf(str, DIGITS_IN_INTMAX, "%" PRIdMAX, num);
+
+    if((unsigned long)bytes >= DIGITS_IN_INTMAX)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        return EXIT_FAILURE;
+        goto cleanup;    // Jump to cleanup to ensure memory is freed
     }
+
     printf("String representation: %s\n", str);
-    return 0;
+
+cleanup:
+    free(str);    // Free allocated memory
+    return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }
