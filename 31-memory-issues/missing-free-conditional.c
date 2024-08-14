@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 
 void leak_in_condition(int condition);
@@ -13,14 +12,18 @@ void leak_in_condition(int condition);
 
 void leak_in_condition(int condition)
 {
-    const int *arr;
-
     if(condition)
     {
-        arr = (int *)malloc(5 * sizeof(int));
+        const int *arr;
+
+        // cppcheck-suppress unreadVariable
+        // cppcheck-suppress unusedAllocatedMemory
+        arr = (int *)malloc(5 * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
+        // cppcheck-suppress memleak
     }
+
     // Memory is not freed if condition is true
-}
+}    // NOLINT(clang-analyzer-unix.Malloc)
 
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic pop

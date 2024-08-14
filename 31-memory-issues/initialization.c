@@ -5,6 +5,7 @@
 
 int main(void)
 {
+    // cppcheck-suppress unreadVariable
     const int *ptr = NULL;    // Initialize the pointer to NULL
     // Now use ptr safely after allocating memory
 

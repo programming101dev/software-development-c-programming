@@ -12,9 +12,13 @@ void memory_leak(void);
 
 void memory_leak(void)
 {
-    int *arr = (int *)malloc(5 * sizeof(int));
+    // cppcheck-suppress constVariablePointer
+    // cppcheck-suppress unusedAllocatedMemory
+    // cppcheck-suppress unreadVariable
+    int *arr = (int *)malloc(5 * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
     // Memory allocated but not freed
-}
+    // cppcheck-suppress memleak
+}    // NOLINT(clang-analyzer-unix.Malloc)
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic pop
 #endif

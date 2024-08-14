@@ -1,15 +1,22 @@
-#include <stdio.h>
-#include <string.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int main(void) {
-    int *ptr = malloc(sizeof(int) * 1000000000);  // Attempt to allocate a large block of memory
+int main(void)
+{
+    int *ptr = malloc(sizeof(int) * 1000000000);    // Attempt to allocate a large block of memory
 
-    if (ptr == NULL) {
-        printf("Error allocating memory: %s\n", strerror(errno));
-    } else {
+    if(ptr == NULL)
+    {
+        char errbuf[256];    // Buffer to hold the error message
+        strerror_r(errno, errbuf, sizeof(errbuf));    // Retrieve the error message
+        printf("Error allocating memory: %s\n", errbuf);
+    }
+    else
+    {
         free(ptr);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

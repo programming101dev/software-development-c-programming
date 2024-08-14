@@ -11,6 +11,8 @@ void buffer_overflow(void)
 
     for(int i = 0; i <= 5; i++)
     {
+        // cppcheck-suppress unreadVariable
+        // cppcheck-suppress arrayIndexOutOfBounds
         arr[i] = i;    // Buffer overflow on the last iteration
     }
 }
