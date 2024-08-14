@@ -4,9 +4,9 @@
 int main(void)
 {
     int i;
-    for(i = 0; i < 10; i++)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    for(i = 0; i < 10; i++)
     {
-        if(i == 5)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+        if(i == 5)
         {
             continue;    // Skip the rest of the loop when i is 5
         }

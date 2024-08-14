@@ -1,10 +1,29 @@
-#include <stdio.h>
 #include <stdlib.h>
-void memory_leak() {
+
+void memory_leak(void);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
+#if defined(__GNUC__) && !defined(__llvm__)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
+#endif
+
+void memory_leak(void)
+{
     int *arr = (int *)malloc(5 * sizeof(int));
     // Memory allocated but not freed
 }
-int main(void) {
+#if defined(__GNUC__) && !defined(__llvm__)
+    #pragma GCC diagnostic pop
+#endif
+
+#pragma GCC diagnostic pop
+
+int main(void)
+{
     memory_leak();
-    return 0;
+
+    return EXIT_SUCCESS;
 }

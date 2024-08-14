@@ -5,7 +5,7 @@ int main(void)
 {
     int i = 0;
 
-    while(i < 10)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    while(i < 10)
     {
         printf("Iteration %d\n", i);
         i++;

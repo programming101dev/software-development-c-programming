@@ -1,12 +1,24 @@
-#include <stdio.h>
 #include <stdlib.h>
-void buffer_overflow() {
+
+void buffer_overflow(void);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+
+void buffer_overflow(void)
+{
     int arr[5];
-    for (int i = 0; i <= 5; i++) {
-        arr[i] = i;  // Buffer overflow on the last iteration
+
+    for(int i = 0; i <= 5; i++)
+    {
+        arr[i] = i;    // Buffer overflow on the last iteration
     }
 }
-int main(void) {
+
+#pragma GCC diagnostic pop
+
+int main(void)
+{
     buffer_overflow();
-    return 0;
+    return EXIT_SUCCESS;
 }

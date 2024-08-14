@@ -5,7 +5,7 @@
 int main(void)
 {
     const int a = 5;
-    int       b = 10;    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    int       b = 10;
     int       c = 0;
 
     // cppcheck-suppress knownConditionTrueFalse

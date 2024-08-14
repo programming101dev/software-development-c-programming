@@ -15,7 +15,7 @@ void printArray(const int arr[], size_t size)
 
 int main(void)
 {
-    const int numbers[] = {1, 2, 3, 4, 5};    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    const int numbers[] = {1, 2, 3, 4, 5};
     size_t    size      = sizeof(numbers) / sizeof(numbers[0]);    // Calculates the number of elements
 
     printArray(numbers, size);

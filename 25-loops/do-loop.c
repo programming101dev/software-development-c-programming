@@ -8,6 +8,6 @@ int main(void)
     {
         printf("Iteration %d\n", i);
         i++;
-    } while(i < 10);    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    } while(i < 10);
     return EXIT_SUCCESS;
 }

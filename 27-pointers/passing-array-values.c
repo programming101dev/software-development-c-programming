@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void printArray(int *p, size_t size);
+void printArray(const int *p, size_t size);
 
-void printArray(int *p, size_t size)
+void printArray(const int *p, size_t size)
 {
     for(size_t i = 0; i < size; i++)
     {
@@ -15,6 +15,6 @@ void printArray(int *p, size_t size)
 int main(void)
 {
     int arr[] = {1, 2, 3, 4, 5};
-    printArray(arr, 5);    // Passes the array to the function
+    printArray(arr, sizeof(arr) / sizeof(arr[0]));    // Passes the array to the function
     return EXIT_SUCCESS;
 }

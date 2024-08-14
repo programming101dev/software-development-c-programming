@@ -87,7 +87,7 @@ analyze: $(ESCAPE_SEQUENCES_BINARY) $(FORMAT_SPECIFIERS_BINARY) $(PRECISION_SPEC
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FPRINTF_SOURCES) -c
 
 clang-tidy:
-	clang-tidy $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+	clang-tidy $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
 
 cppcheck:
 	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet $(ESCAPE_SEQUENCES_SOURCES) $(FORMAT_SPECIFIERS_SOURCES) $(PRECISION_SPECIFIERS_SOURCES) $(LENGTH_MODIFIERS_SOURCES) $(DYNAMIC_WIDTH_AND_PRECISION_SOURCES) $(JUSTIFICATION_SPECIFIERS_SOURCES) $(FLAGS_SOURCES) $(FPRINTF_SOURCES)

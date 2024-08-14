@@ -3,8 +3,9 @@
 
 int main(void)
 {
-    int *p = NULL;    // Null pointer
+    const int *p = NULL;    // Null pointer
 
+    // cppcheck-suppress knownConditionTrueFalse
     if(p == NULL)
     {
         printf("Pointer is null and cannot be dereferenced.\n");

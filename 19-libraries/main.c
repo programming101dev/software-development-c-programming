@@ -4,7 +4,7 @@
 
 int main(void)
 {
-    int numbers[] = {3, 5, 7, 2, 8};    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    int numbers[] = {3, 5, 7, 2, 8};
     size_t size;
     int sum;
     int max;

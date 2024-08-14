@@ -17,7 +17,7 @@ int main(void)
 {
     int result = 0;
 
-    if(divide(10, 2, &result) == 0)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    if(divide(10, 2, &result) == 0)
     {
         printf("Result: %d\n", result);
     }
@@ -26,7 +26,7 @@ int main(void)
         printf("Error: Division by zero\n");
     }
 
-    if(divide(10, 0, &result) == 0)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    if(divide(10, 0, &result) == 0)
     {
         printf("Result: %d\n", result);
     }

@@ -12,7 +12,7 @@ static int divide(int numerator, int denominator)
 
 int main(void)
 {
-    int result = divide(10, 2);    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    int result = divide(10, 2);
     printf("Result: %d\n", result);
     return EXIT_SUCCESS;
 }

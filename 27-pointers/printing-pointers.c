@@ -7,6 +7,13 @@ int main(void)
 
     printf("Address of a: %p\n", (void *)&a);
     printf("Value of p: %p\n", (void *)p);
+    printf("Value of a: %d\n", a);
+    printf("Value pointed to by p: %d\n", *p);
+    a++;
+    printf("Value of a: %d\n", a);
+    printf("Value pointed to by p: %d\n", *p);
+    (*p)++;
+    printf("Value of a: %d\n", a);
     printf("Value pointed to by p: %d\n", *p);
 
     return 0;

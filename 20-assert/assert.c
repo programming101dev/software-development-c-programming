@@ -12,10 +12,10 @@ static int divide(int numerator, int denominator)
 
 int main(void)
 {
-    int result = divide(10, 2);    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    int result = divide(10, 2);
     printf("Result: %d\n", result);
 
-    result = divide(10, 0);    // This will trigger the assert // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    result = divide(10, 0);    // This will trigger the assert
     printf("Result: %d\n", result);
 
     return EXIT_SUCCESS;

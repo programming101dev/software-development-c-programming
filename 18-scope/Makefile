@@ -131,7 +131,7 @@ clang-tidy:
 	$(FUNCTION_PROTOTYPE_SCOPE_SOURCES) $(AUTOMATIC_VARIABLE_SOURCES) $(STATIC_VARIABLES_INSIDE_FUNCTIONS_SOURCES) \
 	$(GLOBAL_VARIABLES_SOURCES) $(STATIC_VARIABLES_AT_FILE_SCOPE_SOURCES) $(EXTERN_VARIABLES_SOURCES) $(EXTERN_VARIABLES_HEADERS) \
 	$(PROPER_DECLARATION_SOURCES) $(INITIALIZATION_SOURCES) $(BEST_PRACTICES_SOURCES) $(SHADOWING_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources and headers
 cppcheck:

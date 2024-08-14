@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    for(int i = 0; i < 10; i++)    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    for(int i = 0; i < 10; i++)
     {
         if(i % 2 == 0)
         {

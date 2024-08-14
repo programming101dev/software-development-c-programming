@@ -8,19 +8,27 @@ int *getPointerToLocal(void);
 int *getPointerToLocal(void)
 {
     int localVar = 42;
-    return &localVar;    // Returns address of local variable
+
+    // cppcheck-suppress returnDanglingLifetime
+    return &localVar;    // Returns address of local variable    // NOLINT(clang-analyzer-core.StackAddressEscape)
 }
 
 #pragma GCC diagnostic pop
 
 int main(void)
 {
-    int *p = getPointerToLocal();
-// p is now a dangling pointer because localVar is out of scope
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
+    const int *p = getPointerToLocal();
+    // p is now a dangling pointer because localVar is out of scope
+
+#if defined(__GNUC__) && !defined(__llvm__)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
+#endif
     printf("Dangling pointer value: %d\n", *p);    // Undefined behavior
-#pragma GCC diagnostic pop
+
+#if defined(__GNUC__) && !defined(__llvm__)
+    #pragma GCC diagnostic pop
+#endif
 
     return 0;
 }

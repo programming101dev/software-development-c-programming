@@ -88,7 +88,7 @@ analyze:
 clang-tidy:
 	clang-tidy $(NULL_POINTER_SOURCES) $(POINTER_ARITHMETIC_SOURCES) $(PASSING_SINGLE_VALUES_SOURCES) $(PASSING_ARRAY_VALUES_SOURCES) \
 	$(DANGLING_POINTER_SOURCES) $(PTRDIFF_T_SOURCES) $(PRINTING_POINTERS_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:

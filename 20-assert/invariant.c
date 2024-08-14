@@ -25,7 +25,7 @@ static int count_elements(int arr[], int size)
 
 int main(void)
 {
-    int arr[] = {1, 2, 3, 4, 5};    // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+    int arr[] = {1, 2, 3, 4, 5};
     int size  = sizeof(arr) / sizeof(arr[0]);
 
     int total_count = count_elements(arr, size);

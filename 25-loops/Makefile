@@ -88,7 +88,7 @@ analyze:
 clang-tidy:
 	clang-tidy $(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) \
 	$(CONTINUE_STATEMENT_SOURCES) $(NESTED_LOOPS_SOURCES) $(NESTED_CONDITIONALS_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard' -- $(CFLAGS)
+	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
