@@ -47,7 +47,7 @@ clang-tidy:
 	clang-tidy $(SOURCES) $(HEADERS) -quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
 
 cppcheck:
-	cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) $(SOURCES) $(HEADERS)
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet $(SOURCES) $(HEADERS)
 
 clang-format:
 	clang-format -i -- $(SOURCES) $(HEADERS)

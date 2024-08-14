@@ -124,7 +124,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(AND_SOURCES) $(BIT_MASKING_SOURCES) $(ERROR_HANDLING_SOURCES) $(NOT_SOURCES) $(OR_SOURCES) \
 	$(SETTING_AND_CLEARING_SOURCES) $(SHIFT_LEFT_SOURCES) $(SHIFT_RIGHT_SOURCES) $(SIGNED_INT_SOURCES) \
 	$(TOGGLING_SOURCES) $(UNSIGNED_INT_SOURCES) $(XOR_SOURCES)

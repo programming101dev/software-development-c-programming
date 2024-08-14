@@ -90,7 +90,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(FGETC_SOURCES) $(FGETS_SOURCES) $(FPUTC_SOURCES) $(FPUTS_SOURCES) $(FREAD_SOURCES) $(FWRITE_SOURCES) $(MODES_SOURCES)
 
 clang-format:

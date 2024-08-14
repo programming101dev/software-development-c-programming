@@ -93,7 +93,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(INITIALIZATION_SOURCES) $(INVALID_MEMORY_ACCESS_SOURCES) $(MEMORY_LEAK_SOURCES) \
 	$(MISSING_FREE_CONDITIONAL_SOURCES) $(MISSING_FREE_LOOP_SOURCES) $(NULL_CHECK_SOURCES) $(USE_AFTER_FREE_SOURCES)
 

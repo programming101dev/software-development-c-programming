@@ -92,7 +92,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(NULL_POINTER_SOURCES) $(POINTER_ARITHMETIC_SOURCES) $(PASSING_SINGLE_VALUES_SOURCES) $(PASSING_ARRAY_VALUES_SOURCES) \
 	$(DANGLING_POINTER_SOURCES) $(PTRDIFF_T_SOURCES) $(PRINTING_POINTERS_SOURCES)
 

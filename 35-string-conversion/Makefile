@@ -192,7 +192,7 @@ clang-tidy:
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(DOUBLE_TO_STRING_SOURCES) $(FLOAT_TO_STRING_SOURCES) $(INT_TO_STRING_SOURCES) $(INTMAX_T_TO_STRING_SOURCES) \
 	$(LONG_TO_STRING_SOURCES) $(LONG_DOUBLE_TO_STRING_SOURCES) $(LONG_LONG_TO_STRING_SOURCES) \
 	$(STRING_TO_DOUBLE_SOURCES) $(STRING_TO_FLOAT_SOURCES) $(STRING_TO_INT_SOURCES) $(STRING_TO_INTMAX_T_SOURCES) \
