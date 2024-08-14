@@ -80,13 +80,13 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy $(IF_STATEMENT_SOURCES) $(ELSE_STATEMENT_SOURCES) $(IF_ELSE_STATEMENT_SOURCES) $(NESTED_CONDITIONALS_SOURCES) \
-	$(SWITCH_STATEMENT_SOURCES) $(TERNARY_OPERATOR_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	$(IF_STATEMENT_SOURCES) $(ELSE_STATEMENT_SOURCES) $(IF_ELSE_STATEMENT_SOURCES) $(NESTED_CONDITIONALS_SOURCES) $(SWITCH_STATEMENT_SOURCES) $(TERNARY_OPERATOR_SOURCES) \
+	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(IF_STATEMENT_SOURCES) $(ELSE_STATEMENT_SOURCES) $(IF_ELSE_STATEMENT_SOURCES) $(NESTED_CONDITIONALS_SOURCES) \
 	$(SWITCH_STATEMENT_SOURCES) $(TERNARY_OPERATOR_SOURCES)
 

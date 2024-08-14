@@ -87,13 +87,13 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy $(INITIALIZATION_SOURCES) $(INVALID_MEMORY_ACCESS_SOURCES) $(MEMORY_LEAK_SOURCES) \
-	$(MISSING_FREE_CONDITIONAL_SOURCES) $(MISSING_FREE_LOOP_SOURCES) $(NULL_CHECK_SOURCES) $(USE_AFTER_FREE_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	$(INITIALIZATION_SOURCES) $(INVALID_MEMORY_ACCESS_SOURCES) $(MEMORY_LEAK_SOURCES) $(MISSING_FREE_CONDITIONAL_SOURCES) $(MISSING_FREE_LOOP_SOURCES) $(NULL_CHECK_SOURCES) $(USE_AFTER_FREE_SOURCES) \
+	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(INITIALIZATION_SOURCES) $(INVALID_MEMORY_ACCESS_SOURCES) $(MEMORY_LEAK_SOURCES) \
 	$(MISSING_FREE_CONDITIONAL_SOURCES) $(MISSING_FREE_LOOP_SOURCES) $(NULL_CHECK_SOURCES) $(USE_AFTER_FREE_SOURCES)
 

@@ -2,22 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function to sum an arbitrary number of integers
-int sum(int count, ...)
+static int sum(int count, ...)
 {
     va_list args;
-    int total;
+    int     total = 0;
 
-    va_start(args, count);
+    va_start(args, count);    // Initialize va_list before any conditionals
 
-    total = 0;
-
-    for(int i = 0; i < count; i++)
+    if(count > 0)
     {
-        total += va_arg(args, int);
+        for(int i = 0; i < count; i++)
+        {
+            total += va_arg(args, int);    // Safely access each argument    // NOLINT(clang-analyzer-valist.Uninitialized)
+        }
     }
 
-    va_end(args);
+    va_end(args);    // Always ensure va_list is cleaned up
 
     return total;
 }

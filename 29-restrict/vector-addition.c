@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 
 void vector_add(int * restrict a, const int * restrict b, const int * restrict c, size_t n);

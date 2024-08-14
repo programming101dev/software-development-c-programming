@@ -17,6 +17,7 @@ int main(void)
 {
     int result = 0;
 
+    // cppcheck-suppress knownConditionTrueFalse
     if(divide(10, 2, &result) == 0)
     {
         printf("Result: %d\n", result);
@@ -26,6 +27,7 @@ int main(void)
         printf("Error: Division by zero\n");
     }
 
+    // cppcheck-suppress knownConditionTrueFalse
     if(divide(10, 0, &result) == 0)
     {
         printf("Result: %d\n", result);

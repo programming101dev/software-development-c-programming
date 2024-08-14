@@ -181,18 +181,13 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy $(DOUBLE_TO_STRING_SOURCES) $(FLOAT_TO_STRING_SOURCES) $(INT_TO_STRING_SOURCES) $(INTMAX_T_TO_STRING_SOURCES) \
-	$(LONG_TO_STRING_SOURCES) $(LONG_DOUBLE_TO_STRING_SOURCES) $(LONG_LONG_TO_STRING_SOURCES) \
-	$(STRING_TO_DOUBLE_SOURCES) $(STRING_TO_FLOAT_SOURCES) $(STRING_TO_INT_SOURCES) $(STRING_TO_INTMAX_T_SOURCES) \
-	$(STRING_TO_LONG_SOURCES) $(STRING_TO_LONG_DOUBLE_SOURCES) $(STRING_TO_LONG_LONG_SOURCES) \
-	$(STRING_TO_UNSIGNED_INT_SOURCES) $(STRING_TO_UNSIGNED_LONG_SOURCES) $(STRING_TO_UNSIGNED_LONG_LONG_SOURCES) \
-	$(STRING_TO_UINTMAX_T_SOURCES) $(UINTMAX_T_TO_STRING_SOURCES) $(UNSIGNED_INT_TO_STRING_SOURCES) \
-	$(UNSIGNED_LONG_TO_STRING_SOURCES) $(UNSIGNED_LONG_LONG_TO_STRING_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	$(DOUBLE_TO_STRING_SOURCES) $(FLOAT_TO_STRING_SOURCES) $(INT_TO_STRING_SOURCES) $(INTMAX_T_TO_STRING_SOURCES) $(LONG_TO_STRING_SOURCES) $(LONG_DOUBLE_TO_STRING_SOURCES) $(LONG_LONG_TO_STRING_SOURCES) $(STRING_TO_DOUBLE_SOURCES) $(STRING_TO_FLOAT_SOURCES) $(STRING_TO_INT_SOURCES) $(STRING_TO_INTMAX_T_SOURCES) $(STRING_TO_LONG_SOURCES) $(STRING_TO_LONG_DOUBLE_SOURCES) $(STRING_TO_LONG_LONG_SOURCES) $(STRING_TO_UNSIGNED_INT_SOURCES) $(STRING_TO_UNSIGNED_LONG_SOURCES) $(STRING_TO_UNSIGNED_LONG_LONG_SOURCES) $(STRING_TO_UINTMAX_T_SOURCES) $(UINTMAX_T_TO_STRING_SOURCES) $(UNSIGNED_INT_TO_STRING_SOURCES) $(UNSIGNED_LONG_TO_STRING_SOURCES) $(UNSIGNED_LONG_LONG_TO_STRING_SOURCES) \
+	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(DOUBLE_TO_STRING_SOURCES) $(FLOAT_TO_STRING_SOURCES) $(INT_TO_STRING_SOURCES) $(INTMAX_T_TO_STRING_SOURCES) \
 	$(LONG_TO_STRING_SOURCES) $(LONG_DOUBLE_TO_STRING_SOURCES) $(LONG_LONG_TO_STRING_SOURCES) \
 	$(STRING_TO_DOUBLE_SOURCES) $(STRING_TO_FLOAT_SOURCES) $(STRING_TO_INT_SOURCES) $(STRING_TO_INTMAX_T_SOURCES) \

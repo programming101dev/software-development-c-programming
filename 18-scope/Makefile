@@ -127,15 +127,15 @@ analyze:
 
 # Clang-tidy rule to lint all sources and headers
 clang-tidy:
-	clang-tidy $(BLOCK_SCOPE_SOURCES) $(FUNCTION_SCOPE_SOURCES) $(FILE_SCOPE_SOURCES) \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+    $(BLOCK_SCOPE_SOURCES) $(FUNCTION_SCOPE_SOURCES) $(FILE_SCOPE_SOURCES) \
 	$(FUNCTION_PROTOTYPE_SCOPE_SOURCES) $(AUTOMATIC_VARIABLE_SOURCES) $(STATIC_VARIABLES_INSIDE_FUNCTIONS_SOURCES) \
 	$(GLOBAL_VARIABLES_SOURCES) $(STATIC_VARIABLES_AT_FILE_SCOPE_SOURCES) $(EXTERN_VARIABLES_SOURCES) $(EXTERN_VARIABLES_HEADERS) \
-	$(PROPER_DECLARATION_SOURCES) $(INITIALIZATION_SOURCES) $(BEST_PRACTICES_SOURCES) $(SHADOWING_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	$(PROPER_DECLARATION_SOURCES) $(INITIALIZATION_SOURCES) $(BEST_PRACTICES_SOURCES) $(SHADOWING_SOURCES)  -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources and headers
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(BLOCK_SCOPE_SOURCES) $(FUNCTION_SCOPE_SOURCES) $(FILE_SCOPE_SOURCES) $(FUNCTION_PROTOTYPE_SCOPE_SOURCES) \
 	$(AUTOMATIC_VARIABLES_SOURCES) $(STATIC_VARIABLES_INSIDE_FUNCTIONS_SOURCES) $(GLOBAL_VARIABLES_SOURCES) \
 	$(STATIC_VARIABLES_AT_FILE_SCOPE_SOURCES) $(EXTERN_VARIABLES_SOURCES) $(EXTERN_VARIABLES_HEADERS) \

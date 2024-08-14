@@ -80,13 +80,13 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy $(BOOLEAN_VALUES_SOURCES) $(LOGICAL_AND_SOURCES) $(LOGICAL_OR_SOURCES) $(LOGICAL_NOT_SOURCES) \
-	$(SHORT_CIRCUIT_SOURCES) $(COMBINING_BOOLEAN_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+    $(BOOLEAN_VALUES_SOURCES) $(LOGICAL_AND_SOURCES) $(LOGICAL_OR_SOURCES) $(LOGICAL_NOT_SOURCES) $(SHORT_CIRCUIT_SOURCES) $(COMBINING_BOOLEAN_SOURCES) \
+    -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(BOOLEAN_VALUES_SOURCES) $(LOGICAL_AND_SOURCES) $(LOGICAL_OR_SOURCES) $(LOGICAL_NOT_SOURCES) \
 	$(SHORT_CIRCUIT_SOURCES) $(COMBINING_BOOLEAN_SOURCES)
 

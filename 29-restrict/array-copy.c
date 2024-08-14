@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 
 void copy_arrays(int * restrict dest, const int * restrict src, size_t n);

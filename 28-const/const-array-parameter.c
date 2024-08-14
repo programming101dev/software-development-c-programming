@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 
 void print_array(const int arr[], size_t size);

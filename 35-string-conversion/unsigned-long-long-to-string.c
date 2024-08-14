@@ -1,36 +1,34 @@
 #include <limits.h>
-#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DIGITS_IN_ULLONG ((size_t)ceil(log10(ULLONG_MAX)) + 1)    // +1 for null terminator
+// Calculate the number of digits in ULLONG_MAX using snprintf and store as size_t
+#define DIGITS_IN_ULLONG ((size_t)snprintf(NULL, 0, "%llu", (unsigned long long)ULLONG_MAX) + 1)
 
 int main(void)
 {
     unsigned long long num = ULLONG_MAX;
-    char              *str = NULL;    // Initialize to NULL for safety
-    int                bytes;
+    char              *str = NULL;
+    size_t             bytes;
 
-    // Allocate memory for the string
-    str = (char *)malloc(DIGITS_IN_ULLONG * sizeof(char));
+    str = (char *)malloc(DIGITS_IN_ULLONG);
     if(str == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
-    bytes = snprintf(str, DIGITS_IN_ULLONG, "%llu", num);
-
-    if((unsigned long)bytes >= DIGITS_IN_ULLONG)
+    bytes = (size_t)snprintf(str, DIGITS_IN_ULLONG, "%llu", num);
+    if(bytes >= DIGITS_IN_ULLONG)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
     printf("String representation: %s\n", str);
 
 cleanup:
-    free(str);    // Free allocated memory
+    free(str);
     return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }

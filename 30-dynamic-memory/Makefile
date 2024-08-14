@@ -114,14 +114,13 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy $(CALLOC_SOURCES) $(CORRECT_SIZE_SOURCES) $(DANGLING_POINTER_SOURCES) $(DOUBLE_FREE_SOURCES) \
-	$(ERROR_HANDLING_SOURCES) $(LIFETIME_SOURCES) $(MALLOC_FREE_SOURCES) $(MEMORY_LEAK_SOURCES) \
-	$(PAIRING_ALLOC_FREE_SOURCES) $(REALLOC_SOURCES) $(RESOURCE_HANDLING_SOURCES) \
-	-quiet -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers' -- $(CFLAGS)
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	$(CALLOC_SOURCES) $(CORRECT_SIZE_SOURCES) $(DANGLING_POINTER_SOURCES) $(DOUBLE_FREE_SOURCES) $(ERROR_HANDLING_SOURCES) $(LIFETIME_SOURCES) $(MALLOC_FREE_SOURCES) $(MEMORY_LEAK_SOURCES) $(PAIRING_ALLOC_FREE_SOURCES) $(REALLOC_SOURCES) $(RESOURCE_HANDLING_SOURCES) \
+    -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
-	cppcheck --enable=all --inconclusive --check-level=exhaustive -inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(CALLOC_SOURCES) $(CORRECT_SIZE_SOURCES) $(DANGLING_POINTER_SOURCES) $(DOUBLE_FREE_SOURCES) \
 	$(ERROR_HANDLING_SOURCES) $(LIFETIME_SOURCES) $(MALLOC_FREE_SOURCES) $(MEMORY_LEAK_SOURCES) \
 	$(PAIRING_ALLOC_FREE_SOURCES) $(REALLOC_SOURCES) $(RESOURCE_HANDLING_SOURCES)
