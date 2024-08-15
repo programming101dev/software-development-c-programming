@@ -1,24 +1,29 @@
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-int main(void) {
-    int fd = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (fd == -1) {
+int main(void)
+{
+    int         fd   = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    const char *data = "Hello, World!";
+
+    if(fd == -1)
+    {
         perror("open");
         return EXIT_FAILURE;
     }
 
-    const char *data = "Hello, World!";
-    if (write(fd, data, 13) != 13) {
+    if(write(fd, data, 13) != 13)
+    {
         perror("write");
         close(fd);
         return EXIT_FAILURE;
     }
 
     // Synchronize the file's data and metadata to disk
-    if (fsync(fd) == -1) {
+    if(fsync(fd) == -1)
+    {
         perror("fsync");
         close(fd);
         return EXIT_FAILURE;

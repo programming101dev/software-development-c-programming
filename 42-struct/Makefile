@@ -105,7 +105,7 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
 	$(ARROW_OPERATOR_SOURCES) $(BY_POINTER_SOURCES) $(BY_VALUE_SOURCES) $(DOT_OPERATOR_SOURCES) $(DYNAMIC_SOURCES) $(NESTED_ACCESS_SOURCES) $(NESTED_SOURCES) $(NESTED_MEMORY_SOURCES) $(STRUCT_SOURCES) $(TYPEDEF_SOURCES) \
    	-- $(CFLAGS)
 

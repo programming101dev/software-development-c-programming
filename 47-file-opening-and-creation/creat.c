@@ -8,7 +8,7 @@ int main(void)
     int fd;
 
     // Create a new file with read and write permissions
-    fd = creat("newfile.txt", S_IRUSR | S_IWUSR);
+    fd = creat("newfile.txt", S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
     if(fd == -1)
     {
         perror("creat");

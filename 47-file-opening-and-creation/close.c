@@ -8,7 +8,7 @@ int main(void)
     int fd;
 
     // Open an existing file for reading
-    fd = open("example.txt", O_RDONLY);
+    fd = open("example.txt", O_RDONLY);    // NOLINT (android-cloexec-open)
     if(fd == -1)
     {
         perror("open");

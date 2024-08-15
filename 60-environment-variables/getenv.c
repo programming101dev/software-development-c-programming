@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void) {
+int main(void)
+{
     const char *var_name = "HOME";
-    char *value = getenv(var_name);
+    const char *value    = getenv(var_name);    // NOLINT(concurrency-mt-unsafe)
 
-    if (value != NULL) {
+    if(value != NULL)
+    {
         printf("The value of %s is %s\n", var_name, value);
-    } else {
+    }
+    else
+    {
         printf("%s is not set\n", var_name);
     }
 

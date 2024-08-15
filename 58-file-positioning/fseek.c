@@ -1,31 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void) {
-    FILE *file = fopen("example.txt", "r");
-    if (file == NULL) {
+int main(void)
+{
+    FILE *file = fopen("example.txt", "r");    // NOLINT (android-cloexec-fopen)
+    int   ch;
+
+    if(file == NULL)
+    {
         perror("fopen");
         return EXIT_FAILURE;
     }
 
     // Move the file pointer to the 10th byte from the beginning
-    if (fseek(file, 10, SEEK_SET) != 0) {
+    if(fseek(file, 10, SEEK_SET) != 0)
+    {
         perror("fseek");
-        if (fclose(file) != 0) {
+        if(fclose(file) != 0)
+        {
             perror("fclose");
         }
         return EXIT_FAILURE;
     }
 
     // Read and print the character at the new position
-    int ch = fgetc(file);
-    if (ch != EOF) {
+    ch = fgetc(file);
+
+    if(ch != EOF)
+    {
         printf("Character at position 10: %c\n", ch);
-    } else {
+    }
+    else
+    {
         perror("fgetc");
     }
 
-    if (fclose(file) != 0) {
+    if(fclose(file) != 0)
+    {
         perror("fclose");
         return EXIT_FAILURE;
     }

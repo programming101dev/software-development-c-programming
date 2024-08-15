@@ -1,11 +1,13 @@
-#include <stdio.h>
 #include <stdatomic.h>
+#include <stdio.h>
 
-void increment_counter() {
+void increment_counter()
+{
     atomic_fetch_add(&counter, 1);
 }
 
-int main(void) {
+int main(void)
+{
     increment_counter();
     increment_counter();
     printf("Counter value: %d\n", counter);

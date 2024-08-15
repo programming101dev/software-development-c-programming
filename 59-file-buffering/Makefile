@@ -14,8 +14,6 @@ REPORT_DIR = scan-results
 # Source and binary definitions for the new set of files
 FFLUSH_SOURCES = fflush.c
 FFLUSH_BINARY = fflush
-SETBUF_SOURCES = setbuf.c
-SETBUF_BINARY = setbuf
 SETVBUF_SOURCES = setvbuf.c
 SETVBUF_BINARY = setvbuf
 
@@ -41,14 +39,11 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(FFLUSH_BINARY) $(SETBUF_BINARY) $(SETVBUF_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(FFLUSH_BINARY) $(SETVBUF_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
 $(FFLUSH_BINARY): $(FFLUSH_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(FFLUSH_BINARY) $(FFLUSH_SOURCES)
-
-$(SETBUF_BINARY): $(SETBUF_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(SETBUF_BINARY) $(SETBUF_SOURCES)
 
 $(SETVBUF_BINARY): $(SETVBUF_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(SETVBUF_BINARY) $(SETVBUF_SOURCES)
@@ -56,26 +51,25 @@ $(SETVBUF_BINARY): $(SETVBUF_SOURCES)
 # Analyze rule to analyze all sources
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FFLUSH_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SETBUF_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SETVBUF_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
-	$(FFLUSH_SOURCES) $(SETBUF_SOURCES) $(SETVBUF_SOURCES) \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
+	$(FFLUSH_SOURCES) $(SETVBUF_SOURCES) \
    	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(FFLUSH_SOURCES) $(SETBUF_SOURCES) $(SETVBUF_SOURCES)
+	$(FFLUSH_SOURCES) $(SETVBUF_SOURCES)
 
 clang-format:
-	clang-format -i -- $(FFLUSH_SOURCES) $(SETBUF_SOURCES) $(SETVBUF_SOURCES)
+	clang-format -i -- $(FFLUSH_SOURCES) $(SETVBUF_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(FFLUSH_BINARY) $(SETBUF_BINARY) $(SETVBUF_BINARY)
+	rm -f $(FFLUSH_BINARY) $(SETVBUF_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

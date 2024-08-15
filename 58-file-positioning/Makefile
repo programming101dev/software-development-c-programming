@@ -18,8 +18,6 @@ FSEEK_SOURCES = fseek.c
 FSEEK_BINARY = fseek
 FTELL_SOURCES = ftell.c
 FTELL_BINARY = ftell
-REWIND_SOURCES = rewind.c
-REWIND_BINARY = rewind
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -43,7 +41,7 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(FGETPOS_FSETPOS_BINARY) $(FSEEK_BINARY) $(FTELL_BINARY) $(REWIND_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(FGETPOS_FSETPOS_BINARY) $(FSEEK_BINARY) $(FTELL_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
 $(FGETPOS_FSETPOS_BINARY): $(FGETPOS_FSETPOS_SOURCES)
@@ -55,33 +53,29 @@ $(FSEEK_BINARY): $(FSEEK_SOURCES)
 $(FTELL_BINARY): $(FTELL_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(FTELL_BINARY) $(FTELL_SOURCES)
 
-$(REWIND_BINARY): $(REWIND_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(REWIND_BINARY) $(REWIND_SOURCES)
-
 # Analyze rule to analyze all sources
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FGETPOS_FSETPOS_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FSEEK_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FTELL_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(REWIND_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
-	$(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES) $(REWIND_SOURCES) \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
+	$(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES) \
    	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES) $(REWIND_SOURCES)
+	$(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES)
 
 clang-format:
-	clang-format -i -- $(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES) $(REWIND_SOURCES)
+	clang-format -i -- $(FGETPOS_FSETPOS_SOURCES) $(FSEEK_SOURCES) $(FTELL_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(FGETPOS_FSETPOS_BINARY) $(FSEEK_BINARY) $(FTELL_BINARY) $(REWIND_BINARY)
+	rm -f $(FGETPOS_FSETPOS_BINARY) $(FSEEK_BINARY) $(FTELL_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

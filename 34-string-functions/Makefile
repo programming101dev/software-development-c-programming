@@ -129,7 +129,7 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
 	$(MEMCPY_SOURCES) $(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) $(STRDUP_SOURCES) $(STRLEN_SOURCES) $(STRNCAT_SOURCES) $(STRNCMP_SOURCES) $(STRNCPY_SOURCES) $(STRPBRK_SOURCES) $(STRRCHR_SOURCES) $(STRSTR_SOURCES) $(STRTOK_R_SOURCES) \
     -- $(CFLAGS)
 

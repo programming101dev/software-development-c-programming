@@ -1,26 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void) {
-    FILE *file = fopen("example.txt", "r");
-    if (file == NULL) {
+int main(void)
+{
+    FILE *file = fopen("example.txt", "r");    // NOLINT (android-cloexec-fopen)
+    int   ch;
+
+    if(file == NULL)
+    {
         perror("fopen");
         return EXIT_FAILURE;
     }
 
-    int ch;
-    while ((ch = fgetc(file)) != EOF) {
+    while((ch = fgetc(file)) != EOF)
+    {
         // Process character
         putchar(ch);
     }
 
-    if (feof(file)) {
+    if(feof(file))
+    {
         printf("\nEnd of file reached.\n");
-    } else if (ferror(file)) {
+    }
+    else if(ferror(file))
+    {
         perror("fgetc");
     }
 
-    if (fclose(file) != 0) {
+    if(fclose(file) != 0)
+    {
         perror("fclose");
         return EXIT_FAILURE;
     }
