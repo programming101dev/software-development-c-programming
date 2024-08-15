@@ -5,53 +5,45 @@
 
 int main(void)
 {
-    int fd;
-    int saved_stdout;
+    int         fd;
+    int         fd_dup;
+    ssize_t     bytes_written;
+    const char *message = "Hello, World!\n";
 
     // Open a file to write output
-    fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    fd = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if(fd == -1)
     {
-        perror("open");
+        perror("Failed to open file");
         return EXIT_FAILURE;
     }
 
-    // Save the current stdout file descriptor
-    saved_stdout = dup(STDOUT_FILENO);
-    if(saved_stdout == -1)
+    // Duplicate the file descriptor
+    fd_dup = dup(fd);
+    if(fd_dup == -1)
     {
-        perror("dup");
+        perror("Failed to duplicate file descriptor");
         close(fd);
         return EXIT_FAILURE;
     }
 
-    // Redirect stdout to the file
-    if(dup2(fd, STDOUT_FILENO) == -1)
+    // Write to the original file descriptor
+    bytes_written = write(fd, message, 14);
+    if(bytes_written == -1)
     {
-        perror("dup2");
-        close(fd);
-        close(saved_stdout);
-        return EXIT_FAILURE;
+        perror("Failed to write to original file descriptor");
     }
 
-    // Now stdout is redirected to the file
-    printf("This will be written to the file.\n");
-
-    // Restore the original stdout
-    if(dup2(saved_stdout, STDOUT_FILENO) == -1)
+    // Write to the duplicated file descriptor
+    bytes_written = write(fd_dup, "Duplicate FD\n", 13);
+    if(bytes_written == -1)
     {
-        perror("dup2");
-        close(fd);
-        close(saved_stdout);
-        return EXIT_FAILURE;
+        perror("Failed to write to duplicate file descriptor");
     }
 
     // Close file descriptors
     close(fd);
-    close(saved_stdout);
-
-    // Normal output to terminal
-    printf("This will be printed to the terminal.\n");
+    close(fd_dup);
 
     return EXIT_SUCCESS;
 }

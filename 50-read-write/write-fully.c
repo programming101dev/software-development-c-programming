@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,11 +11,13 @@ static ssize_t write_fully(int fd, const void *buf, size_t count, int *err);
 
 static ssize_t write_fully(int fd, const void *buf, size_t count, int *err)
 {
-    ssize_t bytes_written = 0;
+    bool    done            = false;
+    ssize_t bytes_written   = 0;
+    ssize_t bytes_remaining = (ssize_t)count;
 
-    while(bytes_written < (ssize_t)count)
+    while(!done)
     {
-        ssize_t result = write(fd, (const char *)buf + bytes_written, count - (size_t)bytes_written);
+        ssize_t result = write(fd, (const char *)buf + bytes_written, (size_t)bytes_remaining);
 
         if(result == -1)
         {
@@ -25,15 +28,23 @@ static ssize_t write_fully(int fd, const void *buf, size_t count, int *err)
             *err = errno;
             return -1;    // Error occurred
         }
+
         bytes_written += result;
+        bytes_remaining -= result;
+
+        if(bytes_remaining <= 0)
+        {
+            done = true;
+        }
     }
+
     return bytes_written;
 }
 
 int main(void)
 {
     const char *filename = "output.txt";
-    int         fd       = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    int         fd       = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     const char *message  = "Hello, World! This is a test of the write_fully function.\n";
     int         err;
     ssize_t     result;

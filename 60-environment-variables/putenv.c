@@ -3,14 +3,27 @@
 
 int main(void)
 {
-    char var_assignment[] = "MY_VAR=HelloWorld";
+    const char *var_name  = "MY_VAR";
+    const char *var_value = "HelloWorld";
+    const char *value;
 
-    if(putenv(var_assignment) != 0)    // NOLINT(concurrency-mt-unsafe)
+    // Set environment variable using setenv, which is safer than putenv
+    if(setenv(var_name, var_value, 1) != 0)    // 1 indicates to overwrite the variable if it exists // NOLINT(concurrency-mt-unsafe)
     {
-        perror("putenv");
+        perror("setenv");
         return EXIT_FAILURE;
     }
 
-    printf("MY_VAR set to %s\n", getenv("MY_VAR"));    // NOLINT(concurrency-mt-unsafe)
+    // Retrieve and print the environment variable
+    value = getenv(var_name);    // NOLINT(concurrency-mt-unsafe)
+    if(value != NULL)
+    {
+        printf("The value of %s is %s\n", var_name, value);
+    }
+    else
+    {
+        printf("%s is not set\n", var_name);
+    }
+
     return EXIT_SUCCESS;
 }

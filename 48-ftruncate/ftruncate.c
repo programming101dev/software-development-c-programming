@@ -6,7 +6,7 @@
 int main(void)
 {
     const char *filename = "example.txt";
-    int         fd       = open(filename, O_RDWR);    // NOLINT (android-cloexec-open)
+    int         fd       = open(filename, O_RDWR);
     if(fd == -1)
     {
         perror("open");

@@ -25,7 +25,7 @@ static int read_from_fd(int fd, int *err)
 
 int main(void)
 {
-    int fd  = open("example.txt", O_RDONLY);    // NOLINT (android-cloexec-open)
+    int fd  = open("example.txt", O_RDONLY);
     int err = 0;
     if(fd == -1)
     {

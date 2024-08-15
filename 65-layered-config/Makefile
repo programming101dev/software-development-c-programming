@@ -2,7 +2,8 @@ ifeq ($(CC),cc)
     CC = gcc
 endif
 
-CFLAGS = -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
+CFLAGS = -std=c17 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOURCE -D_DEFAULT_SOURCE -D__BSD_VISIBLE \
+		 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
@@ -10,9 +11,9 @@ SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
-SOURCES = main.c string-conversion.c
-HEADERS = string-conversion.h
-BINARY = string-conversion
+SOURCES = main.c config.c arguments.c env.c defaults.c string-conversion.c
+HEADERS = config.h arguments.h env.h defaults.h string-conversion.h
+BINARY = layered-config
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -44,12 +45,12 @@ analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-misc-include-cleaner' \
 	$(SOURCES) $(HEADERS) \
 	-- $(CFLAGS)
 
 cppcheck:
-	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
+	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --suppress=unusedFunction --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
 	$(SOURCES) $(HEADERS)
 
 clang-format:

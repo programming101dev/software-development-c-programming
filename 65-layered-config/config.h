@@ -7,4 +7,6 @@
 #define MAX_COUNT 100
 #define MAX_DELAY 10
 
-#endif // CONFIG_H
+void handle_config(char **message, int **count, int **delay);
+
+#endif    // CONFIG_H

@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,17 +9,20 @@ static ssize_t read_fully(int fd, void *buf, size_t count, int *err);
 
 static ssize_t read_fully(int fd, void *buf, size_t count, int *err)
 {
-    ssize_t bytes_read = 0;
+    bool    done;
+    ssize_t bytes_read      = 0;
+    ssize_t bytes_remaining = (ssize_t)count;
 
-    while(bytes_read < (ssize_t)count)
+    done = false;
+
+    while(!done)
     {
-        ssize_t result;
-
-        result = read(fd, (char *)buf + bytes_read, count - (size_t)bytes_read);
+        ssize_t result = read(fd, (char *)buf + bytes_read, (size_t)bytes_remaining);
 
         if(result == 0)
         {
-            break;    // EOF reached
+            done = true;
+            continue;
         }
 
         if(result == -1)
@@ -29,11 +33,16 @@ static ssize_t read_fully(int fd, void *buf, size_t count, int *err)
             }
 
             *err = errno;
-
             return -1;    // Error occurred
         }
 
         bytes_read += result;
+        bytes_remaining -= result;
+
+        if(bytes_remaining <= 0)
+        {
+            done = true;
+        }
     }
 
     return bytes_read;
@@ -42,7 +51,7 @@ static ssize_t read_fully(int fd, void *buf, size_t count, int *err)
 int main(void)
 {
     const char *filename = "example.txt";
-    int         fd       = open(filename, O_RDONLY);    // NOLINT (android-cloexec-open)
+    int         fd       = open(filename, O_RDONLY);
     char        buffer[256];
     int         err = 0;
     ssize_t     result;

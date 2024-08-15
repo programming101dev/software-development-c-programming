@@ -5,7 +5,7 @@
 
 int main(void)
 {
-    int         fd   = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    int         fd   = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     const char *data = "Hello, World!";
 
     if(fd == -1)

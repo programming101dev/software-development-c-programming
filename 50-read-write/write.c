@@ -25,7 +25,7 @@ static int write_to_fd(int fd, const char *data, int *err)
 
 int main(void)
 {
-    int fd  = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    int fd  = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     int err = 0;
 
     if(fd == -1)

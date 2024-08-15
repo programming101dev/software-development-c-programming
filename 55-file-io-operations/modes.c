@@ -3,8 +3,8 @@
 
 int main(void)
 {
-    FILE *textFile   = fopen("example.txt", "r");    // NOLINT (android-cloexec-fopen)
-    FILE *binaryFile = fopen("example.bin", "rb");    // NOLINT (android-cloexec-fopen)
+    FILE *textFile   = fopen("example.txt", "r");
+    FILE *binaryFile = fopen("example.bin", "rb");
 
     if(textFile == NULL || binaryFile == NULL)
     {

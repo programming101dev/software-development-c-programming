@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,7 +30,7 @@ static int read_int(int fd, int *value, int *err)
 
 int main(void)
 {
-    int       fd           = open("example.dat", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);    // NOLINT (android-cloexec-open)
+    int       fd           = open("example.dat", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     int       err          = 0;
     const int num_to_write = 123456789;
     int       num_read;
@@ -67,19 +68,54 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
+static ssize_t write_fully(int fd, const void *buf, size_t count, int *err)
+{
+    bool    done            = false;
+    ssize_t bytes_written   = 0;
+    ssize_t bytes_remaining = (ssize_t)count;
+
+    while(!done)
+    {
+        ssize_t result = write(fd, (const char *)buf + bytes_written, (size_t)bytes_remaining);
+
+        if(result == -1)
+        {
+            if(errno == EINTR)
+            {
+                continue;    // Interrupted, retry
+            }
+            *err = errno;
+            return -1;    // Error occurred
+        }
+
+        bytes_written += result;
+        bytes_remaining -= result;
+
+        if(bytes_remaining <= 0)
+        {
+            done = true;
+        }
+    }
+
+    return bytes_written;
+}
+
 static ssize_t read_fully(int fd, void *buf, size_t count, int *err)
 {
-    ssize_t bytes_read = 0;
+    bool    done;
+    ssize_t bytes_read      = 0;
+    ssize_t bytes_remaining = (ssize_t)count;
 
-    while(bytes_read < (ssize_t)count)
+    done = false;
+
+    while(!done)
     {
-        ssize_t result;
-
-        result = read(fd, (char *)buf + bytes_read, count - (size_t)bytes_read);
+        ssize_t result = read(fd, (char *)buf + bytes_read, (size_t)bytes_remaining);
 
         if(result == 0)
         {
-            break;    // EOF reached
+            done = true;
+            continue;
         }
 
         if(result == -1)
@@ -90,34 +126,17 @@ static ssize_t read_fully(int fd, void *buf, size_t count, int *err)
             }
 
             *err = errno;
-
             return -1;    // Error occurred
         }
 
         bytes_read += result;
+        bytes_remaining -= result;
+
+        if(bytes_remaining <= 0)
+        {
+            done = true;
+        }
     }
 
     return bytes_read;
-}
-
-static ssize_t write_fully(int fd, const void *buf, size_t count, int *err)
-{
-    ssize_t bytes_written = 0;
-
-    while(bytes_written < (ssize_t)count)
-    {
-        ssize_t result = write(fd, (const char *)buf + bytes_written, count - (size_t)bytes_written);
-
-        if(result == -1)
-        {
-            if(errno == EINTR)
-            {
-                continue;    // Interrupted, retry
-            }
-            *err = errno;
-            return -1;    // Error occurred
-        }
-        bytes_written += result;
-    }
-    return bytes_written;
 }

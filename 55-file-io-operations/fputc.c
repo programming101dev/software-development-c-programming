@@ -1,10 +1,16 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    const char *text = "Hello, World!";
-    FILE       *file = fopen("example.txt", "w");    // NOLINT (android-cloexec-fopen)
+    const char *text;
+    const char *p;
+    FILE       *file;
+    bool        continue_writing;
+
+    text = "Hello, World!";
+    file = fopen("example.txt", "w");
 
     if(file == NULL)
     {
@@ -12,16 +18,26 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    for(const char *p = text; *p != '\0'; p++)
+    p                = text;
+    continue_writing = true;
+
+    while(continue_writing)
     {
-        if(fputc(*p, file) == EOF)
+        if(*p != '\0')
         {
-            perror("fputc");
-            if(fclose(file) != 0)
+            if(fputc(*p, file) == EOF)
             {
-                perror("fclose");
+                perror("fputc");
+                continue_writing = false;
             }
-            return EXIT_FAILURE;
+            else
+            {
+                p++;
+            }
+        }
+        else
+        {
+            continue_writing = false;
         }
     }
 

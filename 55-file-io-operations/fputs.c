@@ -4,7 +4,7 @@
 int main(void)
 {
     const char *text = "Hello, World!";
-    FILE       *file = fopen("example.txt", "w");    // NOLINT (android-cloexec-fopen)
+    FILE       *file = fopen("example.txt", "w");
 
     if(file == NULL)
     {

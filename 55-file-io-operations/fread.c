@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    FILE  *file = fopen("example.bin", "rb");    // NOLINT (android-cloexec-fopen)
+    FILE  *file = fopen("example.bin", "rb");
     int    buffer[10];
     size_t bytesRead;
 

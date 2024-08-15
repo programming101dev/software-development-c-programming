@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    FILE *file = fopen("example.txt", "r");    // NOLINT (android-cloexec-fopen)
+    FILE *file = fopen("example.txt", "r");
     char  buffer[256];
 
     if(file == NULL)

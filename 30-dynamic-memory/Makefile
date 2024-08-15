@@ -2,7 +2,8 @@ ifeq ($(CC),cc)
     CC = gcc
 endif
 
-CFLAGS = -std=c17 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
+CFLAGS = -std=c17 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOURCE -D_DEFAULT_SOURCE -D__BSD_VISIBLE \
+		 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
@@ -114,7 +115,7 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters' \
 	$(CALLOC_SOURCES) $(CORRECT_SIZE_SOURCES) $(DANGLING_POINTER_SOURCES) $(DOUBLE_FREE_SOURCES) $(ERROR_HANDLING_SOURCES) $(LIFETIME_SOURCES) $(MALLOC_FREE_SOURCES) $(MEMORY_LEAK_SOURCES) $(PAIRING_ALLOC_FREE_SOURCES) $(REALLOC_SOURCES) $(RESOURCE_HANDLING_SOURCES) \
     -- $(CFLAGS)
 

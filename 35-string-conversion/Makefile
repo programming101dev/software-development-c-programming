@@ -2,7 +2,8 @@ ifeq ($(CC),cc)
     CC = gcc
 endif
 
-CFLAGS = -std=c17 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
+CFLAGS = -std=c17 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOURCE -D_DEFAULT_SOURCE -D__BSD_VISIBLE \
+		 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
@@ -181,7 +182,7 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters' \
 	$(DOUBLE_TO_STRING_SOURCES) $(FLOAT_TO_STRING_SOURCES) $(INT_TO_STRING_SOURCES) $(INTMAX_T_TO_STRING_SOURCES) $(LONG_TO_STRING_SOURCES) $(LONG_DOUBLE_TO_STRING_SOURCES) $(LONG_LONG_TO_STRING_SOURCES) $(STRING_TO_DOUBLE_SOURCES) $(STRING_TO_FLOAT_SOURCES) $(STRING_TO_INT_SOURCES) $(STRING_TO_INTMAX_T_SOURCES) $(STRING_TO_LONG_SOURCES) $(STRING_TO_LONG_DOUBLE_SOURCES) $(STRING_TO_LONG_LONG_SOURCES) $(STRING_TO_UNSIGNED_INT_SOURCES) $(STRING_TO_UNSIGNED_LONG_SOURCES) $(STRING_TO_UNSIGNED_LONG_LONG_SOURCES) $(STRING_TO_UINTMAX_T_SOURCES) $(UINTMAX_T_TO_STRING_SOURCES) $(UNSIGNED_INT_TO_STRING_SOURCES) $(UNSIGNED_LONG_TO_STRING_SOURCES) $(UNSIGNED_LONG_LONG_TO_STRING_SOURCES) \
 	-- $(CFLAGS)
 

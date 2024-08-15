@@ -1,22 +1,38 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    FILE *file = fopen("example.txt", "r");    // NOLINT (android-cloexec-fopen)
-    int   ch;
+    FILE *file;
+    bool  continue_reading;
 
+    // Open the file for reading
+    file = fopen("example.txt", "r");
     if(file == NULL)
     {
         perror("fopen");
         return EXIT_FAILURE;
     }
 
-    while((ch = fgetc(file)) != EOF)
+    continue_reading = true;
+
+    while(continue_reading)
     {
-        putchar(ch);
+        int ch;
+
+        ch = fgetc(file);
+        if(ch != EOF)
+        {
+            putchar(ch);
+        }
+        else
+        {
+            continue_reading = false;
+        }
     }
 
+    // Close the file
     if(fclose(file) != 0)
     {
         perror("fclose");

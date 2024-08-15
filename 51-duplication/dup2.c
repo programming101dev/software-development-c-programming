@@ -5,34 +5,28 @@
 
 int main(void)
 {
-    int  fd;
-    char buffer[128];
+    int fd;
+    int result;
 
-    // Open a file for reading
-    fd = open("input.txt", O_RDONLY);    // NOLINT (android-cloexec-open)
+    // Open a file to write output
+    fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if(fd == -1)
     {
-        perror("open");
+        perror("Failed to open file");
         return EXIT_FAILURE;
     }
 
-    // Redirect stdin to the file
-    if(dup2(fd, STDIN_FILENO) == -1)
+    // Replace stdout with the file descriptor
+    result = dup2(fd, STDOUT_FILENO);
+    if(result == -1)
     {
-        perror("dup2");
+        perror("Failed to redirect stdout");
         close(fd);
         return EXIT_FAILURE;
     }
 
-    // Now stdin is redirected to the file
-    if(fgets(buffer, sizeof(buffer), stdin) != NULL)
-    {
-        printf("Read from file: %s", buffer);
-    }
-    else
-    {
-        perror("fgets");
-    }
+    // Now, this will be written to the file instead of the terminal
+    printf("This message is redirected to output.txt\n");
 
     // Close the file descriptor
     close(fd);
