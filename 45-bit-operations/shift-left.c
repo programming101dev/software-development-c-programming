@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -6,5 +7,6 @@ int main(void)
     unsigned int result = a << (unsigned int)2;    // 110000 in binary
 
     printf("Bitwise Shift Left: %u\n", result);    // Output: 48
-    return 0;
+
+    return EXIT_SUCCESS;
 }

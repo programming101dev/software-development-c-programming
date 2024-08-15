@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Engine    // NOLINT(altera-struct-pack-align)
 {
@@ -24,5 +25,5 @@ int main(void)
     printf("Car Make: %s, Model: %s\n", car.make, car.model);
     printf("Engine Horsepower: %d, Displacement: %.1fL\n", car.engine.horsepower, (double)car.engine.displacement);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void)
@@ -7,5 +8,6 @@ int main(void)
     char       dest[50];
     strcpy(dest, src);    // NOLINT(clang-analyzer-security.insecureAPI.strcpy)
     printf("Copied string using strcpy: %s\n", dest);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

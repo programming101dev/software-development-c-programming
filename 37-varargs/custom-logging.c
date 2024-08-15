@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static void custom_log(const char *format, ...);
 
@@ -19,5 +20,6 @@ static void custom_log(const char *format, ...)
 int main(void)
 {
     custom_log("This is a test: %d\n", 42);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

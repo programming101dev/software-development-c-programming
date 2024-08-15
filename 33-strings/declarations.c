@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -13,7 +14,7 @@ int main(void)
     printf("%s\n", str1);
     printf("%s\n", str2);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 #pragma GCC diagnostic pop

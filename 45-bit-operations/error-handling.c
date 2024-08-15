@@ -18,5 +18,5 @@ int main(void)
     result = a << shiftCount;
     printf("Result: %u\n", result);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

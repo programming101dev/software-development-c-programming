@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 const char *get_message(void);
 
@@ -12,5 +13,6 @@ int main(void)
     const char *msg = get_message();
     printf("%s\n", msg);
     // msg[0] = 'h';  // Error: cannot modify the string literal
-    return 0;
+
+    return EXIT_SUCCESS;
 }

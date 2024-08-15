@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 union Data
 {
@@ -26,5 +27,5 @@ int main(void)
     printf("Data as float: %f\n", (double)data.f);
     printf("Data as char: %c\n", data.c);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

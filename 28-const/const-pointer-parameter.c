@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void print_value(const int *value);
 
@@ -11,5 +12,6 @@ int main(void)
 {
     int num = 42;
     print_value(&num);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

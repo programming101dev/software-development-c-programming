@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Engine    // NOLINT(altera-struct-pack-align)
 {
@@ -28,5 +29,5 @@ int main(void)
     car.engine.horsepower = 250;
     printf("Updated Engine Horsepower: %d\n", car.engine.horsepower);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

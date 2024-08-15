@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int *getPointerToLocal(void);
 
@@ -40,5 +41,5 @@ int main(void)
     #pragma GCC diagnostic pop
 #endif
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -1,6 +1,7 @@
 #include <signal.h>
 #include <stdatomic.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 atomic_int signal_received = 0;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
@@ -48,5 +49,5 @@ int main(void)
         }
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

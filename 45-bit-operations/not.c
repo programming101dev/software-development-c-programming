@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -6,5 +7,6 @@ int main(void)
     unsigned int result = ~a;    // 11111111 11111111 11111111 11110011 in binary
 
     printf("Bitwise NOT: %u\n", result);    // Output: 4294967283 on a 32-bit system
-    return 0;
+
+    return EXIT_SUCCESS;
 }

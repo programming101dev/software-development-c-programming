@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
@@ -5,7 +7,8 @@
 int main(int argc, char *argv[])
 {
     // Your code here
-    return 0;    // Indicate successful termination
+
+    return EXIT_SUCCESS;
 }
 
 #pragma GCC diagnostic pop

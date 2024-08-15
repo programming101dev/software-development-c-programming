@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -7,5 +8,6 @@ int main(void)
     unsigned int result = a ^ b;    // 0110 in binary
 
     printf("Bitwise XOR: %u\n", result);    // Output: 6
-    return 0;
+
+    return EXIT_SUCCESS;
 }

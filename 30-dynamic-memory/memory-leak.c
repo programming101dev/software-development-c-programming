@@ -25,5 +25,5 @@ int main(void)
     leak_memory();
 
     // Optional: indicate that the program has finished executing.
-    return 0;
+    return EXIT_SUCCESS;
 }

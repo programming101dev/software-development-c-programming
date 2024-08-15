@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void)
@@ -7,5 +8,6 @@ int main(void)
     const char src[]    = "World!";
     strcat(dest, src);    // NOLINT(clang-analyzer-security.insecureAPI.strcpy)
     printf("Concatenated string using strcat: %s\n", dest);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

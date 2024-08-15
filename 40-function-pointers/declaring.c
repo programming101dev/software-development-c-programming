@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 static void myFunction(int num);
 
@@ -13,7 +14,7 @@ int main(void)
     // Call the function using the pointer
     funcPtr(10);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 static void myFunction(int num)

@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void vector_add(int * restrict a, const int * restrict b, const int * restrict c, size_t n);
 
@@ -25,5 +26,5 @@ int main(void)
     }
     printf("\n");
 
-    return 0;
+    return EXIT_SUCCESS;
 }

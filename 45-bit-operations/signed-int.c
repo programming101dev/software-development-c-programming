@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -10,5 +11,6 @@ int main(void)
 #pragma GCC diagnostic pop
 
     printf("Arithmetic Shift Right (Signed): %d\n", result);    // Output: -3
-    return 0;
+
+    return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -16,5 +17,5 @@ int main(void)
     printf("Value of a: %d\n", a);
     printf("Value pointed to by p: %d\n", *p);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

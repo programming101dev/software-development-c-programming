@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void copy_arrays(int * restrict dest, const int * restrict src, size_t n);
 
@@ -24,5 +25,5 @@ int main(void)
     }
     printf("\n");
 
-    return 0;
+    return EXIT_SUCCESS;
 }

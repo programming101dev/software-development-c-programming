@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -6,5 +7,6 @@ int main(void)
     unsigned int result = a >> (unsigned int)2;    // 00000000 00000000 00000000 00000011 in binary
 
     printf("Logical Shift Right (Unsigned): %u\n", result);    // Output: 3
-    return 0;
+
+    return EXIT_SUCCESS;
 }

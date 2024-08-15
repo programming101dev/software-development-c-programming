@@ -1,5 +1,6 @@
 #include <stdatomic.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static atomic_int counter = 0;    // Initialize the atomic counter // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
@@ -15,5 +16,6 @@ int main(void)
     increment_counter();
     increment_counter();
     printf("Counter value: %d\n", atomic_load(&counter));
-    return 0;
+
+    return EXIT_SUCCESS;
 }

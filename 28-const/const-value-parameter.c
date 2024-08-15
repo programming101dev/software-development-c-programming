@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void print_value(int x);
 
@@ -12,5 +13,6 @@ int main(void)
 {
     const int x = 10;
     print_value(x);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

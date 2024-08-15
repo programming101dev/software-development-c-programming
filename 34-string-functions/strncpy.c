@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void)
@@ -9,5 +10,6 @@ int main(void)
     strncpy(dest, src, sizeof(dest) - 1);
     dest[sizeof(dest) - 1] = '\0';    // Ensure null termination
     printf("Copied string using strncpy: %s\n", dest);
-    return 0;
+
+    return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -8,5 +9,5 @@ int main(void)
     value ^= toggleMask;    // Toggle the middle four bits
     printf("Value after toggling bits: %X\n", value);    // Output: AB3D
 
-    return 0;
+    return EXIT_SUCCESS;
 }

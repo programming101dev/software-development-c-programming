@@ -45,5 +45,5 @@ int main(void)
     free(car->engine);
     free(car);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

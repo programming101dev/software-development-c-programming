@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void)
@@ -9,5 +10,5 @@ int main(void)
     printf("Comparison of first 5 characters: %d\n", strncmp(str1, str2, 5));
     printf("Comparison of first 7 characters: %d\n", strncmp(str1, str2, 6));
 
-    return 0;
+    return EXIT_SUCCESS;
 }

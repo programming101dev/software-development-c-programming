@@ -15,5 +15,5 @@ int main(void)
         printf("%s is not set\n", var_name);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

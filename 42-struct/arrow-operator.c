@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Person    // NOLINT(altera-struct-pack-align)
 {
@@ -19,5 +20,5 @@ int main(void)
     printf("Name: %s, Age: %d, Height: %.1f\n", p->name, p->age, (double)p->height);
     printf("Name: %s, Age: %d, Height: %.1f\n", pat.name, pat.age, (double)pat.height);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

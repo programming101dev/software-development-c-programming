@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -7,5 +8,6 @@ int main(void)
     unsigned int result = value & mask;    // 0000000011001101 in binary
 
     printf("Masked value: %X\n", result);    // Output: CD
-    return 0;
+
+    return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 static void *getPointerToInt(int *num);
 
@@ -12,5 +13,5 @@ int main(void)
     int         num = 10;
     const void *ptr = getPointerToInt(&num);
     printf("Value: %d\n", *(int *)ptr);
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Define a callback type
 typedef void (*Callback)(int);
@@ -25,5 +26,5 @@ int main(void)
 {
     // Pass the callback function to processData
     processData(5, printResult);
-    return 0;
+    return EXIT_SUCCESS;
 }

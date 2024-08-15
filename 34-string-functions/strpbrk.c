@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(void)
@@ -16,5 +17,5 @@ int main(void)
         printf("No characters found\n");
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

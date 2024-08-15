@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct Flags    // NOLINT(altera-struct-pack-align)
 {
@@ -15,5 +16,5 @@ int main(void)
     printf("flag2: %u\n", flags.flag2);
     printf("flag3: %u\n", flags.flag3);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

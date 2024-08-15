@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -10,5 +11,5 @@ int main(void)
 
     printf("Difference between p2 and p1: %td\n", diff);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

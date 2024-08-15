@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 static void add(int a, int b);
 static void subtract(int a, int b);
@@ -44,5 +45,5 @@ int main(void)
         operations[i](a, b);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

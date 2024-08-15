@@ -29,5 +29,5 @@ int main(void)
     printf("%s\n", str);
 
     free(str);    // Free the allocated memory
-    return 0;
+    return EXIT_SUCCESS;
 }

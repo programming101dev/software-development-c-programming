@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -16,5 +17,5 @@ int main(void)
     ptr = str;
     printf("String: %s\n", (char *)ptr);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

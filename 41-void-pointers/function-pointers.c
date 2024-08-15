@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Function pointer type for a function that takes a void pointer
 typedef void (*ProcessFunc)(void *);
@@ -45,5 +46,5 @@ int main(void)
     processData(&f, processFloat);
     processData(str, processString);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

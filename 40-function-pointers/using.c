@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 static void add(int a, int b);
 static void subtract(int a, int b);
@@ -23,5 +24,5 @@ int main(void)
 {
     operate(10, 5, add);
     operate(10, 5, subtract);
-    return 0;
+    return EXIT_SUCCESS;
 }

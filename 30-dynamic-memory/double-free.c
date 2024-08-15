@@ -16,5 +16,5 @@ int main(void)
     #pragma GCC diagnostic pop
 #endif
 
-    return 0;
+    return EXIT_SUCCESS;
 }

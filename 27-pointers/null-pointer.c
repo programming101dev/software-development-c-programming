@@ -14,5 +14,6 @@ int main(void)
     {
         printf("Pointer value: %d\n", *p);
     }
+
     return EXIT_SUCCESS;
 }

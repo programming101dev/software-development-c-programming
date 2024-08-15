@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -12,5 +13,5 @@ int main(void)
     value &= clearMask;    // Clear the least significant bit
     printf("Value after clearing LSB: %X\n", value);    // Output: ABCD
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -39,5 +39,5 @@ int main(void)
     // Free the allocated memory
     free(pat);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
