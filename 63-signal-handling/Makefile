@@ -37,7 +37,7 @@ ifeq ($(CC), gcc)
 	ANALYZER =
 	ANALYZER_FLAGS =
 else ifeq ($(CC), clang)
-    CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
+	CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
 	ANALYSIS_FLAGS = --analyze
 	ANALYZER = scan-build
  	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
