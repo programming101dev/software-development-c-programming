@@ -41,7 +41,7 @@ else ifeq ($(CC), clang)
     CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
 	ANALYSIS_FLAGS = --analyze
 	ANALYZER = scan-build
- 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
+ 	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck

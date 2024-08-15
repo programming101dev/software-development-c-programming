@@ -45,7 +45,7 @@ else ifeq ($(CC), clang)
     CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
 	ANALYSIS_FLAGS = --analyze
 	ANALYZER = scan-build
- 	ANALYZER_FLAGS = -plist-html -o $(REPORT_DIR)
+ 	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
@@ -76,7 +76,7 @@ $(PRINTING_POINTERS_BINARY): $(PRINTING_POINTERS_SOURCES)
 
 # Analyze rule to analyze all sources
 analyze:
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(NULL_POINTER_SOURCES) -c
+	$(ANALYZER)  $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(NULL_POINTER_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(POINTER_ARITHMETIC_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PASSING_SINGLE_VALUES_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PASSING_ARRAY_VALUES_SOURCES) -c

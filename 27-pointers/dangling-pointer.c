@@ -2,8 +2,13 @@
 
 int *getPointerToLocal(void);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreturn-local-addr"
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wreturn-local-addr"
+#elif defined(__clang__)
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wreturn-stack-address"
+#endif
 
 int *getPointerToLocal(void)
 {
@@ -13,7 +18,11 @@ int *getPointerToLocal(void)
     return &localVar;    // Returns address of local variable    // NOLINT(clang-analyzer-core.StackAddressEscape)
 }
 
-#pragma GCC diagnostic pop
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic pop
+#elif defined(__clang__)
+    #pragma clang diagnostic pop
+#endif
 
 int main(void)
 {
@@ -24,6 +33,7 @@ int main(void)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
 #endif
+
     printf("Dangling pointer value: %d\n", *p);    // Undefined behavior
 
 #if defined(__GNUC__) && !defined(__llvm__)

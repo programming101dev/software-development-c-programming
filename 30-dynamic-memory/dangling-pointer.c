@@ -3,7 +3,9 @@
 
 int main(void)
 {
-    int *arr = (int *)malloc(5 * sizeof(int));
+    int *arr;
+
+    arr = (int *)malloc(5 * sizeof(int));
 
     if(arr == NULL)
     {
