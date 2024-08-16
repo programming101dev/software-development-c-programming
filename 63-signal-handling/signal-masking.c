@@ -13,6 +13,7 @@ static void handle_signal(int signal)
     int        length;
 
     length = snprintf(buffer, sizeof(buffer), "%s%d\n", message, signal);
+
     if(length > 0)
     {
         write(STDOUT_FILENO, buffer, (size_t)length);
@@ -36,7 +37,10 @@ int main(void)
     }
 
     sigemptyset(&block_set);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
     sigaddset(&block_set, SIGINT);
+#pragma GCC diagnostic pop
 
     if(sigprocmask(SIG_BLOCK, &block_set, NULL) == -1)    // NOLINT(concurrency-mt-unsafe)
     {
