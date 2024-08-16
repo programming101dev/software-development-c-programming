@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void example(void);
+static void example(void);
 
-void example(void)
+static void example(void)
 {
-    static int x = 0;    // Static variable
+    static int x = 0;
     x++;
     printf("x = %d\n", x);
 }
 
 int main(void)
 {
-    example();    // Prints 1
-    example();    // Prints 2
+    example();
+    example();
+
     return EXIT_SUCCESS;
 }

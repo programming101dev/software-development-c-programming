@@ -1,18 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void example(void);
+static void example(void);
 
-const int globalVar = 100;    // File scope
+static int global_var = 100;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-void example(void)
+static void example(void)
 {
-    printf("globalVar = %d\n", globalVar);    // Accessible here
+    printf("2) globalVar = %d\n", global_var);
+    global_var++;
 }
 
 int main(void)
 {
+    printf("1) globalVar = %d\n", global_var);
     example();
+    printf("3) globalVar = %d\n", global_var);
 
     return EXIT_SUCCESS;
 }

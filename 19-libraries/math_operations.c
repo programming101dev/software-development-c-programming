@@ -1,35 +1,32 @@
 #include "math_operations.h"
 
-int sum_elements(const int *array, size_t size)
+int add(int a, int b)
 {
-    int sum = 0;
-
-    for(size_t i = 0; i < size; i++)
-    {
-        sum += array[i];
-    }
-
-    return sum;
+    return a + b;
 }
 
-int max_element(const int *array, size_t size)
+int subtract(int a, int b)
 {
-    int max;
+    return a - b;
+}
 
-    if(size == 0)
+int multiply(int a, int b)
+{
+    return a * b;
+}
+
+int divide(int a, int b)
+{
+    int result;
+
+    if(b == 0)
     {
-        return 0; // Return 0 if the array is empty
+        result = 0;
+    }
+    else
+    {
+        result = a / b;
     }
 
-    max = array[0];
-
-    for(size_t i = 1; i < size; i++)
-    {
-        if(array[i] > max)
-        {
-            max = array[i];
-        }
-    }
-
-    return max;
+    return result;
 }

@@ -1,19 +1,17 @@
-#include "math_operations.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "math_operations.h"
 
 int main(void)
 {
-    int numbers[] = {3, 5, 7, 2, 8};
-    size_t size;
-    int sum;
-    int max;
+    const int a = 10;
+    const int b = 5;
 
-    size = sizeof(numbers) / sizeof(numbers[0]);
-    sum = sum_elements(numbers, size);
-    max = max_element(numbers, size);
-    printf("Sum of elements: %d\n", sum);
-    printf("Maximum element: %d\n", max);
+    printf("Add: %d + %d = %d\n", a, b, add(a, b));
+    printf("Subtract: %d - %d = %d\n", a, b, subtract(a, b));
+    printf("Multiply: %d * %d = %d\n", a, b, multiply(a, b));
+    printf("Divide: %d / %d = %d\n", a, b, divide(a, b));
+    printf("Divide: %d / %d = %d\n", a, 0, divide(a, 0));
 
     return EXIT_SUCCESS;
 }

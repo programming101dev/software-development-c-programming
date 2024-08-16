@@ -4,21 +4,21 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshadow"
 
-const int x = 10;    // Global variable
+const int x = 10;
 
 int main(void)
 {
     // cppcheck-suppress shadowVariable
-    const int x = 20;    // Local variable shadows the global variable
+    const int x = 20;
 
     printf("x = %d\n", x);    // Prints 20
     {
         // cppcheck-suppress shadowVariable
-        const int x = 30;    // This variable shadows the previous local variable
-        printf("x = %d\n", x);    // Prints 30
+        const int x = 30;
+        printf("x = %d\n", x);
     }
 
-    printf("x = %d\n", x);    // Prints 20
+    printf("x = %d\n", x);
 
     return EXIT_SUCCESS;
 }
