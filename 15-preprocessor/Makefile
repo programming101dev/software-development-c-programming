@@ -7,22 +7,18 @@ CFLAGS = -std=c17 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOUR
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
-
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
-
-SIZEOF_TYPE_SOURCES = sizeof_type.c
-SIZEOF_TYPE_BINARY = sizeof_type
-SIZEOF_VARIABLE_SOURCES = sizeof_variable.c
-SIZEOF_VARIABLE_BINARY = sizeof_variable
+SOURCES = main.c
+BINARY = preprocessor
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
-    $(shell echo "int main(){}" > sanitizer_check.c; \
-    if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
-    rm -f sanitizer_check.c)
+	$(shell echo "int main(){}" > sanitizer_check.c; \
+	if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
+	rm -f sanitizer_check.c)
 
 SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=address)
 SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
@@ -36,37 +32,31 @@ else ifeq ($(CC), clang)
 	CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
 	ANALYSIS_FLAGS = --analyze
 	ANALYZER = scan-build
- 	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
+	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
 endif
 
-# All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(SIZEOF_TYPE_BINARY) $(SIZEOF_VARIABLE_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(BINARY) analyze clang-tidy cppcheck
 
-# Build rules for each binary
-$(SIZEOF_TYPE_BINARY): $(SIZEOF_TYPE_SOURCES)
-	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(SIZEOF_TYPE_BINARY) $(SIZEOF_TYPE_SOURCES)
+$(BINARY): $(SOURCES)
+	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
-$(SIZEOF_VARIABLE_BINARY): $(SIZEOF_VARIABLE_SOURCES)
-	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(SIZEOF_VARIABLE_BINARY) $(SIZEOF_VARIABLE_SOURCES)
-
-analyze: $(SIZEOF_TYPE_BINARY) $(SIZEOF_VARIABLE_BINARY)
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SIZEOF_TYPE_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SIZEOF_VARIABLE_SOURCES) -c
+analyze:
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c
 
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters' \
-	$(SIZEOF_TYPE_SOURCES) $(SIZEOF_VARIABLE_SOURCES) \
+	$(SOURCES) \
 	-- $(CFLAGS)
 
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(SIZEOF_TYPE_SOURCES) $(SIZEOF_VARIABLE_SOURCES)
+	$(SOURCES)
 
 clang-format:
-	clang-format -i -- $(SIZEOF_TYPE_SOURCES) $(SIZEOF_VARIABLE_SOURCES)
+	clang-format -i -- $(SOURCES)
 
 clean:
-	rm -f $(SIZEOF_TYPE_BINARY) $(SIZEOF_VARIABLE_BINARY)
+	rm -f $(BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

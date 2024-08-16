@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function prototypes
 void  greet(void);
 int   add(int a, int b);
 float average(float x, float y, float z);
@@ -20,7 +19,6 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-// Function definitions
 void greet(void)
 {
     printf("Hello!\n");

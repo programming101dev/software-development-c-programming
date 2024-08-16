@@ -4,10 +4,10 @@
 
 int main(void)
 {
-    int    numbers[] = {3, 5, 7, 2, 8};
-    size_t size;
-    int    sum;
-    int    max;
+    const int numbers[] = {3, 5, 7, 2, 8};
+    size_t    size;
+    int       sum;
+    int       max;
 
     size = sizeof(numbers) / sizeof(numbers[0]);
     sum  = sum_elements(numbers, size);

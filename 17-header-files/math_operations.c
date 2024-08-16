@@ -2,7 +2,9 @@
 
 int sum_elements(const int *array, size_t size)
 {
-    int sum = 0;
+    int sum;
+
+    sum = 0;
 
     for(size_t i = 0; i < size; i++)
     {
@@ -18,16 +20,18 @@ int max_element(const int *array, size_t size)
 
     if(size == 0)
     {
-        return 0;    // Return 0 if the array is empty
+        max = 0;
     }
-
-    max = array[0];
-
-    for(size_t i = 1; i < size; i++)
+    else
     {
-        if(array[i] > max)
+        max = array[0];
+
+        for(size_t i = 1; i < size; i++)
         {
-            max = array[i];
+            if(array[i] > max)
+            {
+                max = array[i];
+            }
         }
     }
 
