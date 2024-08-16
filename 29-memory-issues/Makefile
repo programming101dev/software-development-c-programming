@@ -110,3 +110,4 @@ clean:
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete
 	find . -name '*.o' -delete
+	find . -name '*.dSYM' -exec rm -rf {} +

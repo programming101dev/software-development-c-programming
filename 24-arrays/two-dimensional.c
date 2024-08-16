@@ -8,7 +8,16 @@ int main(void)
         {4, 5, 6},
         {7, 8, 9},
     };
-    printf("Element at [0][0]: %d\n", matrix[0][0]);    // Accesses the first element
-    printf("Element at [1][2]: %d\n", matrix[1][2]);    // Accesses the element in the second row, third column
+
+    printf("Element at [0][1]: %d\n", matrix[0][0]);
+    printf("Element at [0][2]: %d\n", matrix[0][1]);
+    printf("Element at [0][3]: %d\n", matrix[0][2]);
+    printf("Element at [1][1]: %d\n", matrix[1][0]);
+    printf("Element at [1][2]: %d\n", matrix[1][1]);
+    printf("Element at [1][3]: %d\n", matrix[1][2]);
+    printf("Element at [2][1]: %d\n", matrix[2][0]);
+    printf("Element at [2][2]: %d\n", matrix[2][1]);
+    printf("Element at [2][3]: %d\n", matrix[2][2]);
+
     return EXIT_SUCCESS;
 }

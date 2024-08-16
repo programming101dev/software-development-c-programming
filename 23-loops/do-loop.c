@@ -3,11 +3,15 @@
 
 int main(void)
 {
-    int i = 0;
+    int i;
+
+    i = 0;
+
     do
     {
         printf("Iteration %d\n", i);
         i++;
     } while(i < 10);
+
     return EXIT_SUCCESS;
 }

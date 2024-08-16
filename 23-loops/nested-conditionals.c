@@ -14,5 +14,6 @@ int main(void)
             printf("Odd number: %d\n", i);
         }
     }
+
     return EXIT_SUCCESS;
 }

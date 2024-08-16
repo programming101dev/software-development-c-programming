@@ -14,8 +14,8 @@ int main(void)
     // cppcheck-suppress knownConditionTrueFalse
     const bool or_result = (a < 0 || c++ > 0);
 
-    printf("Result of AND operation: %d, b = %d\n", and_result, b);    // b is incremented to 11
-    printf("Result of OR operation: %d, c = %d\n", or_result, c);    // c is incremented to 1
+    printf("Result of AND operation: %d, b = %d\n", and_result, b);
+    printf("Result of OR operation: %d, c = %d\n", or_result, c);
 
     return EXIT_SUCCESS;
 }

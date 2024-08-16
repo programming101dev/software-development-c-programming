@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -std=c17 -Wall -Wextra -Werror
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
@@ -43,4 +43,3 @@ clean:
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete
 	find . -name '*.o' -delete
-

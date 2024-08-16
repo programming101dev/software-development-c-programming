@@ -11,7 +11,7 @@ int main(void)
     }
     else
     {
-        printf("The number is not positive.\n");
+        printf("The number is negative.\n");
     }
 
     return EXIT_SUCCESS;

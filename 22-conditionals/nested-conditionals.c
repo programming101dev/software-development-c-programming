@@ -20,7 +20,7 @@ int main(void)
     }
     else
     {
-        printf("Number is not positive.\n");
+        printf("Number is negative.\n");
     }
 
     return EXIT_SUCCESS;

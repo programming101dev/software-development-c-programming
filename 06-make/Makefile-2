@@ -1,7 +1,7 @@
 CC = gcc
 
 hello: main.c
-	$(CC) -Werror -o hello main.c
+	$(CC) -std=c17 -Werror -o hello main.c
 
 clean:
 	rm -f hello

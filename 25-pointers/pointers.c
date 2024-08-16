@@ -11,9 +11,11 @@ int main(void)
     printf("Value of a: %d\n", a);
     printf("Value pointed to by p: %d\n", *p);
     a++;
+    printf("After incrementing a:\n");
     printf("Value of a: %d\n", a);
     printf("Value pointed to by p: %d\n", *p);
     (*p)++;
+    printf("After incrementing value pointed to by p:\n");
     printf("Value of a: %d\n", a);
     printf("Value pointed to by p: %d\n", *p);
 

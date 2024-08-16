@@ -19,6 +19,8 @@ WHILE_LOOP_SOURCES = while-loop.c
 WHILE_LOOP_BINARY = while-loop
 DO_LOOP_SOURCES = do-loop.c
 DO_LOOP_BINARY = do-loop
+INFINITE_LOOP_SOURCES = infinite-loop.c
+INFINITE_LOOP_BINARY = infinite-loop
 BREAK_STATEMENT_SOURCES = break-statement.c
 BREAK_STATEMENT_BINARY = break-statement
 CONTINUE_STATEMENT_SOURCES = continue-statement.c
@@ -50,7 +52,7 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(FOR_LOOP_BINARY) $(WHILE_LOOP_BINARY) $(DO_LOOP_BINARY) $(BREAK_STATEMENT_BINARY) \
+all: clang-format $(FOR_LOOP_BINARY) $(WHILE_LOOP_BINARY) $(DO_LOOP_BINARY) $(INFINITE_LOOP_BINARY) $(BREAK_STATEMENT_BINARY) \
      $(CONTINUE_STATEMENT_BINARY) $(NESTED_LOOPS_BINARY) $(NESTED_CONDITIONALS_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
@@ -62,6 +64,9 @@ $(WHILE_LOOP_BINARY): $(WHILE_LOOP_SOURCES)
 
 $(DO_LOOP_BINARY): $(DO_LOOP_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DO_LOOP_BINARY) $(DO_LOOP_SOURCES)
+
+$(INFINITE_LOOP_BINARY): $(INFINITE_LOOP_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(INFINITE_LOOP_BINARY) $(INFINITE_LOOP_SOURCES)
 
 $(BREAK_STATEMENT_BINARY): $(BREAK_STATEMENT_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BREAK_STATEMENT_BINARY) $(BREAK_STATEMENT_SOURCES)
@@ -80,6 +85,7 @@ analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FOR_LOOP_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(WHILE_LOOP_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DO_LOOP_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(INFINITE_LOOP_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(BREAK_STATEMENT_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(CONTINUE_STATEMENT_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(NESTED_LOOPS_SOURCES) -c
@@ -88,24 +94,25 @@ analyze:
 # Clang-tidy rule to lint all sources
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters' \
-	$(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) $(CONTINUE_STATEMENT_SOURCES) $(NESTED_LOOPS_SOURCES) $(NESTED_CONDITIONALS_SOURCES) \
+	$(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(INFINITE_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) $(CONTINUE_STATEMENT_SOURCES) $(NESTED_LOOPS_SOURCES) $(NESTED_CONDITIONALS_SOURCES) \
 	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) \
+	$(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(INFINITE_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) \
 	$(CONTINUE_STATEMENT_SOURCES) $(NESTED_LOOPS_SOURCES) $(NESTED_CONDITIONALS_SOURCES)
 
 clang-format:
-	clang-format -i -- $(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) \
+	clang-format -i -- $(FOR_LOOP_SOURCES) $(WHILE_LOOP_SOURCES) $(DO_LOOP_SOURCES) $(INFINITE_LOOP_SOURCES) $(BREAK_STATEMENT_SOURCES) \
 	$(CONTINUE_STATEMENT_SOURCES) $(NESTED_LOOPS_SOURCES) $(NESTED_CONDITIONALS_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(FOR_LOOP_BINARY) $(WHILE_LOOP_BINARY) $(DO_LOOP_BINARY) $(BREAK_STATEMENT_BINARY) \
+	rm -f $(FOR_LOOP_BINARY) $(WHILE_LOOP_BINARY) $(DO_LOOP_BINARY) $(INFINITE_LOOP_BINARY) $(BREAK_STATEMENT_BINARY) \
 	$(CONTINUE_STATEMENT_BINARY) $(NESTED_LOOPS_BINARY) $(NESTED_CONDITIONALS_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete
 	find . -name '*.o' -delete
+	find . -name '*.dSYM' -exec rm -rf {} +
