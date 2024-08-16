@@ -14,7 +14,7 @@ SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
 SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=leak)
 
 $(BINARY): $(SOURCES)
-	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
 clean:
 	rm -f $(BINARY)

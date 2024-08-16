@@ -2,33 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int count_elements(int arr[], int size);
+static int count_elements(int size);
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-
-static int count_elements(int arr[], int size)
+static int count_elements(int size)
 {
-    int count = 0;
+    int count;
+
+    count = 0;
 
     for(int i = 0; i < size; i++)
     {
-        // Invariant: i should always be less than or equal to size
-        assert(i >= 0 && i <= size);
+        // Invariant
+        assert(i >= 0 && i <= size && "Loop index 'i' is out of bounds; it must be between 0 and 'size'");
         count++;
     }
 
     return count;
 }
 
-#pragma GCC diagnostic pop
-
 int main(void)
 {
-    int arr[] = {1, 2, 3, 4, 5};
-    int size  = sizeof(arr) / sizeof(arr[0]);
+    const int size = 5;
+    int       total_count;
 
-    int total_count = count_elements(arr, size);
+    total_count = count_elements(size);
     printf("Total number of elements: %d\n", total_count);
 
     return EXIT_SUCCESS;

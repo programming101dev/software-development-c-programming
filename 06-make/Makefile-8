@@ -28,7 +28,7 @@ else ifeq ($(CC), clang)
 endif
 
 $(BINARY): $(SOURCES)
-	$(CC) -std=c17 $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(BINARY) $(SOURCES)
 
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(SOURCES) -c

@@ -1,5 +1,5 @@
 hello: main.c
-	gcc -std=c17 -Werror -o hello main.c
+	gcc -std=c17 -g -Werror -o hello main.c
 
 clean:
 	rm -f hello

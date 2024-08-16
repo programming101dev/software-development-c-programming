@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 hello: main.c
-	$(CC) -std=c17 $(CFLAGS) -o hello main.c
+	$(CC) $(CFLAGS) -o hello main.c
 
 clean:
 	rm -f hello

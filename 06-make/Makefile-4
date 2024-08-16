@@ -4,7 +4,7 @@ SOURCES = main.c
 BINARY = hello
 
 $(BINARY): $(SOURCES)
-	$(CC) -std=c17 $(CFLAGS) -o $(BINARY) $(SOURCES)
+	$(CC) $(CFLAGS) -o $(BINARY) $(SOURCES)
 
 clean:
 	rm -f $(BINARY)
