@@ -42,7 +42,9 @@ int main(void)
     printf("Engine Horsepower: %d, Displacement: %.1fL\n", c->engine->horsepower, (double)c->engine->displacement);
 
     free(c->engine);
+    c->engine = NULL;
     free(c);
+    c = NULL;
 
     return EXIT_SUCCESS;
 }

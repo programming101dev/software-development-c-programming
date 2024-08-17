@@ -32,4 +32,5 @@ static void process_array(size_t size)
     }
 
     free(arr);
+    arr = NULL;
 }

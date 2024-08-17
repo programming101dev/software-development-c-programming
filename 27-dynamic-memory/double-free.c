@@ -15,7 +15,7 @@ int main(void)
     #pragma GCC diagnostic ignored "-Wuse-after-free"
 #endif
     // cppcheck-suppress doubleFree
-    free(arr);    // Double free, leads to undefined behaviour    // NOLINT(clang-analyzer-unix.Malloc)
+    free(arr);    // NOLINT(clang-analyzer-unix.Malloc)
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic pop
 #endif

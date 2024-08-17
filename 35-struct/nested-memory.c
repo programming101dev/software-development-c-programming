@@ -43,7 +43,9 @@ int main(void)
     printf("Car Make: %s, Model: %s\n", car->make, car->model);
     printf("Engine Horsepower: %d, Displacement: %.1fL\n", car->engine->horsepower, (double)car->engine->displacement);
     free(car->engine);
+    car->engine = NULL;
     free(car);
+    car = NULL;
 
     return EXIT_SUCCESS;
 }

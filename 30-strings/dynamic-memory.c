@@ -25,9 +25,10 @@ int main(void)
     str[11] = 'd';
     str[12] = '!';
     str[13] = '\0';
-
     printf("%s\n", str);
 
     free(str);
+    str = NULL;
+
     return EXIT_SUCCESS;
 }

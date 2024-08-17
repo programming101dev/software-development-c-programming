@@ -15,6 +15,7 @@ int main(void)
     }
 
     free(ptr);
+    ptr = NULL;
 
     return EXIT_SUCCESS;
 }

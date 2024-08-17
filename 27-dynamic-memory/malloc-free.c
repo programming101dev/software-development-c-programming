@@ -23,7 +23,8 @@ int main(void)
     }
 
     printf("\n");
-    free(arr);    // Free the allocated memory
+    free(arr);
+    arr = NULL;
 
     return EXIT_SUCCESS;
 }

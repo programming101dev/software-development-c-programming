@@ -20,6 +20,7 @@ int main(void)
     else
     {
         free(ptr);
+        ptr = NULL;
     }
 
     return EXIT_SUCCESS;

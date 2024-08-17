@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 static void memory_leak(void);

@@ -25,6 +25,8 @@ int main(void)
     {
         fprintf(stderr, "Failed to register cleanup function\n");
         free(global_arr);
+        global_arr = NULL;
+
         return EXIT_FAILURE;
     }
 
@@ -46,4 +48,5 @@ int main(void)
 static void cleanup(void)
 {
     free(global_arr);
+    global_arr = NULL;
 }

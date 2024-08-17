@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 static void leak_in_loop(void);

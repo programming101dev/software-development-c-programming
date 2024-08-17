@@ -14,7 +14,8 @@ int main(void)
     }
 
     printf("Duplicated string: %s\n", duplicate);
-    free(duplicate);    // Free the allocated memory
+    free(duplicate);
+    duplicate = NULL;
 
     return EXIT_SUCCESS;
 }

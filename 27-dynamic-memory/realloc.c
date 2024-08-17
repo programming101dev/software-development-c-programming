@@ -27,6 +27,8 @@ int main(void)
     {
         fprintf(stderr, "Memory reallocation failed\n");
         free(arr);
+        arr = NULL;
+
         return EXIT_FAILURE;
     }
 
@@ -34,6 +36,7 @@ int main(void)
     modify_array(arr, size, larger_size);
     print_array(arr, larger_size);
     free(arr);
+    arr = NULL;
 
     return EXIT_SUCCESS;
 }

@@ -18,6 +18,7 @@ static void use_after_free(void)
     size = 5;
     arr  = (int *)malloc(size * sizeof(int));
     free(arr);
+
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wuse-after-free"

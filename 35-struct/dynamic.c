@@ -27,6 +27,7 @@ int main(void)
     pat->height = 5.9F;
     person_print(pat);
     free(pat);
+    pat = NULL;
 
     return EXIT_SUCCESS;
 }

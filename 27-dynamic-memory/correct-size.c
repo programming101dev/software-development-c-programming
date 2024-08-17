@@ -27,6 +27,7 @@ int main(void)
 
     printf("\n");
     free(arr);
+    arr = NULL;
 
     return EXIT_SUCCESS;
 }

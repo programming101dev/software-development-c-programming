@@ -16,6 +16,7 @@ int main(void)
     }
 
     free(arr);
+    arr = NULL;
 
     return EXIT_SUCCESS;
 }
