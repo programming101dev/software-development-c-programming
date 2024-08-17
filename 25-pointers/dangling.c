@@ -9,8 +9,15 @@ int main(void)
 
     p = get_pointer_to_local();
 
-    // This should cause undefined behaviour
+// This should cause undefined behaviour
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wanalyzer-null-dereference"
+#endif
     printf("Dangling pointer value: %d\n", *p);
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic pop
+#endif
 
     return EXIT_SUCCESS;
 }
