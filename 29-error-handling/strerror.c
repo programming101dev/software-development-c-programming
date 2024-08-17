@@ -5,7 +5,10 @@
 
 int main(void)
 {
-    int *ptr = malloc(sizeof(int) * 1000000000);    // Attempt to allocate a large block of memory
+    int *ptr;
+
+    errno = 0;
+    ptr   = malloc(sizeof(int) * 1000000000);    // Attempt to allocate a large block of memory
 
     if(ptr == NULL)
     {

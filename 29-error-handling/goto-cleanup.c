@@ -1,38 +1,41 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-int complex_function(void);
-
-int complex_function(void)
+int main(void)
 {
-    int *ptr1 = NULL;
-    int *ptr2 = NULL;
+    int *ptr1;
+    int *ptr2;
+    int  exit_code;
 
-    ptr1 = malloc(sizeof(int) * 100);
+    errno = 0;
+    ptr1  = malloc(sizeof(int) * 100);
 
     if(ptr1 == NULL)
     {
         perror("Failed to allocate memory for ptr1");
-        goto error_ptr1;
+        exit_code = EXIT_FAILURE;
+        goto done;
     }
 
-    ptr2 = malloc(sizeof(int) * 200);
+    errno = 0;
+    ptr2  = malloc(sizeof(int) * 200);
+
     if(ptr2 == NULL)
     {
         perror("Failed to allocate memory for ptr2");
+        exit_code = EXIT_FAILURE;
         goto error_ptr2;
     }
 
-    // Perform operations with ptr1 and ptr2
+    exit_code = EXIT_SUCCESS;
 
     free(ptr2);
+    ptr2 = NULL;
 error_ptr2:
     free(ptr1);
-error_ptr1:
-    return ptr1 == NULL || ptr2 == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
-}
+    ptr1 = NULL;
+done:
 
-int main(void)
-{
-    return complex_function();
+    return exit_code;
 }

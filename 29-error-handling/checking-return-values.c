@@ -1,15 +1,20 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
-    int *ptr = malloc(sizeof(int) * 1000000000);    // Attempt to allocate a large block of memory
+    int *ptr;
+
+    errno = 0;
+    ptr   = malloc(sizeof(int) * 1000000000);
+
     if(ptr == NULL)
     {
-        perror("Error allocating memory");
         return EXIT_FAILURE;
     }
 
     free(ptr);
+
     return EXIT_SUCCESS;
 }
