@@ -15,7 +15,7 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    for(unsigned int i = 0; i < 5; i++)
+    for(size_t i = 0; i < size; i++)
     {
         printf("%d ", arr[i]);
     }

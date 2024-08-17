@@ -3,10 +3,12 @@
 
 int main(void)
 {
-    unsigned int a      = 12;    // 1100 in binary
-    unsigned int result = a << (unsigned int)2;    // 110000 in binary
+    unsigned int a;
+    unsigned int result;
 
-    printf("Bitwise Shift Left: %u\n", result);    // Output: 48
+    a      = 12;
+    result = a << (unsigned int)2;
+    printf("Bitwise Shift Left: %u\n", result);
 
     return EXIT_SUCCESS;
 }

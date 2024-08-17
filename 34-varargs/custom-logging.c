@@ -4,6 +4,13 @@
 
 static void custom_log(const char *format, ...);
 
+int main(void)
+{
+    custom_log("This is a test: %d\n", 42);
+
+    return EXIT_SUCCESS;
+}
+
 static void custom_log(const char *format, ...)
 {
     va_list args;
@@ -16,11 +23,4 @@ static void custom_log(const char *format, ...)
 #pragma GCC diagnostic pop
 
     va_end(args);
-}
-
-int main(void)
-{
-    custom_log("This is a test: %d\n", 42);
-
-    return EXIT_SUCCESS;
 }

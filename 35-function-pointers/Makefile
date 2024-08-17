@@ -19,8 +19,6 @@ CALLBACK_SOURCES = callback.c
 CALLBACK_BINARY = callback
 DECLARING_SOURCES = declaring.c
 DECLARING_BINARY = declaring
-USING_SOURCES = using.c
-USING_BINARY = using
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -44,7 +42,7 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY) $(USING_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
 $(ARRAYS_BINARY): $(ARRAYS_SOURCES)
@@ -56,33 +54,29 @@ $(CALLBACK_BINARY): $(CALLBACK_SOURCES)
 $(DECLARING_BINARY): $(DECLARING_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DECLARING_BINARY) $(DECLARING_SOURCES)
 
-$(USING_BINARY): $(USING_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(USING_BINARY) $(USING_SOURCES)
-
 # Analyze rule to analyze all sources
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(ARRAYS_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(CALLBACK_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DECLARING_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(USING_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters'\
-	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES) $(USING_SOURCES) \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch'\
+	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES) \
     -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES) $(USING_SOURCES)
+	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES)
 
 clang-format:
-	clang-format -i -- $(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES) $(USING_SOURCES)
+	clang-format -i -- $(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY) $(USING_BINARY)
+	rm -f $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

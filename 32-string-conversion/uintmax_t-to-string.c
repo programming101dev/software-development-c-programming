@@ -9,29 +9,30 @@
 
 int main(void)
 {
-    uintmax_t num = UINTMAX_MAX;
-    char     *str = NULL;    // Initialize to NULL for safety
+    uintmax_t num;
+    char     *str;
     int       bytes;
 
-    // Allocate memory for the string
     str = (char *)malloc(DIGITS_IN_UINTMAX * sizeof(char));
+
     if(str == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
+    num   = UINTMAX_MAX;
     bytes = snprintf(str, DIGITS_IN_UINTMAX, "%" PRIuMAX, num);
 
     if((unsigned long)bytes >= DIGITS_IN_UINTMAX)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
     printf("String representation: %s\n", str);
 
 cleanup:
-    free(str);    // Free allocated memory
+    free(str);
     return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }

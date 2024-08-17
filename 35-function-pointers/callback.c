@@ -1,30 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define a callback type
-typedef void (*Callback)(int);
+typedef void (*callback_func)(int);
 
-static void processData(int data, Callback callback);
-static void printResult(int result);
-
-// Function that takes a callback
-static void processData(int data, Callback callback)
-{
-    // Process the data (e.g., double it)
-    int result = data * 2;
-    // Call the callback with the result
-    callback(result);
-}
-
-// Callback function
-static void printResult(int result)
-{
-    printf("Processed result: %d\n", result);
-}
+static void process_data(int data, callback_func callback);
+static void print_result(int result);
 
 int main(void)
 {
-    // Pass the callback function to processData
-    processData(5, printResult);
+    process_data(5, print_result);
     return EXIT_SUCCESS;
+}
+
+static void process_data(int data, callback_func callback)
+{
+    int result;
+
+    result = data * 2;
+    callback(result);
+}
+
+static void print_result(int result)
+{
+    printf("Processed result: %d\n", result);
 }

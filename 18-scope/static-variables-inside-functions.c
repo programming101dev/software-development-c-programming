@@ -14,6 +14,7 @@ int main(void)
 static void example(void)
 {
     static int x = 0;
+
     x++;
     printf("x = %d\n", x);
 }

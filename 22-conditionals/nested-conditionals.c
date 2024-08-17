@@ -3,11 +3,17 @@
 
 int main(void)
 {
-    const int  number = 5;
-    const char letter = 'A';
+    int number;
 
+    number = 5;
+
+    // cppcheck-suppress knownConditionTrueFalse
     if(number > 0)
     {
+        char letter;
+
+        letter = 'A';
+
         // cppcheck-suppress knownConditionTrueFalse
         if(letter == 'A')
         {

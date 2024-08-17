@@ -1,10 +1,10 @@
 #include "extern.h"
 #include <stdio.h>
 
-int sharedVar = 0;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+int shared_var = 0;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 void example(void)
 {
-    sharedVar++;
-    printf("sharedVar inside example() = %d\n", sharedVar);
+    shared_var++;
+    printf("sharedVar inside example() = %d\n", shared_var);
 }

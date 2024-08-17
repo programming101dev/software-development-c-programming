@@ -3,11 +3,13 @@
 
 int main(void)
 {
-    int         num   = 10;
-    float       f     = 3.14F;
-    char        str[] = "Hello";
+    int         num;
+    float       f;
+    const char  str[] = "Hello";
     const void *ptr;
 
+    num = 10;
+    f   = 3.14F;
     ptr = &num;
     printf("Integer: %d\n", *(int *)ptr);
 

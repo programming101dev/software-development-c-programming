@@ -17,4 +17,4 @@ void example(void)
 
     x = 10;
     printf("x = %d\n", x);
-}    // x is destroyed here when the function exits
+}

@@ -12,10 +12,11 @@ int main(void)
 
 static void use_after_free(void)
 {
-    const size_t size = 5;
-    int         *arr;
+    size_t size;
+    int   *arr;
 
-    arr = (int *)malloc(size * sizeof(int));
+    size = 5;
+    arr  = (int *)malloc(size * sizeof(int));
     free(arr);
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic push

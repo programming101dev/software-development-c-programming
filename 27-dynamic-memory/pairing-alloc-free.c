@@ -6,8 +6,9 @@ static void process_array(size_t size);
 
 int main(void)
 {
-    const size_t size = 5;
+    size_t size;
 
+    size = 5;
     process_array(size);
 
     return EXIT_SUCCESS;

@@ -3,11 +3,12 @@
 
 int main(void)
 {
-    unsigned int value      = 0xABCD;    // 1010101111001101 in binary
-    unsigned int toggleMask = 0x00F0;    // 0000000011110000 in binary
+    const unsigned int toggleMask = 0x00F0;
+    unsigned int       value;
 
-    value ^= toggleMask;    // Toggle the middle four bits
-    printf("Value after toggling bits: %X\n", value);    // Output: AB3D
+    value = 0xABCD;
+    value ^= toggleMask;
+    printf("Value after toggling bits: %X\n", value);
 
     return EXIT_SUCCESS;
 }

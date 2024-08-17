@@ -24,10 +24,10 @@ int main(void)
     str[10] = 'l';
     str[11] = 'd';
     str[12] = '!';
-    str[13] = '\0';    // Null terminator
+    str[13] = '\0';
 
     printf("%s\n", str);
 
-    free(str);    // Free the allocated memory
+    free(str);
     return EXIT_SUCCESS;
 }

@@ -19,10 +19,10 @@ int main(void)
 
 static void memory_leak(void)
 {
-    // cppcheck-suppress constVariablePointer
+    const size_t size = 5;
     // cppcheck-suppress unusedAllocatedMemory
     // cppcheck-suppress unreadVariable
-    int *arr = (int *)malloc(5 * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
+    const int *arr = (int *)malloc(size * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
     // Memory allocated but not freed
     // cppcheck-suppress memleak
 }    // NOLINT(clang-analyzer-unix.Malloc)

@@ -9,12 +9,16 @@ const int x = 10;
 int main(void)
 {
     // cppcheck-suppress shadowVariable
-    const int x = 20;
+    int x;
 
-    printf("x = %d\n", x);    // Prints 20
+    x = 20;
+
+    printf("x = %d\n", x);
     {
         // cppcheck-suppress shadowVariable
-        const int x = 30;
+        int x;
+
+        x = 30;
         printf("x = %d\n", x);
     }
 

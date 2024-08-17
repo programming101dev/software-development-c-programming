@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define an enum for the days of the week
 enum Day
 {
     MONDAY = 1,
@@ -15,7 +14,9 @@ enum Day
 
 int main(void)
 {
-    const enum Day day = WEDNESDAY;
+    enum Day day;
+
+    day = WEDNESDAY;
 
     switch(day)
     {

@@ -1,8 +1,9 @@
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-static int sum(int count, ...)
+static int sum(size_t count, ...)
 {
     va_list args;
     int     total;
@@ -10,12 +11,9 @@ static int sum(int count, ...)
     total = 0;
     va_start(args, count);
 
-    if(count > 0)
+    for(size_t i = 0; i < count; i++)
     {
-        for(int i = 0; i < count; i++)
-        {
-            total += va_arg(args, int);    // NOLINT(clang-analyzer-valist.Uninitialized)
-        }
+        total += va_arg(args, int);    // NOLINT(clang-analyzer-valist.Uninitialized)
     }
 
     va_end(args);

@@ -3,8 +3,11 @@
 
 int main(void)
 {
-    const int number = -5;
+    int number;
 
+    number = -5;
+
+    // cppcheck-suppress knownConditionTrueFalse
     if(number > 0)
     {
         printf("The number is positive.\n");

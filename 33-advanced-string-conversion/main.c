@@ -241,10 +241,10 @@ static void print_long_double_conversion(const char *str)
 
 int main(void)
 {
-    const char *test_cases[] = {"", "123", "ABC", "123abc"};
-    size_t      i;
+    const char  *test_cases[] = {"", "123", "ABC", "123abc"};
+    const size_t size         = sizeof(test_cases) / sizeof(test_cases[0]);
 
-    for(i = 0; i < sizeof(test_cases) / sizeof(test_cases[0]); i++)
+    for(size_t i = 0; i < size; i++)
     {
         print_conversion_result(test_cases[i], 10);
     }

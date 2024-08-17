@@ -7,29 +7,29 @@
 
 int main(void)
 {
-    long long num = LLONG_MAX;
-    char     *str = NULL;    // Initialize to NULL for safety
+    long long num;
+    char     *str;
     int       bytes;
 
-    // Allocate memory for the string
     str = (char *)malloc(DIGITS_IN_LLONG * sizeof(char));
     if(str == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
+    num   = LLONG_MAX;
     bytes = snprintf(str, DIGITS_IN_LLONG, "%lld", num);
 
     if((unsigned long)bytes >= DIGITS_IN_LLONG)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        goto cleanup;
     }
 
     printf("String representation: %s\n", str);
 
 cleanup:
-    free(str);    // Free allocated memory
+    free(str);
     return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }

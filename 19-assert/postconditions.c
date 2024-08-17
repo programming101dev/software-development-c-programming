@@ -6,9 +6,10 @@ static int increment(int value);
 
 int main(void)
 {
-    const int original = 5;
-    int       incremented;
+    int original;
+    int incremented;
 
+    original    = 5;
     incremented = increment(original);
     printf("Incremented value: %d\n", incremented);
 
@@ -17,8 +18,9 @@ int main(void)
 
 static int increment(int value)
 {
-    const int result = value + 1;
+    int result;
 
+    result = value + 1;
     // Postcondition
     assert(result > value && "Result should be greater than the input value");
 

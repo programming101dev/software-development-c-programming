@@ -211,22 +211,28 @@ long double string_to_long_double(const char * restrict str, int *error)
     return result;
 }
 
-// Conversion functions for char types
 char string_to_char(const char * restrict str, int base, int *error)
 {
     char    *endptr;
-    intmax_t result = string_to_intmax(str, &endptr, base, error, CHAR_MIN, CHAR_MAX);
+    intmax_t result;
+
+    result = string_to_intmax(str, &endptr, base, error, CHAR_MIN, CHAR_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (char)result;
 }
 
 signed char string_to_signed_char(const char * restrict str, int base, int *error)
 {
     char    *endptr;
-    intmax_t result = string_to_intmax(str, &endptr, base, error, SCHAR_MIN, SCHAR_MAX);
+    intmax_t result;
+
+    result = string_to_intmax(str, &endptr, base, error, SCHAR_MIN, SCHAR_MAX);
+
     if(*error)
     {
         return 0;
@@ -237,7 +243,10 @@ signed char string_to_signed_char(const char * restrict str, int base, int *erro
 unsigned char string_to_unsigned_char(const char * restrict str, int base, int *error)
 {
     char     *endptr;
-    uintmax_t result = string_to_uintmax(str, &endptr, base, error, UCHAR_MAX);
+    uintmax_t result;
+
+    result = string_to_uintmax(str, &endptr, base, error, UCHAR_MAX);
+
     if(*error)
     {
         return 0;
@@ -245,11 +254,13 @@ unsigned char string_to_unsigned_char(const char * restrict str, int base, int *
     return (unsigned char)result;
 }
 
-// Conversion functions for short types
 short string_to_short(const char * restrict str, int base, int *error)
 {
     char    *endptr;
-    intmax_t result = string_to_intmax(str, &endptr, base, error, SHRT_MIN, SHRT_MAX);
+    intmax_t result;
+
+    result = string_to_intmax(str, &endptr, base, error, SHRT_MIN, SHRT_MAX);
+
     if(*error)
     {
         return 0;
@@ -260,7 +271,10 @@ short string_to_short(const char * restrict str, int base, int *error)
 unsigned short string_to_unsigned_short(const char * restrict str, int base, int *error)
 {
     char     *endptr;
-    uintmax_t result = string_to_uintmax(str, &endptr, base, error, USHRT_MAX);
+    uintmax_t result;
+
+    result = string_to_uintmax(str, &endptr, base, error, USHRT_MAX);
+
     if(*error)
     {
         return 0;

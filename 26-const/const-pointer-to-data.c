@@ -5,7 +5,7 @@ int main(void)
 {
     int a;
     int b;
-    int * const p = &a;
+    int *  p = &a;
 
     a = 10;
     b = 20;

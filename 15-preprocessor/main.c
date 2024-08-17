@@ -25,7 +25,6 @@ int main(void)
     printf("Freestanding environment\n");
 #endif
 
-// Print values defined by compiler flags
 #if defined(_POSIX_C_SOURCE)
     printf("_POSIX_C_SOURCE: %d\n", (int)_POSIX_C_SOURCE);
 #else

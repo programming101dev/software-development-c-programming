@@ -3,11 +3,16 @@
 
 int main(void)
 {
-    const int x = 10;
+    int x;
 
+    x = 10;
+
+    // cppcheck-suppress knownConditionTrueFalse
     if(x > 5)
     {
-        const int y = 20;
+        int y;
+
+        y = 20;
 
         printf("y = %d\n", y);
     }

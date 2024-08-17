@@ -8,9 +8,10 @@ int main(void)
     char        str[] = "Hello, World! Welcome to C programming.";
     char       *saveptr;
     const char *token;
-    bool        done = false;
+    bool        done;
 
     token = strtok_r(str, " ,.!", &saveptr);
+    done  = false;
 
     while(!done)
     {

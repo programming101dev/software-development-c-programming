@@ -5,8 +5,9 @@ static void print_value(const int *value);
 
 int main(void)
 {
-    const int num = 42;
+    int num;
 
+    num = 42;
     print_value(&num);
 
     return EXIT_SUCCESS;

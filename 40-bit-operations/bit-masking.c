@@ -3,11 +3,14 @@
 
 int main(void)
 {
-    unsigned int value  = 0xABCD;    // 1010101111001101 in binary
-    unsigned int mask   = 0x00FF;    // 0000000011111111 in binary
-    unsigned int result = value & mask;    // 0000000011001101 in binary
+    unsigned int value;
+    unsigned int mask;
+    unsigned int result;
 
-    printf("Masked value: %X\n", result);    // Output: CD
+    value  = 0xABCD;
+    mask   = 0x00FF;
+    result = value & mask;
+    printf("Masked value: %X\n", result);
 
     return EXIT_SUCCESS;
 }

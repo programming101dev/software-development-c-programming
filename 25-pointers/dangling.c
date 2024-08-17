@@ -25,7 +25,9 @@ int main(void)
 
 int *get_pointer_to_local(void)
 {
-    int local_var = 42;
+    int local_var;
+
+    local_var = 42;
 
     // cppcheck-suppress returnDanglingLifetime
     return &local_var;    // NOLINT(clang-analyzer-core.StackAddressEscape)

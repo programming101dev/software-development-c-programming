@@ -1,50 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Function pointer type for a function that takes a void pointer
-typedef void (*ProcessFunc)(void *);
+typedef void (*process_func)(const void *);
 
-static void processData(void *data, ProcessFunc func);
-static void processInt(void *data);
-static void processFloat(void *data);
-static void processString(void *data);
+static void process_data(const void *data, process_func func);
+static void process_int(const void *data);
+static void process_float(const void *data);
+static void process_string(const void *data);
 
-// Generic processing function
-static void processData(void *data, ProcessFunc func)
+int main(void)
+{
+    int        num;
+    float      f;
+    const char str[] = "Hello";
+
+    num = 10;
+    f   = 3.14F;
+    process_data(&num, process_int);
+    process_data(&f, process_float);
+    process_data(str, process_string);
+
+    return EXIT_SUCCESS;
+}
+
+static void process_data(const void *data, process_func func)
 {
     func(data);
 }
 
-// Callback function for processing an integer
-static void processInt(void *data)
+static void process_int(const void *data)
 {
-    const int *intData = (int *)data;
+    const int *intData = (const int *)data;
+
     printf("Processing integer: %d\n", *intData);
 }
 
-// Callback function for processing a float
-static void processFloat(void *data)
+static void process_float(const void *data)
 {
-    const float *floatData = (float *)data;
+    const float *floatData = (const float *)data;
+
     printf("Processing float: %.2f\n", (double)*floatData);
 }
 
-// Callback function for processing a string
-static void processString(void *data)
+static void process_string(const void *data)
 {
-    const char *strData = (char *)data;
+    const char *strData = (const char *)data;
+
     printf("Processing string: %s\n", strData);
-}
-
-int main(void)
-{
-    int   num   = 10;
-    float f     = 3.14F;
-    char  str[] = "Hello";
-
-    processData(&num, processInt);
-    processData(&f, processFloat);
-    processData(str, processString);
-
-    return EXIT_SUCCESS;
 }

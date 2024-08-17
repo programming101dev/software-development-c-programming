@@ -1,23 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void myFunction(int num);
+static void func(int num);
 
 int main(void)
 {
-    // Function pointer declaration
-    void (*funcPtr)(int);
+    void (*func_ptr)(int);
 
-    // Assign the function pointer
-    funcPtr = &myFunction;
-
-    // Call the function using the pointer
-    funcPtr(10);
+    func_ptr = &func;
+    func_ptr(10);
 
     return EXIT_SUCCESS;
 }
 
-static void myFunction(int num)
+static void func(int num)
 {
     printf("Number: %d\n", num);
 }

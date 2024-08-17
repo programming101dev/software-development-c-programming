@@ -6,16 +6,14 @@
 
 int main(void)
 {
-    // Define a small tolerance for floating-point comparisons
     const float EPSILON = 1e-7F;
     const char *str     = "3.14159";
     char       *endptr;
     float       val;
 
-    errno = 0;    // To distinguish success/failure after call
+    errno = 0;
     val   = strtof(str, &endptr);
 
-    // Check for various possible errors
     if((errno == ERANGE && (fabsf(val - HUGE_VALF) < EPSILON || fabsf(val) < EPSILON)) || (errno != 0 && fabsf(val) < EPSILON))
     {
         perror("strtof");

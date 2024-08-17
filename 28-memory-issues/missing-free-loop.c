@@ -20,9 +20,10 @@ static void leak_in_loop(void)
 {
     for(int i = 0; i < 10; i++)
     {
+        const size_t size = 5;
         // cppcheck-suppress unreadVariable
         // cppcheck-suppress unusedAllocatedMemory
-        const int *arr = (int *)malloc(5 * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
+        const int *arr = (int *)malloc(size * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
         // Memory allocated but not freed within the loop
     }
 }

@@ -6,16 +6,14 @@
 
 int main(void)
 {
-    // Define a small tolerance for floating-point comparisons
     const long double EPSILON = 1e-9L;
     const char       *str     = "1.61803398875";
     char             *endptr;
     long double       val;
 
-    errno = 0;    // To distinguish success/failure after call
+    errno = 0;
     val   = strtold(str, &endptr);
 
-    // Check for various possible errors
     if((errno == ERANGE && (fabsl(val - HUGE_VALL) < EPSILON || fabsl(val) < EPSILON)) || (errno != 0 && fabsl(val) < EPSILON))
     {
         perror("strtold");

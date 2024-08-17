@@ -1,24 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Engine    // NOLINT(altera-struct-pack-align)
+struct engine    // NOLINT(altera-struct-pack-align)
 {
     int   horsepower;
     float displacement;
 };
 
-struct Car    // NOLINT(altera-struct-pack-align)
+struct car    // NOLINT(altera-struct-pack-align)
 {
     const char    *make;
     const char    *model;
-    struct Engine *engine;    // Pointer to an Engine struct
+    struct engine *engine;
 };
 
 int main(void)
 {
-    struct Car *car;
+    struct car *car;
 
-    car = malloc(sizeof(struct Car));
+    car = malloc(sizeof(struct car));
 
     if(car == NULL)
     {
@@ -28,7 +28,7 @@ int main(void)
 
     car->make   = "Toyota";
     car->model  = "Camry";
-    car->engine = malloc(sizeof(struct Engine));
+    car->engine = malloc(sizeof(struct engine));
 
     if(car->engine == NULL)
     {
@@ -42,8 +42,6 @@ int main(void)
 
     printf("Car Make: %s, Model: %s\n", car->make, car->model);
     printf("Engine Horsepower: %d, Displacement: %.1fL\n", car->engine->horsepower, (double)car->engine->displacement);
-
-    // Free allocated memory
     free(car->engine);
     free(car);
 

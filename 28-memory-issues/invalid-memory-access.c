@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 static void buffer_overflow(void);
@@ -13,13 +14,14 @@ int main(void)
 
 static void buffer_overflow(void)
 {
-    int arr[5];
+    int          arr[5];
+    const size_t arr_size = sizeof(arr) / sizeof(arr[0]);
 
-    for(int i = 0; i <= 5; i++)
+    for(size_t i = 0; i <= arr_size; i++)
     {
         // cppcheck-suppress unreadVariable
         // cppcheck-suppress arrayIndexOutOfBounds
-        arr[i] = i;    // Buffer overflow on the last iteration
+        arr[i] = (int)i;
     }
 }
 

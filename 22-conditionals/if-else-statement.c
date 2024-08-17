@@ -3,7 +3,9 @@
 
 int main(void)
 {
-    const int number = 0;
+    int number;
+
+    number = 0;
 
     // cppcheck-suppress knownConditionTrueFalse
     if(number > 0)

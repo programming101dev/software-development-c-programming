@@ -5,7 +5,9 @@ static int divide(int numerator, int denominator, int *result);
 
 int main(void)
 {
-    int result = 0;
+    int result;
+
+    result = 0;
 
     if(divide(10, 2, &result) == 0)
     {

@@ -4,10 +4,11 @@
 
 int main(void)
 {
-    const size_t size = 5;
-    int         *arr;
+    size_t size;
+    int   *arr;
 
-    arr = (int *)malloc(size * sizeof(int));
+    size = 5;
+    arr  = (int *)malloc(size * sizeof(int));
 
     if(arr == NULL)
     {

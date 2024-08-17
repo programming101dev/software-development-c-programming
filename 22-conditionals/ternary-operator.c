@@ -3,9 +3,11 @@
 
 int main(void)
 {
-    const int   number = 10;
+    int         number;
     const char *result;
 
+    number = 10;
+    // cppcheck-suppress knownConditionTrueFalse
     result = (number > 0) ? "positive" : "negative";
     printf("The number is %s.\n", result);
 

@@ -19,7 +19,6 @@ int main(void)
 
 static int divide(int numerator, int denominator)
 {
-    // Ensure denominator is not zero
     assert(denominator != 0);
 
     return numerator / denominator;

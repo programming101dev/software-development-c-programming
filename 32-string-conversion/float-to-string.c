@@ -7,18 +7,20 @@
 
 int main(void)
 {
-    float num = 3.14159F;
-    char *str = NULL;    // Initialize to NULL for safety
+    float num;
+    char *str;
     int   bytes;
 
     // Allocate memory for the string
     str = (char *)malloc(DIGITS_IN_FLOAT * sizeof(char));
+
     if(str == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
         goto cleanup;    // Jump to cleanup to ensure memory is freed
     }
 
+    num   = 3.14159F;
     bytes = snprintf(str, DIGITS_IN_FLOAT, "%f", (double)num);
 
     if((unsigned long)bytes >= DIGITS_IN_FLOAT)
@@ -30,6 +32,6 @@ int main(void)
     printf("String representation: %s\n", str);
 
 cleanup:
-    free(str);    // Free allocated memory
+    free(str);
     return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
 }

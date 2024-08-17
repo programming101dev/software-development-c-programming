@@ -8,10 +8,10 @@
 
 int main(void)
 {
-    const int num = 12345;
-    char     *str = NULL;
-    int       bytes;
-    int       exit_code;
+    int   num;
+    char *str;
+    int   bytes;
+    int   exit_code;
 
     str = (char *)malloc(DIGITS_IN_INT * sizeof(char));
 
@@ -22,6 +22,7 @@ int main(void)
         goto cleanup;
     }
 
+    num   = 12345;
     bytes = snprintf(str, DIGITS_IN_INT, "%d", num);
 
     if((unsigned long)bytes >= DIGITS_IN_INT)
