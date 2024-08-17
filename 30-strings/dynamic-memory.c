@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    char *str = (char *)malloc(14 * sizeof(char));    // Allocate memory for 13 characters + null terminator
+    char *str = (char *)malloc((13 + 1) * sizeof(char));
 
     if(str == NULL)
     {

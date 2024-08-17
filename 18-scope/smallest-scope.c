@@ -3,6 +3,12 @@
 
 void example(void);
 
+int main(void)
+{
+    example();
+    return EXIT_SUCCESS;
+}
+
 void example(void)
 {
     const int x = 10;
@@ -13,10 +19,4 @@ void example(void)
 
         printf("y = %d\n", y);
     }
-}
-
-int main(void)
-{
-    example();
-    return EXIT_SUCCESS;
 }

@@ -4,16 +4,17 @@
 
 int main(void)
 {
-    const int numbers[] = {3, 5, 7, 2, 8};
-    size_t    size;
-    int       sum;
-    int       max;
+    int num1;
+    int num2;
+    int sum;
+    int difference;
 
-    size = sizeof(numbers) / sizeof(numbers[0]);
-    sum  = sum_elements(numbers, size);
-    max  = max_element(numbers, size);
-    printf("Sum of elements: %d\n", sum);
-    printf("Maximum element: %d\n", max);
+    num1       = 10;
+    num2       = 5;
+    sum        = add(num1, num2);
+    difference = subtract(num1, num2);
+    printf("Sum: %d\n", sum);
+    printf("Difference: %d\n", difference);
 
     return EXIT_SUCCESS;
 }

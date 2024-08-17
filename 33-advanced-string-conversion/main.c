@@ -31,6 +31,7 @@ static void print_int_conversion(const char *str, int base)
 
     error      = 0;
     int_result = string_to_int(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to int: %d\n", str, error);
@@ -40,7 +41,9 @@ static void print_int_conversion(const char *str, int base)
         printf("Converted \"%s\" to int: %d\n", str, int_result);
     }
 
+    error       = 0;
     long_result = string_to_long(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to long: %d\n", str, error);
@@ -50,7 +53,9 @@ static void print_int_conversion(const char *str, int base)
         printf("Converted \"%s\" to long: %ld\n", str, long_result);
     }
 
+    error            = 0;
     long_long_result = string_to_long_long(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to long long: %d\n", str, error);
@@ -70,6 +75,7 @@ static void print_unsigned_conversion(const char *str, int base)
 
     error       = 0;
     uint_result = string_to_unsigned_int(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to unsigned int: %d\n", str, error);
@@ -79,7 +85,9 @@ static void print_unsigned_conversion(const char *str, int base)
         printf("Converted \"%s\" to unsigned int: %u\n", str, uint_result);
     }
 
+    error        = 0;
     ulong_result = string_to_unsigned_long(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to unsigned long: %d\n", str, error);
@@ -89,7 +97,9 @@ static void print_unsigned_conversion(const char *str, int base)
         printf("Converted \"%s\" to unsigned long: %lu\n", str, ulong_result);
     }
 
+    error             = 0;
     ulong_long_result = string_to_unsigned_long_long(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to unsigned long long: %d\n", str, error);
@@ -109,6 +119,7 @@ static void print_char_conversion(const char *str, int base)
 
     error       = 0;
     char_result = string_to_char(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to char: %d\n", str, error);
@@ -118,7 +129,9 @@ static void print_char_conversion(const char *str, int base)
         printf("Converted \"%s\" to char: %c\n", str, char_result);
     }
 
+    error        = 0;
     schar_result = string_to_signed_char(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to signed char: %d\n", str, error);
@@ -128,7 +141,9 @@ static void print_char_conversion(const char *str, int base)
         printf("Converted \"%s\" to signed char: %c\n", str, schar_result);
     }
 
+    error        = 0;
     uchar_result = string_to_unsigned_char(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to unsigned char: %d\n", str, error);
@@ -147,6 +162,7 @@ static void print_short_conversion(const char *str, int base)
 
     error        = 0;
     short_result = string_to_short(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to short: %d\n", str, error);
@@ -156,7 +172,9 @@ static void print_short_conversion(const char *str, int base)
         printf("Converted \"%s\" to short: %d\n", str, short_result);
     }
 
+    error         = 0;
     ushort_result = string_to_unsigned_short(str, base, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to unsigned short: %d\n", str, error);
@@ -174,6 +192,7 @@ static void print_float_conversion(const char *str)
 
     error        = 0;
     float_result = string_to_float(str, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to float: %d\n", str, error);
@@ -191,6 +210,7 @@ static void print_double_conversion(const char *str)
 
     error         = 0;
     double_result = string_to_double(str, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to double: %d\n", str, error);
@@ -208,6 +228,7 @@ static void print_long_double_conversion(const char *str)
 
     error              = 0;
     long_double_result = string_to_long_double(str, &error);
+
     if(error)
     {
         printf("Error converting \"%s\" to long double: %d\n", str, error);

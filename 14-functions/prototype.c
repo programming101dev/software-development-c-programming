@@ -11,7 +11,6 @@ int main(void)
     printf("Result: %d\n", result);
 
     return EXIT_SUCCESS;
-    ;
 }
 
 int add(int a, int b)

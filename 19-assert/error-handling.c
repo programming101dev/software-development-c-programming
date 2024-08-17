@@ -3,23 +3,6 @@
 
 static int divide(int numerator, int denominator, int *result);
 
-static int divide(int numerator, int denominator, int *result)
-{
-    int status;
-
-    if(denominator == 0)
-    {
-        status = -1;
-    }
-    else
-    {
-        status  = 0;
-        *result = numerator / denominator;
-    }
-
-    return status;
-}
-
 int main(void)
 {
     int result = 0;
@@ -43,4 +26,21 @@ int main(void)
     }
 
     return EXIT_SUCCESS;
+}
+
+static int divide(int numerator, int denominator, int *result)
+{
+    int status;
+
+    if(denominator == 0)
+    {
+        status = -1;
+    }
+    else
+    {
+        status  = 0;
+        *result = numerator / denominator;
+    }
+
+    return status;
 }

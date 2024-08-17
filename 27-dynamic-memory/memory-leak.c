@@ -1,6 +1,14 @@
+#include <stddef.h>
 #include <stdlib.h>
 
 void leak_memory(void);
+
+int main(void)
+{
+    leak_memory();
+
+    return EXIT_SUCCESS;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -21,11 +29,3 @@ void leak_memory(void)
 }    // NOLINT(clang-analyzer-unix.Malloc)
 
 #pragma GCC diagnostic pop
-
-int main(void)
-{
-    leak_memory();
-
-    // Optional: indicate that the program has finished executing.
-    return EXIT_SUCCESS;
-}

@@ -1,6 +1,13 @@
 #include <stdlib.h>
 
-void memory_leak(void);
+static void memory_leak(void);
+
+int main(void)
+{
+    memory_leak();
+
+    return EXIT_SUCCESS;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -10,7 +17,7 @@ void memory_leak(void);
     #pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
 #endif
 
-void memory_leak(void)
+static void memory_leak(void)
 {
     // cppcheck-suppress constVariablePointer
     // cppcheck-suppress unusedAllocatedMemory
@@ -24,10 +31,3 @@ void memory_leak(void)
 #endif
 
 #pragma GCC diagnostic pop
-
-int main(void)
-{
-    memory_leak();
-
-    return EXIT_SUCCESS;
-}

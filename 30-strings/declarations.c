@@ -8,6 +8,7 @@ int main(void)
 {
     const char str1[13] = "Hello, World!";
     const char str2[]   = "Hello, World!";
+
     // cppcheck-suppress unusedVariable
     char str3[10];    // Declaration without initialization
 

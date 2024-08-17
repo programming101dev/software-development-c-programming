@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// Centralized conversion functions for signed and unsigned types
 static intmax_t string_to_intmax(const char * restrict nptr, char ** restrict endptr, int base, int *error, intmax_t min, intmax_t max)
 {
     intmax_t result;
@@ -55,77 +54,97 @@ static uintmax_t string_to_uintmax(const char * restrict nptr, char ** restrict 
     {
         *error = 0;
     }
+
     return result;
 }
 
-// Conversion functions for standard types
 int string_to_int(const char * restrict str, int base, int *error)
 {
     intmax_t result;
+    char    *endptr;
 
-    char *endptr;
     result = string_to_intmax(str, &endptr, base, error, INT_MIN, INT_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (int)result;
 }
 
 long string_to_long(const char * restrict str, int base, int *error)
 {
     intmax_t result;
+    char    *endptr;
 
-    char *endptr;
     result = string_to_intmax(str, &endptr, base, error, LONG_MIN, LONG_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (long)result;
 }
 
 long long string_to_long_long(const char * restrict str, int base, int *error)
 {
+    intmax_t result;
     char    *endptr;
-    intmax_t result = string_to_intmax(str, &endptr, base, error, LLONG_MIN, LLONG_MAX);
+
+    result = string_to_intmax(str, &endptr, base, error, LLONG_MIN, LLONG_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (long long)result;
 }
 
 unsigned int string_to_unsigned_int(const char * restrict str, int base, int *error)
 {
+    uintmax_t result;
     char     *endptr;
-    uintmax_t result = string_to_uintmax(str, &endptr, base, error, UINT_MAX);
+
+    result = string_to_uintmax(str, &endptr, base, error, UINT_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (unsigned int)result;
 }
 
 unsigned long string_to_unsigned_long(const char * restrict str, int base, int *error)
 {
+    uintmax_t result;
     char     *endptr;
-    uintmax_t result = string_to_uintmax(str, &endptr, base, error, ULONG_MAX);
+
+    result = string_to_uintmax(str, &endptr, base, error, ULONG_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (unsigned long)result;
 }
 
 unsigned long long string_to_unsigned_long_long(const char * restrict str, int base, int *error)
 {
+    uintmax_t result;
     char     *endptr;
-    uintmax_t result = string_to_uintmax(str, &endptr, base, error, ULLONG_MAX);
+
+    result = string_to_uintmax(str, &endptr, base, error, ULLONG_MAX);
+
     if(*error)
     {
         return 0;
     }
+
     return (unsigned long long)result;
 }
 

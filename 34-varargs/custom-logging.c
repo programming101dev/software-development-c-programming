@@ -7,6 +7,7 @@ static void custom_log(const char *format, ...);
 static void custom_log(const char *format, ...)
 {
     va_list args;
+
     va_start(args, format);
 
 #pragma GCC diagnostic push

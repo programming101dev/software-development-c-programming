@@ -1,10 +1,21 @@
+#include <stddef.h>
 #include <stdlib.h>
 
-void use_after_free(void);
+static void use_after_free(void);
 
-void use_after_free(void)
+int main(void)
 {
-    int *arr = (int *)malloc(5 * sizeof(int));
+    use_after_free();
+
+    return EXIT_SUCCESS;
+}
+
+static void use_after_free(void)
+{
+    const size_t size = 5;
+    int         *arr;
+
+    arr = (int *)malloc(size * sizeof(int));
     free(arr);
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic push
@@ -18,10 +29,4 @@ void use_after_free(void)
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic pop
 #endif
-}
-
-int main(void)
-{
-    use_after_free();
-    return EXIT_SUCCESS;
 }

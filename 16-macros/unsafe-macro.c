@@ -5,12 +5,11 @@
 
 int main(void)
 {
-    const int y = 5;
+    int y;
+    int z;
 
-    // Unexpected behaviour
-    const int z = INCREMENT(y) + INCREMENT(y);
-
-    // Output might be unexpected
+    y = 5;
+    z = INCREMENT(y) + INCREMENT(y);
     printf("y: %d, z: %d\n", y, z);
 
     return EXIT_SUCCESS;

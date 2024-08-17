@@ -3,7 +3,9 @@
 
 int main(void)
 {
-    const int *p = NULL;
+    const int *p;
+
+    p = NULL;
 
     // cppcheck-suppress knownConditionTrueFalse
     if(p == NULL)

@@ -3,9 +3,11 @@
 
 int main(void)
 {
-    int  a = 10;
-    int *p = &a;
+    int  a;
+    int *p;
 
+    a = 10;
+    p = &a;
     printf("Address of a: %p\n", (void *)&a);
     printf("Value of p: %p\n", (void *)p);
     printf("Value of a: %d\n", a);

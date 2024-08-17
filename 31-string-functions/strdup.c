@@ -10,7 +10,7 @@ int main(void)
     if(duplicate == NULL)
     {
         printf("Memory allocation failed\n");
-        return 1;
+        return EXIT_FAILURE;
     }
 
     printf("Duplicated string: %s\n", duplicate);

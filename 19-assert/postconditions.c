@@ -4,16 +4,6 @@
 
 static int increment(int value);
 
-static int increment(int value)
-{
-    const int result = value + 1;
-
-    // Postcondition
-    assert(result > value && "Result should be greater than the input value");
-
-    return result;
-}
-
 int main(void)
 {
     const int original = 5;
@@ -23,4 +13,14 @@ int main(void)
     printf("Incremented value: %d\n", incremented);
 
     return EXIT_SUCCESS;
+}
+
+static int increment(int value)
+{
+    const int result = value + 1;
+
+    // Postcondition
+    assert(result > value && "Result should be greater than the input value");
+
+    return result;
 }

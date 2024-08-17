@@ -2,9 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_array(const int *p, size_t size);
+static void print_array(const int *p, size_t size);
 
-void print_array(const int *p, size_t size)
+int main(void)
+{
+    const int    arr[]    = {1, 2, 3, 4, 5};
+    const size_t arr_size = sizeof(arr) / sizeof(arr[0]);
+
+    print_array(arr, arr_size);
+
+    return EXIT_SUCCESS;
+}
+
+static void print_array(const int *p, size_t size)
 {
     for(size_t i = 0; i < size; i++)
     {
@@ -12,12 +22,4 @@ void print_array(const int *p, size_t size)
     }
 
     printf("\n");
-}
-
-int main(void)
-{
-    const int arr[] = {1, 2, 3, 4, 5};
-    print_array(arr, sizeof(arr) / sizeof(arr[0]));
-
-    return EXIT_SUCCESS;
 }

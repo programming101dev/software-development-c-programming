@@ -1,12 +1,14 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void)
 {
     const char str[] = "Hello, World!";
-    for(int i = 0; str[i] != '\0'; i++)
+
+    for(size_t i = 0; str[i] != '\0'; i++)
     {
-        printf("Index %d: %c\n", i, str[i]);
+        printf("Index %zu: %c\n", i, str[i]);
     }
 
     return EXIT_SUCCESS;

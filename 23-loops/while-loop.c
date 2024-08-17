@@ -3,13 +3,13 @@
 
 int main(void)
 {
-    int i;
+    unsigned int i;
 
     i = 0;
 
     while(i < 10)
     {
-        printf("Iteration %d\n", i);
+        printf("Iteration %u\n", i);
         i++;
     }
 

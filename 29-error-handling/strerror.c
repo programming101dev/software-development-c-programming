@@ -8,12 +8,13 @@ int main(void)
     int *ptr;
 
     errno = 0;
-    ptr   = malloc(sizeof(int) * 1000000000);    // Attempt to allocate a large block of memory
+    ptr   = malloc(sizeof(int) * 1000000000);
 
     if(ptr == NULL)
     {
-        char errbuf[256];    // Buffer to hold the error message
-        strerror_r(errno, errbuf, sizeof(errbuf));    // Retrieve the error message
+        char errbuf[256];
+
+        strerror_r(errno, errbuf, sizeof(errbuf));
         printf("Error allocating memory: %s\n", errbuf);
     }
     else

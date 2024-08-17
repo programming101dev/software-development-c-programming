@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,7 +15,7 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    for(size_t i = 0; i < 5; i++)
+    for(unsigned int i = 0; i < 5; i++)
     {
         printf("%d ", arr[i]);
     }

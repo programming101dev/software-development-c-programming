@@ -5,12 +5,11 @@
 
 int main(void)
 {
-    const int y = 5;
+    int y;
+    int z;
 
-    // Still needs caution
-    const int z = SAFE_INCREMENT(y) + SAFE_INCREMENT(y);
-
-    // More predictable behaviour
+    y = 5;
+    z = SAFE_INCREMENT(y) + SAFE_INCREMENT(y);
     printf("y: %d, z: %d\n", y, z);
 
     return EXIT_SUCCESS;

@@ -3,10 +3,13 @@
 
 int main(void)
 {
-    const int    width     = 10;
-    const int    precision = 4;
-    const double number    = 3.141592653589793;
+    int    width;
+    int    precision;
+    double number;
 
+    width     = 10;
+    precision = 4;
+    number    = 3.141592653589793;
     printf("Dynamic Width and Precision Demonstration:\n");
     printf("%*.*f\n", width, precision, number);
 

@@ -3,11 +3,6 @@
 
 static void some_function(int value);
 
-static void some_function(int value)
-{
-    printf("someFunction called with value: %d\n", value);
-}
-
 int main(void)
 {
     const int x = 10;
@@ -15,4 +10,9 @@ int main(void)
     some_function(x);
 
     return EXIT_SUCCESS;
+}
+
+static void some_function(int value)
+{
+    printf("some_function called with value: %d\n", value);
 }

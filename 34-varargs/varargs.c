@@ -5,19 +5,20 @@
 static int sum(int count, ...)
 {
     va_list args;
-    int     total = 0;
+    int     total;
 
-    va_start(args, count);    // Initialize va_list before any conditionals
+    total = 0;
+    va_start(args, count);
 
     if(count > 0)
     {
         for(int i = 0; i < count; i++)
         {
-            total += va_arg(args, int);    // Safely access each argument    // NOLINT(clang-analyzer-valist.Uninitialized)
+            total += va_arg(args, int);    // NOLINT(clang-analyzer-valist.Uninitialized)
         }
     }
 
-    va_end(args);    // Always ensure va_list is cleaned up
+    va_end(args);
 
     return total;
 }

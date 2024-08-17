@@ -3,15 +3,15 @@
 
 int main(void)
 {
-    for(int i = 0; i < 10; i++)
+    for(unsigned int i = 0; i < 10; i++)
     {
         if(i % 2 == 0)
         {
-            printf("Even number: %d\n", i);
+            printf("Even number: %u\n", i);
         }
         else
         {
-            printf("Odd number: %d\n", i);
+            printf("Odd number: %u\n", i);
         }
     }
 

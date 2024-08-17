@@ -3,14 +3,6 @@
 
 void example(void);
 
-void example(void)
-{
-    int x;
-
-    x = 10;
-    printf("x = %d\n", x);
-}    // x is destroyed here when the function exits
-
 int main(void)
 {
     example();
@@ -18,3 +10,11 @@ int main(void)
 
     return EXIT_SUCCESS;
 }
+
+void example(void)
+{
+    int x;
+
+    x = 10;
+    printf("x = %d\n", x);
+}    // x is destroyed here when the function exits

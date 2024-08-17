@@ -1,6 +1,13 @@
 #include <stdlib.h>
 
-void leak_in_condition(int condition);
+static void leak_in_condition(int condition);
+
+int main(void)
+{
+    leak_in_condition(1);
+
+    return EXIT_SUCCESS;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
@@ -10,7 +17,7 @@ void leak_in_condition(int condition);
     #pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
 #endif
 
-void leak_in_condition(int condition)
+static void leak_in_condition(int condition)
 {
     if(condition)
     {
@@ -30,9 +37,3 @@ void leak_in_condition(int condition)
 #endif
 
 #pragma GCC diagnostic pop
-
-int main(void)
-{
-    leak_in_condition(1);
-    return EXIT_SUCCESS;
-}

@@ -3,6 +3,18 @@
 
 int *get_pointer_to_local(void);
 
+int main(void)
+{
+    const int *p;
+
+    p = get_pointer_to_local();
+
+    // This should cause undefined behaviour
+    printf("Dangling pointer value: %d\n", *p);
+
+    return EXIT_SUCCESS;
+}
+
 #if defined(__GNUC__) && !defined(__clang__)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wreturn-local-addr"
@@ -24,15 +36,3 @@ int *get_pointer_to_local(void)
 #elif defined(__clang__)
     #pragma clang diagnostic pop
 #endif
-
-int main(void)
-{
-    const int *p;
-
-    p = get_pointer_to_local();
-
-    // This should cause undefined behaviour
-    printf("Dangling pointer value: %d\n", *p);
-
-    return EXIT_SUCCESS;
-}

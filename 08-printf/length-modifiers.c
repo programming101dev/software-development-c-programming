@@ -3,11 +3,15 @@
 
 int main(void)
 {
-    const short       shortInt    = 42;
-    const long        longInt     = 1234567890L;
-    const long long   longLongInt = 1234567890123456789LL;
-    const long double longDouble  = 3.141592653589793238L;
+    short       shortInt;
+    long        longInt;
+    long long   longLongInt;
+    long double longDouble;
 
+    shortInt    = 42;
+    longInt     = 1234567890L;
+    longLongInt = 1234567890123456789LL;
+    longDouble  = 3.141592653589793238L;
     printf("Length Modifiers Demonstration:\n");
     printf("Short integer: %hd\n", shortInt);
     printf("Long integer: %ld\n", longInt);

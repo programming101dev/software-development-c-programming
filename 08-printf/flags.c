@@ -3,9 +3,11 @@
 
 int main(void)
 {
-    const int    number   = 42;
-    const double floatNum = 3.14159;
+    int    number;
+    double floatNum;
 
+    number   = 42;
+    floatNum = 3.14159;
     printf("Flags Demonstration:\n");
     printf("Always show sign: %+d\n", number);
     printf("Pad with leading zeros: %010d\n", number);

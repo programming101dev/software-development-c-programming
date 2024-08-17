@@ -4,14 +4,6 @@
 
 static int divide(int numerator, int denominator);
 
-static int divide(int numerator, int denominator)
-{
-    // Ensure denominator is not zero
-    assert(denominator != 0);
-
-    return numerator / denominator;
-}
-
 int main(void)
 {
     int result;
@@ -23,4 +15,12 @@ int main(void)
     printf("Result: %d\n", result);
 
     return EXIT_SUCCESS;
+}
+
+static int divide(int numerator, int denominator)
+{
+    // Ensure denominator is not zero
+    assert(denominator != 0);
+
+    return numerator / denominator;
 }

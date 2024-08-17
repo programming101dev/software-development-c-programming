@@ -5,9 +5,7 @@
 
 int main(void)
 {
-    const char *str = STRINGIFY(Hello);
-
-    printf("%s\n", str);    // Output: Hello, World!
+    printf("%s\n", STRINGIFY(Hello));
 
     return EXIT_SUCCESS;
 }

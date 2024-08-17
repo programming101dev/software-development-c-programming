@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static inline int square(int x)
-{
-    return x * x;
-}
+static int square(int x);
 
 int main(void)
 {
-    const int num = 5;
+    int num;
 
+    num = 5;
     printf("The square of %d is %d\n", num, square(num));
 
     return EXIT_SUCCESS;
+}
+
+static inline int square(int x)
+{
+    return x * x;
 }

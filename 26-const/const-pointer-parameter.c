@@ -3,17 +3,16 @@
 
 static void print_value(const int *value);
 
-static void print_value(const int *value)
-{
-    printf("%d\n", *value);
-}
-
 int main(void)
 {
-    int num;
+    const int num = 42;
 
-    num = 42;
     print_value(&num);
 
     return EXIT_SUCCESS;
+}
+
+static void print_value(const int *value)
+{
+    printf("%d\n", *value);
 }

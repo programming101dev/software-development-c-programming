@@ -6,7 +6,8 @@ int main(void)
 {
     const char src[] = "Hello, World!";
     char       dest[50];
-    memcpy(dest, src, strlen(src) + 1);    // +1 to include the null terminator
+
+    memcpy(dest, src, strlen(src) + 1);
     printf("Copied string using memcpy: %s\n", dest);
 
     return EXIT_SUCCESS;

@@ -8,16 +8,18 @@
 
 int main(void)
 {
-    int   num = 12345;
-    char *str = NULL;    // Initialize to NULL for safety
-    int   bytes;
+    const int num = 12345;
+    char     *str = NULL;
+    int       bytes;
+    int       exit_code;
 
-    // Allocate memory for the string
     str = (char *)malloc(DIGITS_IN_INT * sizeof(char));
+
     if(str == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        exit_code = EXIT_FAILURE;
+        goto cleanup;
     }
 
     bytes = snprintf(str, DIGITS_IN_INT, "%d", num);
@@ -25,12 +27,16 @@ int main(void)
     if((unsigned long)bytes >= DIGITS_IN_INT)
     {
         fprintf(stderr, "Buffer size is too small\n");
-        goto cleanup;    // Jump to cleanup to ensure memory is freed
+        exit_code = EXIT_FAILURE;
+        goto cleanup;
     }
 
     printf("String representation: %s\n", str);
+    exit_code = EXIT_SUCCESS;
 
 cleanup:
-    free(str);    // Free allocated memory
-    return str == NULL ? EXIT_FAILURE : EXIT_SUCCESS;
+    free(str);
+    str = NULL;
+
+    return exit_code;
 }

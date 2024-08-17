@@ -1,6 +1,12 @@
 #include <stdlib.h>
 
-void leak_in_loop(void);
+static void leak_in_loop(void);
+
+int main(void)
+{
+    leak_in_loop();
+    return EXIT_SUCCESS;
+}
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
@@ -10,7 +16,7 @@ void leak_in_loop(void);
     #pragma GCC diagnostic ignored "-Wanalyzer-malloc-leak"
 #endif
 
-void leak_in_loop(void)
+static void leak_in_loop(void)
 {
     for(int i = 0; i < 10; i++)
     {
@@ -25,9 +31,3 @@ void leak_in_loop(void)
 #endif
 
 #pragma GCC diagnostic pop
-
-int main(void)
-{
-    leak_in_loop();
-    return EXIT_SUCCESS;
-}
