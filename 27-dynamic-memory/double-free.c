@@ -2,8 +2,11 @@
 
 int main(void)
 {
+    const size_t size = 5;
+    int         *arr;
+
     // cppcheck-suppress unusedAllocatedMemory
-    int *arr = (int *)malloc(5 * sizeof(int));
+    arr = (int *)malloc(size * sizeof(int));
     free(arr);
 
 #if defined(__GNUC__) && !defined(__llvm__)

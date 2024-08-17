@@ -3,18 +3,24 @@
 
 int main(void)
 {
-    int *arr = (int *)malloc(5 * sizeof(int));    // Allocate memory for 5 integers
+    const size_t size = 5;
+    int         *arr;
+
+    arr = (int *)calloc(size, sizeof(int));
+
     if(arr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
         return EXIT_FAILURE;
     }
-    for(int i = 0; i < 5; i++)
+
+    for(size_t i = 0; i < 5; i++)
     {
-        arr[i] = i * 2;
         printf("%d ", arr[i]);
     }
+
     printf("\n");
-    free(arr);    // Free the allocated memory
+    free(arr);
+
     return EXIT_SUCCESS;
 }

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char *get_message(void);
+static const char *get_message(void);
 
-const char *get_message(void)
+static const char *get_message(void)
 {
     return "Hello, World!";
 }

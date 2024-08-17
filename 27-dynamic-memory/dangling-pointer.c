@@ -3,9 +3,10 @@
 
 int main(void)
 {
-    int *arr;
+    const size_t size = 5;
+    int         *arr;
 
-    arr = (int *)malloc(5 * sizeof(int));
+    arr = (int *)malloc(size * sizeof(int));
 
     if(arr == NULL)
     {

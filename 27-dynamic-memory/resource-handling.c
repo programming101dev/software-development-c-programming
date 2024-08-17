@@ -1,14 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *global_arr;    // Global variable to store the pointer    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+int *global_arr;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-void cleanup(void);
-
-void cleanup(void)
-{
-    free(global_arr);
-}
+static void cleanup(void);
 
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic push
@@ -25,22 +20,20 @@ int main(void)
         return EXIT_FAILURE;
     }
 
-    // Register cleanup function to ensure memory is freed
     if(atexit(cleanup) != 0)
     {
         fprintf(stderr, "Failed to register cleanup function\n");
-        free(global_arr);    // Clean up manually if atexit registration fails
+        free(global_arr);
         return EXIT_FAILURE;
     }
 
-    for(int i = 0; i < 5; i++)
+    for(size_t i = 0; i < 5; i++)
     {
-        global_arr[i] = i * 2;
+        global_arr[i] = (int)(i * 2);
         printf("%d ", global_arr[i]);
     }
 
     printf("\n");
-    // Memory will be freed automatically at program exit
 
     return EXIT_SUCCESS;
 }
@@ -48,3 +41,8 @@ int main(void)
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic pop
 #endif
+
+static void cleanup(void)
+{
+    free(global_arr);
+}

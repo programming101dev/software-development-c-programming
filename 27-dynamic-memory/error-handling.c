@@ -3,13 +3,18 @@
 
 int main(void)
 {
-    int *arr = (int *)malloc(5 * sizeof(int));
+    const size_t size = 5;
+    int         *arr;
+
+    arr = (int *)malloc(size * sizeof(int));
+
     if(arr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
         return EXIT_FAILURE;
     }
-    // Use the allocated memory
+
     free(arr);
+
     return EXIT_SUCCESS;
 }

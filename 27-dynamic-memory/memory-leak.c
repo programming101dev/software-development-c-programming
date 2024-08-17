@@ -7,9 +7,11 @@ void leak_memory(void);
 
 void leak_memory(void)
 {
+    const size_t size = 5;
+
     // cppcheck-suppress unusedAllocatedMemory
     // cppcheck-suppress unreadVariable
-    const int *arr = (int *)malloc(5 * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
+    const int *arr = (int *)malloc(size * sizeof(int));    // NOLINT(clang-analyzer-deadcode.DeadStores)
 
     // Memory allocated by malloc is not freed, causing a memory leak
 

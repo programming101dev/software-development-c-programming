@@ -2,15 +2,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static void process_array(size_t size);
+
 int main(void)
 {
-    size_t size = 5;
-    int   *arr  = (int *)malloc(size * sizeof(int));
+    const size_t size = 5;
+
+    process_array(size);
+
+    return EXIT_SUCCESS;
+}
+
+static void process_array(size_t size)
+{
+    int *arr;
+
+    arr = (int *)malloc(size * sizeof(int));
 
     if(arr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        return EXIT_FAILURE;
+        return;
     }
 
     for(size_t i = 0; i < size; i++)
@@ -18,13 +30,5 @@ int main(void)
         arr[i] = (int)i;
     }
 
-    for(size_t i = 0; i < size; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-
-    printf("\n");
     free(arr);
-
-    return EXIT_SUCCESS;
 }
