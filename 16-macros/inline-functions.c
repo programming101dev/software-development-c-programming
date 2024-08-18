@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int square(int x);
+int square(int x);
 
 int main(void)
 {
@@ -13,7 +13,7 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-static inline int square(int x)
+inline int square(int x)
 {
     return x * x;
 }

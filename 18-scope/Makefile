@@ -35,9 +35,13 @@ CHECK_SANITIZER = \
     if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
     rm -f sanitizer_check.c)
 
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=address)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=leak)
+# Loop over the SANITIZERS and add supported ones to SUPPORTED_SANITIZERS
+define LOOP_SANITIZERS
+    $(foreach sanitizer,$(SANITIZERS),\
+        $(eval SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,$(sanitizer))))
+endef
+
+$(eval $(LOOP_SANITIZERS))
 
 ifeq ($(CC), gcc)
 	ANALYSIS_FLAGS = -fanalyzer

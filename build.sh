@@ -1,19 +1,9 @@
 #!/usr/bin/env sh
 
-# Parse the command line arguments using basic getopt
-USAGE="Usage: $0 -c <compiler> [-s <start_at>]"
+# Usage message
+USAGE="Usage: $0 -c <compiler> [-s <start_at>] [-z <sanitizers>]"
 
-ARGS=$(getopt c:s: "$@")
-if [ $? -ne 0 ]; then
-    echo "$USAGE"
-    exit 1
-fi
-
-set -- $ARGS
-
-COMPILER=""
-START_AT=""
-
+# Parse command line arguments
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -c)
@@ -22,6 +12,10 @@ while [ "$#" -gt 0 ]; do
             ;;
         -s)
             START_AT="$2"
+            shift 2
+            ;;
+        -z)
+            SANITIZERS="$2"
             shift 2
             ;;
         --)
@@ -64,7 +58,11 @@ for dir in [0-9][0-9]-*/; do
         # Check for any Makefile in the directory
         if ls Makefile* >/dev/null 2>&1; then
             for makefile in Makefile*; do
-                make -f "$makefile" CC="$COMPILER" all || { echo "Error with $makefile in directory: $dir"; result=1; break 2; }
+                if [ -n "$SANITIZERS" ]; then
+                    make -f "$makefile" CC="$COMPILER" SANITIZERS="$SANITIZERS" all || { echo "Error with $makefile in directory: $dir"; result=1; break 2; }
+                else
+                    make -f "$makefile" CC="$COMPILER" all || { echo "Error with $makefile in directory: $dir"; result=1; break 2; }
+                fi
                 make -f "$makefile" clean || { echo "Error during clean with $makefile in directory: $dir"; result=1; break 2; }
             done
         else

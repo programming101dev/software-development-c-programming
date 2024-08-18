@@ -7,7 +7,6 @@ CFLAGS = -std=c17 -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOUR
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
-
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
@@ -24,9 +23,13 @@ CHECK_SANITIZER = \
     if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
     rm -f sanitizer_check.c)
 
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=address)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=leak)
+# Loop over the SANITIZERS and add supported ones to SUPPORTED_SANITIZERS
+define LOOP_SANITIZERS
+    $(foreach sanitizer,$(SANITIZERS),\
+        $(eval SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,$(sanitizer))))
+endef
+
+$(eval $(LOOP_SANITIZERS))
 
 ifeq ($(CC), gcc)
     ANALYSIS_FLAGS = -fanalyzer

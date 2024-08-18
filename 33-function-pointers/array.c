@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef void (*operation_func)(int, int);
+
 static void add(int a, int b);
 static void subtract(int a, int b);
 static void multiply(int a, int b);
@@ -8,8 +10,8 @@ static void divide(int a, int b);
 
 int main(void)
 {
-    void (*operations[])(int, int) = {add, subtract, multiply, divide};
-    const size_t size              = sizeof(operations) / sizeof(operations[0]);
+    operation_func operations[] = {add, subtract, multiply, divide};
+    const size_t size            = sizeof(operations) / sizeof(operations[0]);
 
     for(size_t i = 0; i < size; i++)
     {

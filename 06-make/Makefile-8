@@ -2,27 +2,31 @@ CC = gcc
 CFLAGS = -std=c17 -Wall -Wextra -Werror
 SANITIZERS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 SUPPORTED_SANITIZERS =
-CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
+CHECKER_REPORT_FILE = cppcheck-report.txt
 SOURCES = main.c
 BINARY = hello
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
-	$(shell echo "int main(){}" > sanitizer_check.c; \
-	if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
-	rm -f sanitizer_check.c)
+    $(shell echo "int main(){}" > sanitizer_check.c; \
+    if $(CC) $(1) sanitizer_check.c -o /dev/null > /dev/null 2>&1; then echo $(1); fi; \
+    rm -f sanitizer_check.c)
 
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=address)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=undefined)
-SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,-fsanitize=leak)
+# Loop over the SANITIZERS and add supported ones to SUPPORTED_SANITIZERS
+define LOOP_SANITIZERS
+    $(foreach sanitizer,$(SANITIZERS),\
+        $(eval SUPPORTED_SANITIZERS += $(call CHECK_SANITIZER,$(sanitizer))))
+endef
+
+$(eval $(LOOP_SANITIZERS))
 
 ifeq ($(CC), gcc)
 	ANALYSIS_FLAGS = -fanalyzer
 	ANALYZER =
 	ANALYZER_FLAGS =
 else ifeq ($(CC), clang)
-	ANALYSIS_FLAGS = --analyze                             
+	ANALYSIS_FLAGS = --analyze
 	ANALYZER = scan-build
 	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
 endif
@@ -44,7 +48,7 @@ cppcheck:
 
 clean:
 	rm -f $(BINARY)
-	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
+	rm -f $(CHECKER_REPORT_FILE)
 	find . -name '*.plist' -delete
 	find . -name '*.o' -delete

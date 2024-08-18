@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void *getPointerToInt(int *num);
+static void *get_pointer_to_int(int *num);
 
 int main(void)
 {
@@ -9,13 +9,13 @@ int main(void)
     const void *ptr;
 
     num = 10;
-    ptr = getPointerToInt(&num);
+    ptr = get_pointer_to_int(&num);
     printf("Value: %d\n", *(int *)ptr);
 
     return EXIT_SUCCESS;
 }
 
-static void *getPointerToInt(int *num)
+static void *get_pointer_to_int(int *num)
 {
     return (void *)num;
 }
