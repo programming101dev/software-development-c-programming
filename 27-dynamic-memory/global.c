@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *global_arr;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+int *global_arr = NULL;    // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
 static void cleanup(void);
 
@@ -13,32 +13,33 @@ static void cleanup(void);
 
 int main(void)
 {
+    int status = EXIT_SUCCESS;
+
     global_arr = (int *)malloc(5 * sizeof(int));
 
     if(global_arr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        return EXIT_FAILURE;
+        status = EXIT_FAILURE;
     }
-
-    if(atexit(cleanup) != 0)
+    else if(atexit(cleanup) != 0)
     {
         fprintf(stderr, "Failed to register cleanup function\n");
         free(global_arr);
-        global_arr = NULL;
-
-        return EXIT_FAILURE;
+        status = EXIT_FAILURE;
     }
-
-    for(size_t i = 0; i < 5; i++)
+    else
     {
-        global_arr[i] = (int)(i * 2);
-        printf("%d ", global_arr[i]);
+        for(size_t i = 0; i < 5; i++)
+        {
+            global_arr[i] = (int)(i * 2);
+            printf("%d ", global_arr[i]);
+        }
+
+        printf("\n");
     }
 
-    printf("\n");
-
-    return EXIT_SUCCESS;
+    return status;
 }
 
 #if defined(__GNUC__) && !defined(__llvm__)
@@ -48,5 +49,4 @@ int main(void)
 static void cleanup(void)
 {
     free(global_arr);
-    global_arr = NULL;
 }

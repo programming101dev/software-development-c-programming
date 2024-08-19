@@ -7,7 +7,7 @@ int main(void)
     {
         if(i == 5)
         {
-            break;    // Exit the loop when i is 5
+            break;
         }
 
         printf("Iteration %u\n", i);

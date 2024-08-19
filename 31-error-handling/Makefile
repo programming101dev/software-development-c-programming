@@ -12,15 +12,15 @@ SUPPORTED_SANITIZERS =
 CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
 
-# Source and binary definitions for the set of files
-DECLARATIONS_SOURCES = declarations.c
-DECLARATIONS_BINARY = declarations
-DYNAMIC_MEMORY_SOURCES = dynamic-memory.c
-DYNAMIC_MEMORY_BINARY = dynamic-memory
-ITERATION_SOURCES = iteration.c
-ITERATION_BINARY = iteration
-MISSING_NULL_BYTE_SOURCES = missing-null-byte.c
-MISSING_NULL_BYTE_BINARY = missing-null-byte
+# Source and binary definitions for the new set of files
+CHECKING_RETURN_VALUES_SOURCES = checking-return-values.c
+CHECKING_RETURN_VALUES_BINARY = checking-return-values
+GOTO_CLEANUP_SOURCES = goto-cleanup.c
+GOTO_CLEANUP_BINARY = goto-cleanup
+PERROR_SOURCES = perror.c
+PERROR_BINARY = perror
+STRERROR_R_SOURCES = strerror_r.c
+STRERROR_R_BINARY = strerror_r
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -36,8 +36,6 @@ endef
 
 $(eval $(LOOP_SANITIZERS))
 
-$(eval $(LOOP_SANITIZERS))
-
 ifeq ($(CC), gcc)
     ANALYSIS_FLAGS = -fanalyzer
     ANALYZER =
@@ -50,45 +48,45 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(DECLARATIONS_BINARY) $(DYNAMIC_MEMORY_BINARY) $(ITERATION_BINARY) $(MISSING_NULL_BYTE_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(CHECKING_RETURN_VALUES_BINARY) $(GOTO_CLEANUP_BINARY) $(PERROR_BINARY) $(STRERROR_R_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
-$(DECLARATIONS_BINARY): $(DECLARATIONS_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DECLARATIONS_BINARY) $(DECLARATIONS_SOURCES)
+$(CHECKING_RETURN_VALUES_BINARY): $(CHECKING_RETURN_VALUES_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(CHECKING_RETURN_VALUES_BINARY) $(CHECKING_RETURN_VALUES_SOURCES)
 
-$(DYNAMIC_MEMORY_BINARY): $(DYNAMIC_MEMORY_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DYNAMIC_MEMORY_BINARY) $(DYNAMIC_MEMORY_SOURCES)
+$(GOTO_CLEANUP_BINARY): $(GOTO_CLEANUP_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(GOTO_CLEANUP_BINARY) $(GOTO_CLEANUP_SOURCES)
 
-$(ITERATION_BINARY): $(ITERATION_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(ITERATION_BINARY) $(ITERATION_SOURCES)
+$(PERROR_BINARY): $(PERROR_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(PERROR_BINARY) $(PERROR_SOURCES)
 
-$(MISSING_NULL_BYTE_BINARY): $(MISSING_NULL_BYTE_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(MISSING_NULL_BYTE_BINARY) $(MISSING_NULL_BYTE_SOURCES)
+$(STRERROR_R_BINARY): $(STRERROR_R_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(STRERROR_R_BINARY) $(STRERROR_R_SOURCES)
 
 # Analyze rule to analyze all sources
 analyze:
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DECLARATIONS_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DYNAMIC_MEMORY_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(ITERATION_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(MISSING_NULL_BYTE_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(CHECKING_RETURN_VALUES_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(GOTO_CLEANUP_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(PERROR_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(STRERROR_R_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch' \
-	$(DECLARATIONS_SOURCES) $(DYNAMIC_MEMORY_SOURCES) $(ITERATION_SOURCES) $(MISSING_NULL_BYTE_SOURCES) \
+	$(CHECKING_RETURN_VALUES_SOURCES) $(GOTO_CLEANUP_SOURCES) $(PERROR_SOURCES) $(STRERROR_R_SOURCES) \
 	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(DECLARATIONS_SOURCES) $(DYNAMIC_MEMORY_SOURCES) $(ITERATION_SOURCES) $(MISSING_NULL_BYTE_SOURCES)
+	$(CHECKING_RETURN_VALUES_SOURCES) $(GOTO_CLEANUP_SOURCES) $(PERROR_SOURCES) $(STRERROR_R_SOURCES)
 
 clang-format:
-	clang-format -i -- $(DECLARATIONS_SOURCES) $(DYNAMIC_MEMORY_SOURCES) $(ITERATION_SOURCES) $(MISSING_NULL_BYTE_SOURCES)
+	clang-format -i -- $(CHECKING_RETURN_VALUES_SOURCES) $(GOTO_CLEANUP_SOURCES) $(PERROR_SOURCES) $(STRERROR_R_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(DECLARATIONS_BINARY) $(DYNAMIC_MEMORY_BINARY) $(ITERATION_BINARY) $(MISSING_NULL_BYTE_BINARY)
+	rm -f $(CHECKING_RETURN_VALUES_BINARY) $(GOTO_CLEANUP_BINARY) $(PERROR_BINARY) $(STRERROR_R_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

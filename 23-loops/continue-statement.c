@@ -7,7 +7,7 @@ int main(void)
     {
         if(i == 5)
         {
-            continue;    // Skip the rest of the loop when i is 5
+            continue;
         }
 
         printf("Iteration %u\n", i);

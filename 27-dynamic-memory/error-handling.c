@@ -6,17 +6,24 @@ int main(void)
 {
     const size_t size = 5;
     int         *arr;
+    int          exit_code;
 
     arr = (int *)malloc(size * sizeof(int));
 
     if(arr == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
-        return EXIT_FAILURE;
+        exit_code = EXIT_FAILURE;
+    }
+    else
+    {
+        exit_code = EXIT_SUCCESS;
     }
 
-    free(arr);
-    arr = NULL;
+    if(arr)
+    {
+        free(arr);
+    }
 
-    return EXIT_SUCCESS;
+    return exit_code;
 }

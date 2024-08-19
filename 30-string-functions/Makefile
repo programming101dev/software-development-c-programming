@@ -13,8 +13,6 @@ CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
 
 # Source and binary definitions for the new set of files
-MEMCPY_SOURCES = memcpy.c
-MEMCPY_BINARY = memcpy
 STRCAT_SOURCES = strcat.c
 STRCAT_BINARY = strcat
 STRCHR_SOURCES = strchr.c
@@ -68,14 +66,11 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(MEMCPY_BINARY) $(STRCAT_BINARY) $(STRCHR_BINARY) $(STRCMP_BINARY) $(STRCPY_BINARY) \
+all: clang-format $(STRCAT_BINARY) $(STRCHR_BINARY) $(STRCMP_BINARY) $(STRCPY_BINARY) \
      $(STRDUP_BINARY) $(STRLEN_BINARY) $(STRNCAT_BINARY) $(STRNCMP_BINARY) $(STRNCPY_BINARY) \
      $(STRPBRK_BINARY) $(STRRCHR_BINARY) $(STRSTR_BINARY) $(STRTOK_R_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
-$(MEMCPY_BINARY): $(MEMCPY_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(MEMCPY_BINARY) $(MEMCPY_SOURCES)
-
 $(STRCAT_BINARY): $(STRCAT_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(STRCAT_BINARY) $(STRCAT_SOURCES)
 
@@ -117,7 +112,6 @@ $(STRTOK_R_BINARY): $(STRTOK_R_SOURCES)
 
 # Analyze rule to analyze all sources
 analyze:
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(MEMCPY_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(STRCAT_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(STRCHR_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(STRCMP_SOURCES) -c
@@ -135,24 +129,24 @@ analyze:
 # Clang-tidy rule to lint all sources
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch' \
-	$(MEMCPY_SOURCES) $(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) $(STRDUP_SOURCES) $(STRLEN_SOURCES) $(STRNCAT_SOURCES) $(STRNCMP_SOURCES) $(STRNCPY_SOURCES) $(STRPBRK_SOURCES) $(STRRCHR_SOURCES) $(STRSTR_SOURCES) $(STRTOK_R_SOURCES) \
+	$(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) $(STRDUP_SOURCES) $(STRLEN_SOURCES) $(STRNCAT_SOURCES) $(STRNCMP_SOURCES) $(STRNCPY_SOURCES) $(STRPBRK_SOURCES) $(STRRCHR_SOURCES) $(STRSTR_SOURCES) $(STRTOK_R_SOURCES) \
     -- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(MEMCPY_SOURCES) $(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) \
+	$(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) \
 	$(STRDUP_SOURCES) $(STRLEN_SOURCES) $(STRNCAT_SOURCES) $(STRNCMP_SOURCES) $(STRNCPY_SOURCES) \
 	$(STRPBRK_SOURCES) $(STRRCHR_SOURCES) $(STRSTR_SOURCES) $(STRTOK_R_SOURCES)
 
 clang-format:
-	clang-format -i -- $(MEMCPY_SOURCES) $(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) \
+	clang-format -i -- $(STRCAT_SOURCES) $(STRCHR_SOURCES) $(STRCMP_SOURCES) $(STRCPY_SOURCES) \
 	$(STRDUP_SOURCES) $(STRLEN_SOURCES) $(STRNCAT_SOURCES) $(STRNCMP_SOURCES) $(STRNCPY_SOURCES) \
 	$(STRPBRK_SOURCES) $(STRRCHR_SOURCES) $(STRSTR_SOURCES) $(STRTOK_R_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(MEMCPY_BINARY) $(STRCAT_BINARY) $(STRCHR_BINARY) $(STRCMP_BINARY) $(STRCPY_BINARY) \
+	rm -f $(STRCAT_BINARY) $(STRCHR_BINARY) $(STRCMP_BINARY) $(STRCPY_BINARY) \
 	$(STRDUP_BINARY) $(STRLEN_BINARY) $(STRNCAT_BINARY) $(STRNCMP_BINARY) $(STRNCPY_BINARY) \
 	$(STRPBRK_BINARY) $(STRRCHR_BINARY) $(STRSTR_BINARY) $(STRTOK_R_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)

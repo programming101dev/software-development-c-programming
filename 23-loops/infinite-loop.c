@@ -4,7 +4,7 @@
 
 int main(void)
 {
-    while(true)    // This loop will run indefinitely
+    while(true)
     {
 #if defined(__GNUC__) && !defined(__clang__)
     #pragma GCC diagnostic push
@@ -16,5 +16,5 @@ int main(void)
 #endif
     }
 
-    return EXIT_SUCCESS;    // This line is never reached
+    return EXIT_SUCCESS;
 }

@@ -10,12 +10,6 @@ int main(void)
     size = 5;
     arr  = (int *)malloc(size * sizeof(int));
 
-    if(arr == NULL)
-    {
-        fprintf(stderr, "Memory allocation failed\n");
-        return EXIT_FAILURE;
-    }
-
     for(size_t i = 0; i < size; i++)
     {
         arr[i] = (int)(i * 2);
@@ -24,7 +18,6 @@ int main(void)
 
     printf("\n");
     free(arr);
-    arr = NULL;
 
     return EXIT_SUCCESS;
 }
