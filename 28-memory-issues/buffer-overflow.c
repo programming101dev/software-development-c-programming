@@ -6,6 +6,7 @@ static void buffer_overflow(void);
 int main(void)
 {
     buffer_overflow();
+
     return EXIT_SUCCESS;
 }
 
