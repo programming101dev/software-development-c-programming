@@ -22,6 +22,7 @@ int main(void)
 #if defined(__GNUC__) && !defined(__llvm__)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wuse-after-free"
+    #pragma GCC diagnostic ignored "-Wanalyzer-double-free"
 #endif
         // cppcheck-suppress doubleFree
         free(arr);    // NOLINT(clang-analyzer-unix.Malloc)

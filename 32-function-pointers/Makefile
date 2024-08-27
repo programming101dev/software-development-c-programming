@@ -3,7 +3,7 @@ ifeq ($(CC),cc)
 endif
 
 CFLAGS = -std=c17 -g -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=700 -D_DARWIN_C_SOURCE -D_DEFAULT_SOURCE -D__BSD_VISIBLE \
-		 -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
+         -Wall -Wextra -Werror -pedantic -Wconversion -Wshadow -Wformat=2 -Winit-self -Wswitch-default \
          -Wswitch-enum -Wfloat-equal -Wcast-align -Wpointer-arith -Wmissing-prototypes -Wstrict-prototypes \
          -Wundef -Wstrict-overflow=5 -Wwrite-strings -Wredundant-decls -Winline -Wvla -Wdouble-promotion \
          -Wdeclaration-after-statement
@@ -13,12 +13,14 @@ CHECKER_REPORT_FILE = cppcheck-report.txt
 REPORT_DIR = scan-results
 
 # Source and binary definitions for the new set of files
-ARRAYS_SOURCES = arrays.c
-ARRAYS_BINARY = arrays
-CALLBACK_SOURCES = callback.c
-CALLBACK_BINARY = callback
-DECLARING_SOURCES = declaring.c
-DECLARING_BINARY = declaring
+ARRAY_SOURCES = array.c
+ARRAY_BINARY = array
+FUNCTION_POINTER_SOURCES = function-pointer.c
+FUNCTION_POINTER_BINARY = function-pointer
+NO_FUNCTION_POINTER_SOURCES = no-function-pointer.c
+NO_FUNCTION_POINTER_BINARY = no-function-pointer
+TYPEDEF_SOURCES = typedef.c
+TYPEDEF_BINARY = typedef
 
 # Attempt to compile with each sanitizer to check support
 CHECK_SANITIZER = \
@@ -35,52 +37,56 @@ endef
 $(eval $(LOOP_SANITIZERS))
 
 ifeq ($(CC), gcc)
-	ANALYSIS_FLAGS = -fanalyzer
-	ANALYZER =
-	ANALYZER_FLAGS =
+    ANALYSIS_FLAGS = -fanalyzer
+    ANALYZER =
+    ANALYZER_FLAGS =
 else ifeq ($(CC), clang)
-	CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
-	ANALYSIS_FLAGS = --analyze
-	ANALYZER = scan-build
- 	ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
+    CFLAGS += -Wdocumentation -Wshorten-64-to-32 -Wconstant-conversion -Wnullable-to-nonnull-conversion
+    ANALYSIS_FLAGS = --analyze
+    ANALYZER = scan-build
+    ANALYZER_FLAGS = -disable-checker unix.Malloc -disable-checker deadcode.DeadStores -disable-checker core.StackAddressEscape -plist-html -o $(REPORT_DIR) --status-bugs
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(ARRAY_BINARY) $(FUNCTION_POINTER_BINARY) $(NO_FUNCTION_POINTER_BINARY) $(TYPEDEF_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
-$(ARRAYS_BINARY): $(ARRAYS_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(ARRAYS_BINARY) $(ARRAYS_SOURCES)
+$(ARRAY_BINARY): $(ARRAY_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(ARRAY_BINARY) $(ARRAY_SOURCES)
 
-$(CALLBACK_BINARY): $(CALLBACK_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(CALLBACK_BINARY) $(CALLBACK_SOURCES)
+$(FUNCTION_POINTER_BINARY): $(FUNCTION_POINTER_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(FUNCTION_POINTER_BINARY) $(FUNCTION_POINTER_SOURCES)
 
-$(DECLARING_BINARY): $(DECLARING_SOURCES)
-	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(DECLARING_BINARY) $(DECLARING_SOURCES)
+$(NO_FUNCTION_POINTER_BINARY): $(NO_FUNCTION_POINTER_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(NO_FUNCTION_POINTER_BINARY) $(NO_FUNCTION_POINTER_SOURCES)
+
+$(TYPEDEF_BINARY): $(TYPEDEF_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(TYPEDEF_BINARY) $(TYPEDEF_SOURCES)
 
 # Analyze rule to analyze all sources
 analyze:
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(ARRAYS_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(CALLBACK_SOURCES) -c
-	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(DECLARING_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(ARRAY_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(FUNCTION_POINTER_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(NO_FUNCTION_POINTER_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(TYPEDEF_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch'\
-	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES) \
-    -- $(CFLAGS)
+	$(ARRAY_SOURCES) $(FUNCTION_POINTER_SOURCES) $(NO_FUNCTION_POINTER_SOURCES) $(TYPEDEF_SOURCES) \
+	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES)
+	$(ARRAY_SOURCES) $(FUNCTION_POINTER_SOURCES) $(NO_FUNCTION_POINTER_SOURCES) $(TYPEDEF_SOURCES)
 
 clang-format:
-	clang-format -i -- $(ARRAYS_SOURCES) $(CALLBACK_SOURCES) $(DECLARING_SOURCES)
+	clang-format -i -- $(ARRAY_SOURCES) $(FUNCTION_POINTER_SOURCES) $(NO_FUNCTION_POINTER_SOURCES) $(TYPEDEF_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(ARRAYS_BINARY) $(CALLBACK_BINARY) $(DECLARING_BINARY)
+	rm -f $(ARRAY_BINARY) $(FUNCTION_POINTER_BINARY) $(NO_FUNCTION_POINTER_BINARY) $(TYPEDEF_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete

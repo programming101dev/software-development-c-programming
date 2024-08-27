@@ -11,7 +11,7 @@ static void divide(int a, int b);
 int main(void)
 {
     operation_func operations[] = {add, subtract, multiply, divide};
-    const size_t size            = sizeof(operations) / sizeof(operations[0]);
+    const size_t   size         = sizeof(operations) / sizeof(operations[0]);
 
     for(size_t i = 0; i < size; i++)
     {

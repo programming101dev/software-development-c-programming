@@ -19,7 +19,7 @@ static void custom_log(const char *format, ...)
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-nonliteral"
-    vprintf(format, args);    // Suppress the warning for this line
+    vprintf(format, args);
 #pragma GCC diagnostic pop
 
     va_end(args);

@@ -12,11 +12,10 @@ int main(void)
 
 static void use_after_free(void)
 {
-    size_t size;
-    int   *arr;
+    const size_t size = 5;
+    int         *arr;
 
-    size = 5;
-    arr  = (int *)malloc(size * sizeof(int));
+    arr = (int *)malloc(size * sizeof(int));
     free(arr);
 
 #if defined(__GNUC__) && !defined(__llvm__)
