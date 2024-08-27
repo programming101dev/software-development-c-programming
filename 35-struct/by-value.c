@@ -24,11 +24,22 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
+#endif
 static void person_modify_value(struct person p)
 {
     // cppcheck-suppress unreadVariable
-    p.age++;
+    p.name = "Chris Doe";
+    // cppcheck-suppress unreadVariable
+    p.age = 24;
+    // cppcheck-suppress unreadVariable
+    p.height = 6.2F;
 }
+#if defined(__GNUC__) && !defined(__clang__)
+    #pragma GCC diagnostic pop
+#endif
 
 static void person_print(struct person p)
 {

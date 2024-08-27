@@ -26,7 +26,9 @@ int main(void)
 
 static void person_modify_pointer(struct person *p)
 {
-    p->age++;
+    p->name   = "Chris Doe";
+    p->age    = 24;
+    p->height = 6.2F;
 }
 
 static void person_print(const struct person *p)
