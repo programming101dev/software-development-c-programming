@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct flags    // NOLINT(altera-struct-pack-align)
+struct flags
 {
     unsigned int flag1:1;
     unsigned int flag2:2;

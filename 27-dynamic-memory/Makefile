@@ -128,7 +128,7 @@ analyze:
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
-	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch' \
+	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch,-altera-struct-pack-align' \
     $(ALLOC_FREE_DIFFERENT_FUNCTIONS_SOURCES) $(ERROR_HANDLING_SOURCES) $(ALLOC_FREE_SAME_FUNCTION_SOURCES) \
     $(GLOBAL_SOURCES) $(CALLOC_SOURCES) $(MALLOC_FREE_SOURCES) $(MEMORY_LEAK_SOURCES) \
     $(DANGLING_POINTER_SOURCES) $(NULL_AFTER_FREE_SOURCES) $(DOUBLE_FREE_SOURCES) $(REALLOC_SOURCES) -- $(CFLAGS)

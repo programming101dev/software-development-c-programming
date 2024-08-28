@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct engine    // NOLINT(altera-struct-pack-align)
+struct engine
 {
     int   horsepower;
     float displacement;
 };
 
-struct car    // NOLINT(altera-struct-pack-align)
+struct car
 {
     const char   *make;
     const char   *model;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct person    // NOLINT(altera-struct-pack-align)
+struct person
 {
     const char *name;
     int         age;

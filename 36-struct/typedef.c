@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct    // NOLINT(altera-struct-pack-align)
+typedef struct
 {
     int   horsepower;
     float displacement;
 } engine;
 
-typedef struct    // NOLINT(altera-struct-pack-align)
+typedef struct
 {
     const char *make;
     const char *model;
