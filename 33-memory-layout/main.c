@@ -14,10 +14,19 @@ int main(void)
     int         main_uninitialized_var;
     int         main_initialized_var;
     int        *main_heap_var;
+    int         exit_code;
 
     main_initialized_var = 100;
     main_heap_var        = malloc(sizeof(int));
-    *main_heap_var       = 123;
+
+    if(main_heap_var == NULL)
+    {
+        perror("main_heap_var malloc");
+        exit_code = EXIT_FAILURE;
+        goto done;
+    }
+
+    *main_heap_var = 123;
     printf("Address        | Name                       | Value\n");
     printf("-----------------------------------------------------------\n");
     printf("0x%012lx | global_uninitialized_var   | Uninitialized\n", (unsigned long)&global_uninitialized_var);
@@ -32,8 +41,10 @@ int main(void)
     printf("0x%012lx | function_two               | \n", (unsigned long)&function_two);
     function_one();
     free(main_heap_var);
+    exit_code = EXIT_SUCCESS;
+done:
 
-    return EXIT_SUCCESS;
+    return exit_code;
 }
 
 void function_one(void)
@@ -46,7 +57,14 @@ void function_one(void)
 
     func_one_initialized_var = 300;
     func_one_heap_var        = malloc(sizeof(int));
-    *func_one_heap_var       = 456;
+
+    if(func_one_heap_var == NULL)
+    {
+        perror("main_heap_var malloc");
+        goto done;
+    }
+
+    *func_one_heap_var = 456;
     printf("0x%012lx | func_one_uninitialized_var | Uninitialized\n", (unsigned long)&func_one_uninitialized_var);
     printf("0x%012lx | func_one_initialized_var   | %d\n", (unsigned long)&func_one_initialized_var, func_one_initialized_var);
     printf("0x%012lx | func_one_static_var        | %d\n", (unsigned long)&func_one_static_var, func_one_static_var);
@@ -54,6 +72,10 @@ void function_one(void)
     printf("0x%012lx |                            | %d (Heap)\n", (unsigned long)func_one_heap_var, *func_one_heap_var);
     function_two();
     free(func_one_heap_var);
+
+done:
+
+    return;
 }
 
 void function_two(void)
@@ -66,11 +88,21 @@ void function_two(void)
 
     func_two_initialized_var = 500;
     func_two_heap_var        = malloc(sizeof(int));
-    *func_two_heap_var       = 789;
+
+    if(func_two_heap_var == NULL)
+    {
+        perror("main_heap_var malloc");
+        goto done;
+    }
+
+    *func_two_heap_var = 789;
     printf("0x%012lx | func_two_uninitialized_var | Uninitialized\n", (unsigned long)&func_two_uninitialized_var);
     printf("0x%012lx | func_two_initialized_var   | %d\n", (unsigned long)&func_two_initialized_var, func_two_initialized_var);
     printf("0x%012lx | func_two_static_var        | %d\n", (unsigned long)&func_two_static_var, func_two_static_var);
     printf("0x%012lx | func_two_const_string      | %s\n", (unsigned long)&func_two_const_string, func_two_const_string);
     printf("0x%012lx |                            | %d (Heap)\n", (unsigned long)func_two_heap_var, *func_two_heap_var);
     free(func_two_heap_var);
+
+done:
+    return;
 }
