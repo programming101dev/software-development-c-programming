@@ -12,7 +12,6 @@ int main(void)
 
     increment_by_value(a);
     printf("After increment_by_value, a = %d\n", a);
-
     increment_by_pointer(&a);
     printf("After increment_by_pointer, a = %d\n", a);
 

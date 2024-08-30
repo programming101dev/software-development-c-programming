@@ -6,8 +6,10 @@ int main(void)
 {
     const char str1[] = "Hello, World!";
     const char str2[] = "Hello";
+    int        result;
 
-    printf("Comparison of str1 and str2: %d\n", strcmp(str1, str2));
+    result = strcmp(str1, str2);
+    printf("Comparison of str1 and str2: %d\n", result);
 
     return EXIT_SUCCESS;
 }

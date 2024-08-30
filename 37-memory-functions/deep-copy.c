@@ -15,7 +15,7 @@ int main(void)
     struct person original;
     struct person copy;
     int           status;
-    int result;
+    int           result;
     char         *new_name;
 
     original.name = strdup("Pat Doe");
@@ -28,7 +28,7 @@ int main(void)
     }
 
     original.age = 30;
-    result = deep_copy(&copy, &original);
+    result       = deep_copy(&copy, &original);
 
     if(result != 0)
     {
@@ -67,15 +67,15 @@ static int deep_copy(struct person *dest, const struct person *src)
 {
     char *temp_name;
 
-    temp_name =  strdup(src->name);
+    temp_name = strdup(src->name);
 
-    if(dest->name == NULL)
+    if(temp_name == NULL)
     {
         return -1;
     }
 
     dest->name = temp_name;
-    dest->age = src->age;
+    dest->age  = src->age;
 
     return 0;
 }

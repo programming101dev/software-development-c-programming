@@ -10,7 +10,6 @@ int main(void)
 
     result = divide(10, 2);
     printf("Result: %d\n", result);
-
     result = divide(10, 0);    // This will trigger the assert
     printf("Result: %d\n", result);
 

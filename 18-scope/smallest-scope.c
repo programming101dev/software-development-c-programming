@@ -6,6 +6,7 @@ void example(void);
 int main(void)
 {
     example();
+
     return EXIT_SUCCESS;
 }
 

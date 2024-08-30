@@ -4,8 +4,10 @@
 
 int main(void)
 {
-    const char str[]     = "Hello, World!";
-    char      *duplicate = strdup(str);
+    const char str[] = "Hello, World!";
+    char      *duplicate;
+
+    duplicate = strdup(str);
 
     if(duplicate == NULL)
     {

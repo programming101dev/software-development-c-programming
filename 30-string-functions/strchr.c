@@ -5,7 +5,9 @@
 int main(void)
 {
     const char  str[] = "Hello, World!";
-    const char *ch    = strchr(str, 'W');
+    const char *ch;
+
+    ch = strchr(str, 'W');
 
     if(ch != NULL)
     {

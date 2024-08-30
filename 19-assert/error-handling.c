@@ -9,7 +9,7 @@ int main(void)
     int error;
 
     result = 0;
-    error = divide(10, 2, &result);
+    error  = divide(10, 2, &result);
 
     if(error == 0)
     {

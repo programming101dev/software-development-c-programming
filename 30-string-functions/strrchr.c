@@ -5,11 +5,13 @@
 int main(void)
 {
     const char  str[] = "Hello, World!";
-    const char *ch2   = strrchr(str, 'o');
+    const char *ch;
 
-    if(ch2 != NULL)
+    ch = strrchr(str, 'o');
+
+    if(ch != NULL)
     {
-        printf("Last occurrence of 'o': %c\n", *ch2);
+        printf("Last occurrence of 'o': %c\n", *ch);
     }
     else
     {

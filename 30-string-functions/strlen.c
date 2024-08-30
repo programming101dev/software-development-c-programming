@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,8 +6,10 @@
 int main(void)
 {
     const char str[] = "Hello, World!";
+    size_t     len;
 
-    printf("Length of str: %zu\n", strlen(str));
+    len = strlen(str);
+    printf("Length of str: %zu\n", len);
 
     return EXIT_SUCCESS;
 }

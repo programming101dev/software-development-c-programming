@@ -6,8 +6,10 @@ static int process_array(size_t size);
 
 int main(void)
 {
-    size_t size   = 5;
-    int    status = process_array(size);
+    const size_t size = 5;
+    int          status;
+
+    status = process_array(size);
 
     return status;
 }

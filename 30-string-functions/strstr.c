@@ -4,8 +4,10 @@
 
 int main(void)
 {
-    const char  str[]  = "Hello, World!";
-    const char *substr = strstr(str, "World");
+    const char  str[] = "Hello, World!";
+    const char *substr;
+
+    substr = strstr(str, "World");
 
     if(substr != NULL)
     {

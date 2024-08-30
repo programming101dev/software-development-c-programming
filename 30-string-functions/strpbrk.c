@@ -6,7 +6,9 @@ int main(void)
 {
     const char  str[]  = "Hello, World!";
     const char  keys[] = "oW";
-    const char *ch     = strpbrk(str, keys);
+    const char *ch;
+
+    ch = strpbrk(str, keys);
 
     if(ch != NULL)
     {

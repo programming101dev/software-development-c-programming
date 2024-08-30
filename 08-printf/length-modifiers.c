@@ -3,20 +3,20 @@
 
 int main(void)
 {
-    short       shortInt;
-    long        longInt;
-    long long   longLongInt;
-    long double longDouble;
+    short       short_int;
+    long        long_int;
+    long long   long_long_int;
+    long double long_double;
 
-    shortInt    = 42;
-    longInt     = 1234567890L;
-    longLongInt = 1234567890123456789LL;
-    longDouble  = 3.141592653589793238L;
+    short_int     = 42;
+    long_int      = 1234567890L;
+    long_long_int = 1234567890123456789LL;
+    long_double   = 3.141592653589793238L;
     printf("Length Modifiers Demonstration:\n");
-    printf("Short integer: %hd\n", shortInt);
-    printf("Long integer: %ld\n", longInt);
-    printf("Long long integer: %lld\n", longLongInt);
-    printf("Long double: %Lf\n", longDouble);
+    printf("Short integer: %hd\n", short_int);
+    printf("Long integer: %ld\n", long_int);
+    printf("Long long integer: %lld\n", long_long_int);
+    printf("Long double: %Lf\n", long_double);
 
     return EXIT_SUCCESS;
 }
