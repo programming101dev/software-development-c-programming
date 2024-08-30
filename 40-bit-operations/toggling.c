@@ -3,11 +3,11 @@
 
 int main(void)
 {
-    const unsigned int toggleMask = 0x00F0;
+    const unsigned int toggle_mask = 0x00F0;
     unsigned int       value;
 
     value = 0xABCD;
-    value ^= toggleMask;
+    value ^= toggle_mask;
     printf("Value after toggling bits: %X\n", value);
 
     return EXIT_SUCCESS;

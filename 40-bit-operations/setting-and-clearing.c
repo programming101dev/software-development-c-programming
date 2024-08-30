@@ -3,15 +3,15 @@
 
 int main(void)
 {
-    const unsigned int setMask   = 0x0001;
-    const unsigned int clearMask = 0xFFFE;
+    const unsigned int set_mask   = 0x0001;
+    const unsigned int clear_mask = 0xFFFE;
     unsigned int       value;
 
     value = 0xABCD;
-    value |= setMask;
+    value |= set_mask;
     printf("Value after setting LSB: %X\n", value);
 
-    value &= clearMask;
+    value &= clear_mask;
     printf("Value after clearing LSB: %X\n", value);
 
     return EXIT_SUCCESS;

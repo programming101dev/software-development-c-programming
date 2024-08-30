@@ -14,7 +14,8 @@ int main(void)
 {
     struct person original;
     struct person copy;
-    int           status = EXIT_SUCCESS;
+    int           status;
+    int result;
     char         *new_name;
 
     original.name = strdup("Pat Doe");
@@ -25,9 +26,11 @@ int main(void)
         status = EXIT_FAILURE;
         goto cleanup;
     }
-    original.age = 30;
 
-    if(deep_copy(&copy, &original) != 0)
+    original.age = 30;
+    result = deep_copy(&copy, &original);
+
+    if(result != 0)
     {
         fprintf(stderr, "Failed to perform deep copy.\n");
         status = EXIT_FAILURE;
@@ -46,9 +49,9 @@ int main(void)
     free(copy.name);
     copy.name = new_name;
     copy.age  = 42;
-
     printf("Original: Name = %s, Age = %d\n", original.name, original.age);
     printf("Copy: Name = %s, Age = %d\n", copy.name, copy.age);
+    status = EXIT_SUCCESS;
 
 cleanup_copy:
     free(copy.name);
@@ -62,14 +65,17 @@ cleanup:
 
 static int deep_copy(struct person *dest, const struct person *src)
 {
-    dest->name = strdup(src->name);
+    char *temp_name;
+
+    temp_name =  strdup(src->name);
 
     if(dest->name == NULL)
     {
-        return 1;    // Return error code on failure
+        return -1;
     }
 
+    dest->name = temp_name;
     dest->age = src->age;
 
-    return 0;    // Return success code
+    return 0;
 }

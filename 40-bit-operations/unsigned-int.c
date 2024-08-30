@@ -8,7 +8,7 @@ int main(void)
 
     a      = 12;
     result = a >> (unsigned int)2;
-    printf("Logical Shift Right (Unsigned): %u\n", result);    // Output: 3
+    printf("Logical Shift Right (Unsigned): %u\n", result);
 
     return EXIT_SUCCESS;
 }

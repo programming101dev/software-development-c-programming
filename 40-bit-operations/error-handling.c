@@ -5,11 +5,11 @@
 
 int main(void)
 {
-    const unsigned int shiftCount = INT_WIDTH + 1;
+    const unsigned int shift_count = INT_WIDTH + 1;
     unsigned int       a;
     unsigned int       result;
 
-    if(shiftCount >= INT_WIDTH)
+    if(shift_count >= INT_WIDTH)
     {
         fprintf(stderr, "Shift count is too large\n");
         return EXIT_FAILURE;
@@ -17,7 +17,7 @@ int main(void)
 
     a = 12;
     // cppcheck-suppress shiftTooManyBits
-    result = a << shiftCount;
+    result = a << shift_count;
     printf("Result: %u\n", result);
 
     return EXIT_SUCCESS;

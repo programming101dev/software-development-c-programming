@@ -6,10 +6,12 @@ static int divide(int numerator, int denominator, int *result);
 int main(void)
 {
     int result;
+    int error;
 
     result = 0;
+    error = divide(10, 2, &result);
 
-    if(divide(10, 2, &result) == 0)
+    if(error == 0)
     {
         printf("Result: %d\n", result);
     }
@@ -18,7 +20,9 @@ int main(void)
         printf("Error: Division by zero\n");
     }
 
-    if(divide(10, 0, &result) == 0)
+    error = divide(10, 0, &result);
+
+    if(error == 0)
     {
         printf("Result: %d\n", result);
     }

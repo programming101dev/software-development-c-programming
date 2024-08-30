@@ -13,7 +13,7 @@ static void cleanup(void);
 
 int main(void)
 {
-    int status = EXIT_SUCCESS;
+    int status;
 
     global_arr = (int *)malloc(5 * sizeof(int));
 
@@ -22,21 +22,29 @@ int main(void)
         fprintf(stderr, "Memory allocation failed\n");
         status = EXIT_FAILURE;
     }
-    else if(atexit(cleanup) != 0)
-    {
-        fprintf(stderr, "Failed to register cleanup function\n");
-        free(global_arr);
-        status = EXIT_FAILURE;
-    }
     else
     {
-        for(size_t i = 0; i < 5; i++)
-        {
-            global_arr[i] = (int)(i * 2);
-            printf("%d ", global_arr[i]);
-        }
+        int result;
 
-        printf("\n");
+        result = atexit(cleanup);
+
+        if(result == 0)
+        {
+            for(size_t i = 0; i < 5; i++)
+            {
+                global_arr[i] = (int)(i * 2);
+                printf("%d ", global_arr[i]);
+            }
+
+            printf("\n");
+            status = EXIT_SUCCESS;
+        }
+        else
+        {
+            fprintf(stderr, "Failed to register cleanup function\n");
+            free(global_arr);
+            status = EXIT_FAILURE;
+        }
     }
 
     return status;

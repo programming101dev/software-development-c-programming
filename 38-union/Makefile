@@ -15,6 +15,8 @@ REPORT_DIR = scan-results
 # Source and binary definitions for the new set of files
 ACCESSING_SOURCES = accessing.c
 ACCESSING_BINARY = accessing
+TAGGED_SOURCES = tagged.c
+TAGGED_BINARY = tagged
 UNION_SOURCES = union.c
 UNION_BINARY = union
 
@@ -44,11 +46,14 @@ else ifeq ($(CC), clang)
 endif
 
 # All rule to build all binaries, analyze, and run cppcheck
-all: clang-format $(ACCESSING_BINARY) $(UNION_BINARY) analyze clang-tidy cppcheck
+all: clang-format $(ACCESSING_BINARY) $(TAGGED_BINARY) $(UNION_BINARY) analyze clang-tidy cppcheck
 
 # Build rules for each binary
 $(ACCESSING_BINARY): $(ACCESSING_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(ACCESSING_BINARY) $(ACCESSING_SOURCES)
+
+$(TAGGED_BINARY): $(TAGGED_SOURCES)
+	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(TAGGED_BINARY) $(TAGGED_SOURCES)
 
 $(UNION_BINARY): $(UNION_SOURCES)
 	$(CC) $(CFLAGS) $(SUPPORTED_SANITIZERS) -o $(UNION_BINARY) $(UNION_SOURCES)
@@ -56,25 +61,26 @@ $(UNION_BINARY): $(UNION_SOURCES)
 # Analyze rule to analyze all sources
 analyze:
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(ACCESSING_SOURCES) -c
+	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(TAGGED_SOURCES) -c
 	$(ANALYZER) $(ANALYZER_FLAGS) $(CC) $(CFLAGS) $(ANALYSIS_FLAGS) $(UNION_SOURCES) -c
 
 # Clang-tidy rule to lint all sources
 clang-tidy:
 	clang-tidy -quiet --warnings-as-errors=* -checks='*,-cert-err33-c,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,-readability-identifier-length,-llvmlibc-restrict-system-libc-headers,-cppcoreguidelines-init-variables,-altera-unroll-loops,-llvm-header-guard,-cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers,-misc-unused-parameters,-android-cloexec-dup,-android-cloexec-open,-android-cloexec-creat,-android-cloexec-fopen,-bugprone-easily-swappable-parameters,-altera-id-dependent-backward-branch,-altera-struct-pack-align' \
-	$(ACCESSING_SOURCES) $(UNION_SOURCES) \
+	$(ACCESSING_SOURCES) $(TAGGED_SOURCES) $(UNION_SOURCES) \
 	-- $(CFLAGS)
 
 # Cppcheck rule to perform static analysis on all sources
 cppcheck:
 	cppcheck --enable=all --error-exitcode=1 --inconclusive --check-level=exhaustive --inline-suppr --suppress=missingIncludeSystem --checkers-report=$(CHECKER_REPORT_FILE) --quiet \
-	$(ACCESSING_SOURCES) $(UNION_SOURCES)
+	$(ACCESSING_SOURCES) $(TAGGED_SOURCES) $(UNION_SOURCES)
 
 clang-format:
-	clang-format -i -- $(ACCESSING_SOURCES) $(UNION_SOURCES)
+	clang-format -i -- $(ACCESSING_SOURCES) $(TAGGED_SOURCES) $(UNION_SOURCES)
 
 # Clean rule to remove binaries and reports
 clean:
-	rm -f $(ACCESSING_BINARY) $(UNION_BINARY)
+	rm -f $(ACCESSING_BINARY) $(TAGGED_BINARY) $(UNION_BINARY)
 	rm -f $(CHECKER_REPORT_FILE)
 	rm -rf $(REPORT_DIR)
 	find . -name '*.plist' -delete
